@@ -9,21 +9,14 @@
 <table>
   <thead>
     <tr>
-      <th align="center">Header 1</th>
-      <th align="center">Header 2</th>
-      <th align="center">Header 3</th>
+      <th align="center">Title</th>
+      <th align="center">Summary</th>
     </tr>
   </thead>
   <tbody>
     <tr>
-      <td align="left">Data 1</td>
-      <td align="left">Data 2</td>
-      <td align="left">Data 3</td>
-    </tr>
-    <tr>
-      <td align="left">Data 4</td>
-      <td align="left">Data 5</td>
-      <td align="left">Data 6</td>
+      <td align="left">Senior Software Engineer</td>
+      <td align="left">Software Systems Engineer and Full Stack Web Developer focused on Python/Django, API Development, Test Driven Development, Technical Writing and Documentation with Scalable Architectures.</td>
     </tr>
   </tbody>
 </table>
