@@ -2,8 +2,9 @@
 
 ## Professional
 
+| :---: | :---: |
 | Title  | Summary |
-| :--- | :---: |
+| :--- | :--- |
 | Senior Software Engineer | Software Systems Engineer and Full Stack Web Developer focused on Python/Django, API Development, Test Driven Development, Technical Writing and Documentation with Scalable Architectures. |
 
 
