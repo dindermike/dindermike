@@ -22,6 +22,14 @@
       <td align="left">Senior Software Engineer</td>
       <td align="left">Software Systems Engineer and Full Stack Web Developer focused on Python/Django, API Development, Test Driven Development, Technical Writing and Documentation with Scalable Architectures.</td>
     </tr>
+    <tr>
+      <td align="left">LinkedIn</td>
+      <td align="left">[mikedinder](https://www.linkedin.com/in/mikedinder/)</td>
+    </tr>
+    <tr>
+      <td align="left">Email</td>
+      <td align="left">[dindermike@hotmail.com](mailto:dindermike@hotmail.com)</td>
+    </tr>
   </tbody>
 </table>
 
