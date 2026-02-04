@@ -24,11 +24,11 @@
     </tr>
     <tr>
       <td align="left">LinkedIn</td>
-      <td align="left">[mikedinder](https://www.linkedin.com/in/mikedinder/)</td>
+      <td align="left"><a href="https://www.linkedin.com/in/mikedinder/" target="_blank">mikedinder</a></td>
     </tr>
     <tr>
       <td align="left">Email</td>
-      <td align="left">[dindermike@hotmail.com](mailto:dindermike@hotmail.com)</td>
+      <td align="left"><a href="mailto:dindermike@hotmail.com" target="_blank">dindermike@hotmail.com</a></td>
     </tr>
   </tbody>
 </table>
