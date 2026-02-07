@@ -34,7 +34,7 @@
     </tr>
     <tr>
       <td align="left">Template 6</td>
-      <td align="left">...</td>
+      <td align="left">Generate a basic landing page in HTML with the appropriate JavaScript to display an IT resume geared towards software engineering with sections like a place to put an image of myself, technical skills, work experience, education and a projects list. Include fun features like parallax scrolling, responsive design with CSS break-point placeholders at (320px, 480px, 640px, 768px, 1024px and 1200px), Floating particles that animate across the hero section, Cursor trail effect with smooth following circles, Fade-in animations triggered as you scroll down the page, 3D tilt effect on skill cards when you hover over them, Hover transformations on all interactive cards, Ripple click effect on project cards, Typing animation for the hero title, Smooth transitions throughout and any other features that I haven't thought of that might help the content pop out and engage with the visitor of the page. Use a color scheme of dark blues and a theme of space, include stars and galaxy's in the background.</td>
     </tr>
     <tr>
       <td align="left">Template 7</td>

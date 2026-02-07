@@ -24,11 +24,19 @@
     </tr>
     <tr>
       <td align="left">LinkedIn</td>
-      <td align="left"><a href="https://www.linkedin.com/in/mikedinder/" target="_blank">www.linkedin.com/in/mikedinder/</a></td>
+      <td align="left"><a href="https://www.linkedin.com/in/mikedinder/" target="_blank">linkedin.com/in/mikedinder/</a></td>
+    </tr>
+    <tr>
+      <td align="left">Personal Website/Portfolio</td>
+      <td align="left"><a href="http://www.mikedinder.com" target="_blank">mikedinder.com</a></td>
     </tr>
     <tr>
       <td align="left">Email</td>
       <td align="left"><a href="mailto:dindermike@hotmail.com" target="_blank">dindermike@hotmail.com</a></td>
+    </tr>
+    <tr>
+      <td align="left">Alt Email</td>
+      <td align="left"><a href="mailto:mike@mikedinder.com" target="_blank">mike@mikedinder.com</a></td>
     </tr>
   </tbody>
 </table>
