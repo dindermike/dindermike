@@ -2,6 +2,8 @@
 
 ## AI Templates
 
+&emsp;These are templates generated using [Claude.AI](https://claude.ai) as a generative code tool. This directory contains templates that I may have generated and wanted to save but decided not to use in any way. I tend to generate a lot of different templates just for the sake of generating them for practice.
+
 <table>
   <thead>
     <tr>
@@ -24,5 +26,3 @@
     </tr>
   </tbody>
 </table>
-
-&emsp;These are templates generated using [Claude.AI](https://claude.ai) as a generative code tool. This directory contains templates that I may have generated and wanted to save but decided not to use in any way. I tend to generate a lot of different templates just for the sake of generating them for practice.
