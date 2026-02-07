@@ -42,7 +42,7 @@
     </tr>
     <tr>
       <td align="left">Template 8</td>
-      <td align="left">...</td>
+      <td align="left">Generate a fun space themed coming soon page for a parked website. Make the graphics look futuristic and slick, don't make it look like a cartoon. Please include some of our solar systems planets and please use real images of planets. Don't include any form objects and input fields. Include a countdown as well.</td>
     </tr>
     <tr>
       <td align="left">Template 9</td>
