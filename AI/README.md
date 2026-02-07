@@ -26,11 +26,11 @@
     </tr>
     <tr>
       <td align="left">Template 4</td>
-      <td align="left">...</td>
+      <td align="left">Generate a very basic parking page for a website.</td>
     </tr>
     <tr>
       <td align="left">Template 5</td>
-      <td align="left">...</td>
+      <td align="left">Generate a very basic parking page for a website. That does not have form input field objects. That does include a cool image implying it is under construction. Include a brief description of how this site will include Python snippets and what Python is and some history. Use a Blue Color Scheme and make the images relate to space.</td>
     </tr>
     <tr>
       <td align="left">Template 6</td>
