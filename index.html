@@ -3,9 +3,29 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Your Name - Software Engineer</title>
+
+    <title>Mike Dinder - Software Engineer</title>
+
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Exo+2:wght@300;400;600&display=swap" rel="stylesheet">
-    <style>
+
+        <!-- All Browser Legacy Support -->
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+
+    <!-- Fallback for browsers that don't support SVG favicons -->
+    <link rel="icon" type="image/png" sizes="32x32" href="/Images/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/Images/favicon-16x16.png">
+
+    <!-- Apple Touch Icons (iOS/iPadOS home screen) -->
+    <link rel="apple-touch-icon" sizes="180x180" href="/Images/apple-touch-icon.png">
+
+    <!-- Android Chrome -->
+    <link rel="icon" type="image/png" sizes="192x192" href="/Images/android-chrome-192x192.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="/Images/android-chrome-512x512.png">
+
+    <!-- Web App Manifest (PWA support) -->
+    <link rel="manifest" href="/site.webmanifest">
+
+    <style type="text/css">
         :root {
             --space-dark: #0a0e27;
             --space-darker: #050810;
@@ -854,7 +874,7 @@
         <section class="hero">
             <div class="hero-content">
                 <div class="profile-image-container">
-                    <img src="https://via.placeholder.com/200" alt="Your Name" class="profile-image" id="profileImage">
+                    <img src="Images/profile.jpg" alt="Mike Dinder" class="profile-image" id="profileImage">
                 </div>
                 <h1><span class="typing-text" id="typingText"></span></h1>
                 <h2>Software Engineer | Full-Stack Developer</h2>
@@ -1137,9 +1157,9 @@
         </section>
     </div>
 
-    <script>
+    <script type="text/JavaScript">
         // Typing Animation
-        const text = "Your Name";
+        const text = "Mike Dinder";
         const typingElement = document.getElementById('typingText');
         let charIndex = 0;
 
@@ -1338,9 +1358,7 @@
             canvas.height = window.innerHeight;
         });
 
-        // Replace placeholder image
-        // When ready, replace the src with your actual image path
-        // document.getElementById('profileImage').src = 'path/to/your/image.jpg';
+        document.getElementById('profileImage').src = 'Images/profile.jpg';
     </script>
 </body>
 </html>
