@@ -22,7 +22,7 @@
     </tr>
     <tr>
       <td align="left">Template 3</td>
-      <td align="left">...</td>
+      <td align="left">Generate a very basic parking page for a website.</td>
     </tr>
     <tr>
       <td align="left">Template 4</td>
