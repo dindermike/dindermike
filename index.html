@@ -47,13 +47,13 @@
         <meta property="og:description" content="A personal portfolio website for Mike Dinder, Software Systems Engineer.">
         <meta property="og:type" content="website">
         <meta property="og:url" content="https://www.mikedinder.com">
-        <meta property="og:image" content="https://www.mikedinder.com/Images/profile_optimized.jpg">
+        <meta property="og:image" content="https://www.mikedinder.com/Images/profile_social.jpg">
 
         <!-- Twitter Card Meta Tags -->
         <meta name="twitter:card" content="summary_large_image">
         <meta name="twitter:title" content="Mike Dinder's Personal Resume/Portfolio">
         <meta name="twitter:description" content="A personal portfolio website for Mike Dinder, Software Systems Engineer.">
-        <meta name="twitter:image" content="https://www.mikedinder.com/Images/profile_optimized.jpg">
+        <meta name="twitter:image" content="https://www.mikedinder.com/Images/profile_social.jpg">
 
         <!-- Theme Color for Mobile Browsers -->
         <meta name="theme-color" content="#336699">
@@ -72,6 +72,8 @@
                 --accent-blue: #0000CC;
                 --bright-blue: #3300FF;
                 --cyan: #336699;
+                --hyper-link: #3366CC;
+                --visited: #666699;
                 --white: #ffffff;
                 --text-gray: #b8c5d6;
             }
@@ -121,6 +123,12 @@
             }
 
             /* Floating Particles */
+            #particles {
+                width: 100%;
+                position: fixed;
+                bottom: 0%;
+            }
+
             .particle {
                 position: absolute;
                 border-radius: 50%;
@@ -265,6 +273,11 @@
                 box-shadow: 0 10px 30px rgba(51, 102, 153, 0.3);
             }
 
+            /* Summary Section */
+            #summary .container p {
+                text-align: justify;
+            }
+
             /* Section Styles */
             section {
                 padding: 100px 0;
@@ -280,14 +293,14 @@
             }
 
             .section-title {
+                width: 100%;
+                text-align: center;
                 font-size: 2.5rem;
                 color: var(--white);
                 text-align: center;
                 margin-bottom: 60px;
                 position: relative;
                 display: inline-block;
-                left: 50%;
-                transform: translateX(-50%);
             }
 
             .section-title::after {
@@ -296,8 +309,9 @@
                 bottom: -10px;
                 left: 50%;
                 transform: translateX(-50%);
-                width: 100px;
-                height: 3px;
+                width: 25em;
+                max-width: 85%;
+                height: 0.1em;
                 background: linear-gradient(90deg, transparent, var(--cyan), transparent);
             }
 
@@ -326,6 +340,10 @@
                 transform: translateY(-10px);
             }
 
+            .skill-card h3 {
+                text-align: center;
+            }
+
             .skill-category {
                 font-size: 1.3rem;
                 color: var(--cyan);
@@ -346,6 +364,43 @@
             .skill-list li:hover {
                 padding-left: 10px;
                 color: var(--cyan);
+            }
+
+            .skill-list a {
+                color: var(--hyper-link);
+                text-decoration: none;
+            }
+
+            .skill-list a:hover,
+            .skill-list a:active,
+            .skill-list a:focus {
+                color: var(--cyan);
+            }
+
+            .skill-list a:visited {
+                color: var(--visited);
+            }
+
+            .skill-list a:visited:hover,
+            .skill-list a:visited:active,
+            .skill-list a:visited:focus {
+                color: var(--cyan);
+            }
+
+            /* Certification Section */
+            .cert-list li {
+                display: inline-block;
+                width: 100%;
+            }
+
+            .cert-list li span.left {
+                display: inline-block;
+                float: left;
+            }
+
+            .cert-list li span.right {
+                display: inline-block;
+                float: right;
             }
 
             /* Experience Section */
@@ -443,6 +498,7 @@
                 background: radial-gradient(circle, rgba(51, 102, 153, 0.1), transparent);
                 opacity: 0;
                 transition: opacity 0.3s ease;
+                z-index: -999999;
             }
 
             .education-card:hover::before {
@@ -470,6 +526,81 @@
             .education-date {
                 color: var(--text-gray);
                 font-size: 0.9rem;
+            }
+
+            .education-degree a,
+            .education-school a {
+                color:  var(--hyper-link);
+                text-decoration: none;
+                transition: all 0.3s ease;
+            }
+
+            .education-degree a:visited,
+            .education-school a:visited {
+                color: var(--visited);
+            }
+
+            .education-degree a:hover,
+            .education-degree a:focus,
+            .education-degree a:active,
+            .education-school a:hover,
+            .education-school a:focus,
+            .education-school a:active {
+                color: var(--cyan);
+                transform: scale(1.1);
+            }
+
+            .education-degree a:visited:hover,
+            .education-degree a:visited:focus,
+            .education-degree a:visited:active,
+            .education-school a:visited:hover,
+            .education-school a:visited:focus,
+            .education-school a:visited:active {
+                color: var(--cyan);
+                transform: scale(1.1);
+            }
+
+            /* Publications Section */
+            #publications h3 {
+                font-size: 1.5rem;
+                font-weight: 600;
+            }
+
+            #publications h3 a {
+                color: var(--hyper-link);
+                text-decoration: none;
+                transition: all 0.3s ease;
+            }
+
+            #publications h3 a:visited {
+                color: var(--visited);
+            }
+
+            #publications h3 a:hover,
+            #publications h3 a:focus,
+            #publications h3 a:active {
+                color: var(--cyan);
+                transform: scale(1.1);
+            }
+
+            #publications h3 a:visited:hover,
+            #publications h3 a:visited:focus,
+            #publications h3 a:visited:active {
+                color: var(--cyan);
+                transform: scale(1.1);
+            }
+
+            #publications h4 {
+                padding: 15px 0;
+            }
+
+            #publications .pub-description {
+                margin: 0 0 5px 0;
+            }
+
+            #publications ol,
+            #publications ul {
+                margin: 0 0 0 30px;
             }
 
             /* Projects Section */
@@ -514,7 +645,8 @@
                 gap: 10px;
             }
 
-            .tech-tag {
+            .tech-tag,
+            .tech-tag:visited {
                 background: rgba(51, 102, 153, 0.1);
                 border: 1px solid var(--cyan);
                 color: var(--cyan);
@@ -522,9 +654,20 @@
                 border-radius: 20px;
                 font-size: 0.85rem;
                 transition: all 0.3s ease;
+                text-decoration: none;
             }
 
-            .tech-tag:hover {
+            .tech-tag:hover,
+            .tech-tag:focus,
+            .tech-tag:active {
+                background: var(--cyan);
+                color: var(--deep-space);
+                transform: scale(1.1);
+            }
+
+            .tech-tag:visited:hover,
+            .tech-tag:visited:focus,
+            .tech-tag:visited:active {
                 background: var(--cyan);
                 color: var(--deep-space);
                 transform: scale(1.1);
@@ -687,53 +830,230 @@
                     <a href="#contact" class="cta-button">Get In Touch</a>
                 </div>
             </div>
+
             <!-- Floating Particles -->
             <div id="particles"></div>
+        </section>
+
+        <!-- Summary Section -->
+        <section id="summary">
+            <div class="container">
+                <h2 class="section-title">Professional Summary</h2>
+                <p>
+                    &emsp;Seasoned Senior Software Engineer with over 13 years in web development and over 7 years specializing in Django/Python. Proven record of accomplishment of assisting in the modernizing of large-scale systems, upgrading frameworks, and delivering high-impact solutions through RESTful API design, automated testing, and CI/CD best practices. Proficient in DataDog and Rollbar for production monitoring, with a history of improving code quality and reducing defects by implementing robust test frameworks. Recognized for publishing a 526-page Django/Python book with Packt Publishing and for leading cross-functional collaboration across engineering, product, and QA teams. Committed to writing clean, maintainable code that enhances performance, reliability, and business outcomes.
+                </p>
+            </div>
         </section>
 
         <!-- Skills Section -->
         <section id="skills">
             <div class="container">
-                <h2 class="section-title">Technical Skills</h2>
+                <h2 class="section-title">Technical Skills/Core Competencies</h2>
                 <div class="skills-grid">
-                    <div class="skill-card">
-                        <h3 class="skill-category">Frontend</h3>
+                    <div class="skill-card main-card">
+                        <!-- <h3 class="skill-category">Example Card Title</h3> -->
                         <ul class="skill-list">
-                            <li>React.js / Next.js</li>
+                            <li>Full-Stack Software Development</li>
+                            <li>RESTful API Architecture &amp; Integration</li>
+                            <li>Agile &amp; Scrum Workflows</li>
+                            <li>Test Driven Development (TDD)</li>
+                            <li>CI/CD Implementation</li>
+                        </ul>
+                    </div>
+                    <div class="skill-card main-card">
+                        <ul class="skill-list">
+                            <li>System Optimization &amp; Troubleshooting</li>
+                            <li>PostgreSQL, MSSQL, MySQL &amp; Wrote Raw SQL Queries</li>
+                            <li>Cross-Functional Collaboration</li>
+                            <li>Application/System Modernization</li>
+                            <li>Technical Documentation</li>
+                        </ul>
+                    </div>
+                    <div class="skill-card main-card">
+                        <ul class="skill-list">
+                            <li>Scalable Software Architecture</li>
+                            <li>Code Reviews</li>
+                            <li>Heroku: Cloud-based Containerized Platform as a Service (PaaS)</li>
+                            <li>NGINX Server Configuration</li>
+                            <li>AWS EC2 &amp; other Hosting Services. Still new to this one.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Tools Section -->
+        <section id="tools">
+            <div class="container">
+                <h2 class="section-title">Tools &amp; Platforms</h2>
+                <div class="skills-grid">
+                    <div class="skill-card main-card">
+                        <h3 class="skill-category">Development &amp; Deployment</h3>
+                        <ul class="skill-list">
+                            <!-- <li>React.js / Next.js</li>
                             <li>JavaScript / TypeScript</li>
                             <li>HTML5 / CSS3 / SASS</li>
                             <li>Tailwind CSS / Bootstrap</li>
-                            <li>Redux / Context API</li>
+                            <li>Redux / Context API</li> -->
+                            <li>
+                                <a href="https://www.docker.com/" target="_blank" title="Docker Containerization" aria-label="Docker Containerization">Docker Containerization</a>
+                            </li>
+                            <li>
+                                <a href="https://kubernetes.io/" target="_blank" title="Kubernetes Containerization Management" aria-label="Kubernetes Containerization Management">Kubernetes</a>
+                            </li>
+                            <li>
+                                <a href="https://www.heroku.com/" target="_blank" title="Heroku Hosting and Deployment" aria-label="Heroku Hosting and Deployment">Heroku</a>
+                            </li>
+                            <li>
+                                <a href="https://code.visualstudio.com/" target="_blank" title="Visual Studio Code" aria-label="Visual Studio Code">Visual Studio Code</a>
+                            </li>
+                            <li>
+                                <a href="https://visualstudio.microsoft.com/vs/community/" target="_blank" title="Visual Studio - Community Edition" aria-label="Visual Studio - Community Edition">Visual Studio - Community Edition</a>
+                            </li>
+                            <li>
+                                <a href="https://learn.microsoft.com/en-us/powershell/" target="_blank" title="PowerShell" aria-label="PowerShell">PowerShell</a>
+                            </li>
+                            <li>
+                                <a href="https://www.jetbrains.com/pycharm/" target="_blank" title="PyCharm" aria-label="PyCharm">PyCharm</a>
+                            </li>
+                            <li>
+                                <a href="https://www.npmjs.com/" target="_blank" title="Node Package Manager" aria-label="Node Package Manager">Node Package Manager (NPM)</a>
+                            </li>
+                            <li>
+                                <a href="https://webpack.js.org/" target="_blank" title="Webpack" aria-label="Webpack">Webpack</a>
+                            </li>
+                            <li>
+                                <a href="https://gulpjs.com/" target="_blank" title="Gulp" aria-label="Gulp">Gulp</a>
+                            </li>
                         </ul>
                     </div>
-                    <div class="skill-card">
-                        <h3 class="skill-category">Backend</h3>
+
+                    <div class="skill-card main-card">
+                        <h3 class="skill-category">Version Control &amp; Collaboration</h3>
                         <ul class="skill-list">
-                            <li>Node.js / Express</li>
+                            <!-- <li>Node.js / Express</li>
                             <li>Python / Django / Flask</li>
                             <li>RESTful APIs / GraphQL</li>
                             <li>PostgreSQL / MongoDB</li>
-                            <li>Redis / ElasticSearch</li>
+                            <li>Redis / ElasticSearch</li> -->
+                            <li>
+                                <a href="https://git-scm.com/" target="_blank" title="Git" aria-label="Git">Git</a>
+                            </li>
+                            <li>
+                                <a href="https://github.com/" target="_blank" title="GitHub" aria-label="GitHub">GitHub</a>
+                            </li>
+                            <li>
+                                <a href="https://about.gitlab.com/" target="_blank" title="GitLab" aria-label="GitLab">GitLab</a>
+                            </li>
+                            <li>
+                                <a href="https://bitbucket.org/" target="_blank" title="BitBucket" aria-label="BitBucket">BitBucket</a>
+                            </li>
+                            <li>
+                                <a href="https://www.atlassian.com/software/jira" target="_blank" title="Jira" aria-label="Jira">Jira</a>
+                            </li>
+                            <li>
+                                <a href="https://monday.com/" target="_blank" title="Monday.com" aria-label="Monday.com">Monday.com</a>
+                            </li>
+                            <li>
+                                <a href="https://copilot.microsoft.com/" target="_blank" title="Microsoft CoPilot" aria-label="Microsoft CoPilot">CoPilot</a>
+                            </li>
+                            <li>
+                                <a href="https://claude.ai/" target="_blank" title="Claude-AI" aria-label="Claude-AI">Claude-AI</a>
+                            </li>
+                            <li>
+                                <a href="https://chatgpt.com/" target="_blank" title="ChatGPT" aria-label="ChatGPT">ChatGPT</a>
+                            </li>
+                            <li>
+                                <a href="https://slack.com/" target="_blank" title="Slack" aria-label="Slack">Slack</a>
+                            </li>
+                            <li>
+                                <a href="https://www.zendesk.com/lp/brand/" target="_blank" title="Zendesk" aria-label="Zendesk">Zendesk</a>
+                            </li>
                         </ul>
                     </div>
-                    <div class="skill-card">
-                        <h3 class="skill-category">DevOps & Tools</h3>
+
+                    <div class="skill-card main-card">
+                        <h3 class="skill-category">Monitoring &amp; Debug</h3>
                         <ul class="skill-list">
-                            <li>Docker / Kubernetes</li>
+                            <!-- <li>Docker / Kubernetes</li>
                             <li>AWS / Azure / GCP</li>
                             <li>CI/CD Pipelines</li>
                             <li>Git / GitHub / GitLab</li>
-                            <li>Linux / Bash Scripting</li>
+                            <li>Linux / Bash Scripting</li> -->
+                            <li>
+                                <a href="https://www.datadoghq.com" target="_blank" title="DataDog" aria-label="DataDog">DataDog</a>
+                            </li>
+                            <li>
+                                <a href="https://rollbar.com/" target="_blank" title="Rollbar" aria-label="Rollbar">Rollbar</a>
+                            </li>
+                            <li>
+                                <a href="https://docs.python.org/3/library/logging.html" target="_blank" title="Python Event Logging" aria-label="Python Event Logging">Python Event Logging</a>
+                            </li>
+                            <li>
+                                <a href="https://matplotlib.org/" target="_blank" title="Dashboard Visualization" aria-label="Dashboard Visualization">Dashboard Visualization</a>
+                            </li>
+                            <li>
+                                <a href="https://swagger.io" target="_blank" title="Swagger" aria-label="Swagger">Swagger</a>
+                            </li>
+                            <li>
+                                <a href="https://www.django-rest-framework.org/topics/browsable-api/" target="_blank" title="Browsable API" aria-label="Browsable API">Browsable API</a>
+                            </li>
+                            <li>
+                                <a href="https://django-debug-toolbar.readthedocs.io/en/latest/" target="_blank" title="Django Debug Toolbar" aria-label="Django Debug Toolbar">DjDT</a>
+                            </li>
+                            <li>
+                                <a href="https://www.postman.com/" target="_blank" title="Postman" aria-label="Postman">Postman</a>
+                            </li>
+                            <li>
+                                <a href="https://reqres.in/" target="_blank" title="ReqRes" aria-label="ReqRes">ReqRes</a>
+                            </li>
+                            <li>
+                                <a href="https://docs.python.org/3/library/pdb.html" target="_blank" title="The Python Debugger" aria-label="The Python Debugger">The Python Debugger (PDB)</a>
+                            </li>
                         </ul>
                     </div>
-                    <div class="skill-card">
-                        <h3 class="skill-category">Other</h3>
+
+                    <div class="skill-card main-card">
+                        <h3 class="skill-category">Design &amp; Productivity</h3>
                         <ul class="skill-list">
-                            <li>Agile / Scrum</li>
+                            <!-- <li>Agile / Scrum</li>
                             <li>Test-Driven Development</li>
                             <li>Microservices Architecture</li>
                             <li>System Design</li>
-                            <li>Performance Optimization</li>
+                            <li>Performance Optimization</li> -->
+                            <li>
+                                <a href="https://www.adobe.com/products/photoshop.html" target="_blank" title="Adobe Photoshop" aria-label="Adobe Photoshop">Adobe Photoshop</a>
+                            </li>
+                            <li>
+                                <a href="https://www.adobe.com/products/illustrator.html" target="_blank" title="Adobe Illustrator" aria-label="Adobe Illustrator">Adobe Illustrator</a>
+                            </li>
+                            <li>
+                                <a href="https://www.adobe.com/products/dreamweaver.html" target="_blank" title="Adobe Dreamweaver" aria-label="Adobe Dreamweaver">Adobe Dreamweaver</a>
+                            </li>
+                            <li>
+                                <a href="https://www.microsoft.com/en/microsoft-365/products-apps-services" target="_blank" title="Microsoft Office Suite" aria-label="Microsoft Office Suite">Microsoft Office Suite</a>
+                            </li>
+                            <li>
+                                <a href="https://miro.com/" target="_blank" title="Miro" aria-label="Miro">Miro</a>
+                            </li>
+                            <li>
+                                <a href="https://www.figma.com/" target="_blank" title="Figma" aria-label="Figma">Figma</a>
+                            </li>
+                            <li>
+                                <a href="https://www.canva.com/" target="_blank" title="Canva" aria-label="Canva">Canva</a>
+                            </li>
+                            <li>
+                                <a href="https://gsap.com/" target="_blank" title="JavaScript Animation Library GSAP" aria-label="JavaScript Animation Library GSAP">GSAP</a>
+                            </li>
+                            <li>
+                                <a href="https://getbootstrap.com/" target="_blank" title="Bootstrap CSS" aria-label="Bootstrap CSS">Bootstrap</a>
+                            </li>
+                            <li>
+                                <a href="https://tailwindcss.com/" target="_blank" title="Tailwind CSS" aria-label="Tailwind CSS">Tailwind</a>
+                            </li>
+                            <li>
+                                <a href="https://fontawesome.com/" target="_blank" title="Font Awesome" aria-label="Font Awesome">Font Awesome</a>
+                            </li>
                         </ul>
                     </div>
                 </div>
@@ -785,19 +1105,253 @@
                 <h2 class="section-title">Education</h2>
                 <div class="education-grid">
                     <div class="education-card">
-                        <h3 class="education-degree">Bachelor of Science in Computer Science</h3>
-                        <p class="education-school">University Name</p>
-                        <p class="education-date">2015 - 2019</p>
+                        <h3 class="education-degree">Bachelor of Science in Information Technology</h3>
+                        <h4>For Software Systems Engineering</h4>
+                        <p class="education-school">Colorado Technical University - Online</p>
+                        <p class="education-date">2009 - 2011</p>
                     </div>
+
                     <div class="education-card">
-                        <h3 class="education-degree">AWS Certified Solutions Architect</h3>
-                        <p class="education-school">Amazon Web Services</p>
-                        <p class="education-date">2021</p>
+                        <h3 class="education-degree">Associate of Science in Information Technology</h3>
+                        <p class="education-school">Colorado Technical University - Online</p>
+                        <p class="education-date">2007 - 2009</p>
                     </div>
+
                     <div class="education-card">
-                        <h3 class="education-degree">Full Stack Web Development</h3>
-                        <p class="education-school">Online Bootcamp</p>
-                        <p class="education-date">2018</p>
+                        <h3 class="education-degree">
+                            <a href="https://www.udemy.com/course/python-pcep-certification-preparation-practice-tests" target="_blank" title="Udemy Course, Python Practice Test - For Practice Exams" aria-label="Udemy Course, Python Practice Test - For Practice Exams">Python Practice Test - For Practice Exams</a>
+                        </h3>
+                        <p class="education-school">
+                            <a href="https://www.udemy.com/" target="_blank" title="Udemy Online Courses" aria-label="Udemy Online Courses">Udemy</a>
+                        </p>
+                        <p class="education-date">2022</p>
+                    </div>
+
+                    <div class="education-card">
+                        <h3 class="education-degree">
+                            <a href="https://www.udemy.com/course/devops-for-beginners-docker-k8s-cloud-cicd-4-projects/" target="_blank" title="Udemy Course, DevOps Micro-Internship: Docker, K8s, Cloud + 4 Projects" aria-label="Udemy Course, DevOps Micro-Internship: Docker, K8s, Cloud + 4 Projects">DevOps Micro-Internship: Docker, K8s, Cloud + 4 Projects</a>
+                        </h3>
+                        <p class="education-school">
+                            <a href="https://www.udemy.com/" target="_blank" title="Udemy Online Courses" aria-label="Udemy Online Courses">Udemy</a>
+                        </p>
+                        <p class="education-date">Currently Enrolled</p>
+                    </div>
+
+                    <div class="education-card">
+                        <h3 class="education-degree">
+                            <a href="https://www.udemy.com/course/aws-certified-developer-associate-dva-c01" target="_blank" title="Udemy Course, Ultimate AWS Certified Developer Associate 2026 DVA-C02" aria-label="Udemy Course, Ultimate AWS Certified Developer Associate 2026 DVA-C02">Ultimate AWS Certified Developer Associate 2026 DVA-C02</a>
+                        </h3>
+                        <p class="education-school">
+                            <a href="https://www.udemy.com/" target="_blank" title="Udemy Online Courses" aria-label="Udemy Online Courses">Udemy</a>
+                        </p>
+                        <p class="education-date">Currently Enrolled</p>
+                    </div>
+
+                    <div class="education-card">
+                        <h3 class="education-degree">
+                            <a href="https://www.udemy.com/course/ultimate-react-js-course-build-15-web-projects-with-react" target="_blank" title="Udemy Course, Ultimate React JS Course: Build 15 Web Projects with React" aria-label="Udemy Course, Ultimate React JS Course: Build 15 Web Projects with React">Ultimate React JS Course: Build 15 Web Projects with React</a>
+                        </h3>
+                        <p class="education-school">
+                            <a href="https://www.udemy.com/" target="_blank" title="Udemy Online Courses" aria-label="Udemy Online Courses">Udemy</a>
+                        </p>
+                        <p class="education-date">Currently Enrolled</p>
+                    </div>
+
+                    <div class="education-card">
+                        <h3 class="education-degree">
+                            <a href="https://www.udemy.com/course/complete-machine-learning-nlp-bootcamp-mlops-deployment" target="_blank" title="Udemy Course, Complete Data Science,Machine Learning,DL,NLP Bootcamp" aria-label="Udemy Course, Complete Data Science,Machine Learning,DL,NLP Bootcamp">Complete Data Science,Machine Learning,DL,NLP Bootcamp</a>
+                        </h3>
+                        <p class="education-school">
+                            <a href="https://www.udemy.com/" target="_blank" title="Udemy Online Courses" aria-label="Udemy Online Courses">Udemy</a>
+                        </p>
+                        <p class="education-date">Currently Enrolled</p>
+                    </div>
+
+                    <div class="education-card">
+                        <h3 class="education-degree">
+                            <a href="https://www.udemy.com/course/dullms_x/" target="_blank" title="Udemy Course, A deep understanding of AI large language model mechanisms" aria-label="Udemy Course, A deep understanding of AI large language model mechanisms">A deep understanding of AI large language model mechanisms</a>
+                        </h3>
+                        <p class="education-school">
+                            <a href="https://www.udemy.com/" target="_blank" title="Udemy Online Courses" aria-label="Udemy Online Courses">Udemy</a>
+                        </p>
+                        <p class="education-date">Currently Enrolled</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Certifications Section -->
+        <section id="certifications">
+            <div class="container">
+                <h2 class="section-title">Certifications</h2>
+                <div class="skills-grid">
+                    <div class="skill-card cert-card">
+                        <ul class="skill-list cert-list">
+                            <li>
+                                <span class="left">XMPie – Personal Effect Suite Training (Employer Provided)</span>
+                                <span class="right">2019</span>
+                            </li>
+                            <li>
+                                <span class="left">Object Oriented Methods (CTU)</span>
+                                <span class="right">2010</span>
+                            </li>
+                            <li>
+                                <span class="left">Computer Network Telecommunications (CTU)</span>
+                                <span class="right">2010</span>
+                            </li>
+                            <li>
+                                <span class="left">Server Java Programming (CTU)</span>
+                                <span class="right">2010</span>
+                            </li>
+                            <li>
+                                <span class="left">Client Java Programming (CTU)</span>
+                                <span class="right">2009</span>
+                            </li>
+                            <li>
+                                <span class="left">CompTIA Network+ Fundamentals (CTU)</span>
+                                <span class="right">2008</span>
+                            </li>
+                            <li>
+                                <span class="left">Unix Network Administration (CTU)</span>
+                                <span class="right">2008</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Clients Section -->
+        <section id="clients">
+            <div class="container">
+                <h2 class="section-title">Clients &amp; Notable Work</h2>
+                <div class="skills-grid">
+                    <div class="skill-card client-card">
+                        <h3 class="skill-category">Corporate &amp; Enterprise Clients</h3>
+                        <ul class="skill-list">
+                            <li>20th Century Fox</li>
+                            <li>Amazon</li>
+                            <li>American Express</li>
+                            <li>Aston Martin</li>
+                            <li>BabyBel</li>
+                            <li>Beam Suntory</li>
+                            <li>Bentley</li>
+                            <li>Blue Moon</li>
+                            <li>Capital One</li>
+                            <li>Disney</li>
+                            <li>eBay</li>
+                            <li>Frito Lay</li>
+                            <li>Gatorade</li>
+                            <li>Goodwill</li>
+                            <li>Gucci</li>
+                            <li>Hershey's</li>
+                            <li>Lipton</li>
+                            <li>McDonald's</li>
+                            <li>Pepsi</li>
+                            <li>Reese's</li>
+                            <li>Rolls Royce</li>
+                            <li>Starbucks</li>
+                            <li>T-Mobile</li>
+                            <li>Target</li>
+                            <li>Tyson</li>
+                            <li>United Airlines</li>
+                            <li>Victoria's Secret</li>
+                        </ul>
+                    </div>
+                    <div class="skill-card client-card">
+                        <h3 class="skill-category">Agency &amp; Professional Partnerships</h3>
+                        <ul class="skill-list">
+                            <li>602ABCWater</li>
+                            <li>Bradley Wealth Management</li>
+                            <li>Food Lion</li>
+                            <li>Insight Global</li>
+                            <li>Keystone Lite</li>
+                            <li>Mars Agency</li>
+                            <li>Mindi Meade Photography</li>
+                            <li>MovePHX</li>
+                            <li>Pinnacle Vodka</li>
+                            <li>Poster My Print</li>
+                            <li>Samsung</li>
+                            <li>Temp Control AZ</li>
+                            <li>Tequila Patrón</li>
+                            <li>The Marketing Store</li>
+                            <li>The Martz Agency</li>
+                            <li>Tracy Locke</li>
+                        </ul>
+                    </div>
+                </div>
+                <p>
+                    <br />
+                    <em>Note: The clients and projects listed represent organizations I contributed work for through various employers and contract engagements. These ARE NOT direct employment roles with these clients. Please refer to my Work Experience section for the actual employers that I have worked for and where I have engaged in projects supporting these clients.</em>
+                </p>
+            </div>
+        </section>
+
+        <!-- Publications Section -->
+        <section id="publications">
+            <div class="container">
+                <h2 class="section-title">Publications</h2>
+                <div class="projects-grid">
+                    <div class="project-card">
+                        <h3 class="project-title">
+                            <a href="https://www.packtpub.com/en-us/product/becoming-an-enterprise-django-developer-9781801073639" target="_blank" title="Purchase a copy from Packt Publishing" aria-label="Purchase a copy from Packt Publishing">Becoming and Enterprise Django Developer</a>
+                        </h3>
+                        <p class="pub-description">
+                            Discover best practices, tooling, and solutions for writing and organizing Django applications in production
+                        </p>
+                        <h4>Key Features</h4>
+                        <ul>
+                            <li>Expert tips to help you use the right packages, tools, and libraries and understand their scope for your project</li>
+                            <li>Gain a thorough understanding of the essential components that comprise a large-scale Python web app</li>
+                            <li>Learn best practices for creating a project structure for better performance</li>
+                        </ul>
+                        <h4>Book Description</h4>
+                        <p class="pub-description">
+                            &emsp;Django is a powerful framework but choosing the right add-ons that match the scale and scope of your enterprise projects can be tricky. This book will help you explore the multifarious options available for enterprise Django development. Countless organizations are already using Django and more migrating to it, unleashing the power of Python with many different packages and dependencies, including AI technologies.
+
+                            &emsp;This practical guide will help you understand practices, blueprints, and design decisions to put Django to work the way you want it to. You'll learn various ways in which data can be rendered onto a page and discover the power of Django for large-scale production applications. Starting with the basics of getting an enterprise project up and running, you'll get to grips with maintaining the project throughout its lifecycle while learning what the Django application lifecycle is.
+
+                            &emsp;By the end of this book, you'll have learned how to build and deploy a Django project to the web and implement various components into the site.
+                        </p>
+                        <h4>What You Will Learn</h4>
+                        <ul>
+                            <li>Use Django to develop enterprise-level apps to help scale your business</li>
+                            <li>Understand the steps and tools used to scale up a proof-of-concept project to production without going too deep into specific technologies</li>
+                            <li>Explore core Django components and how to use them in different ways to suit your app's needs</li>
+                            <li>Find out how Django allows you to build RESTful APIs</li>
+                            <li>Extract, parse, and migrate data from an old database system to a new system with Django and Python</li>
+                            <li>Write and run a test using the built-in testing tools in Django</li>
+                            
+                        </ul>
+                        <h4>Who This Book is For</h4>
+                        <p class="pub-description">
+                            &emsp;This book is for Django developers who want to learn the full-stack enterprise app development lifecycle. If you are a Python web developer looking to learn how to maintain a production website and explore Django beyond the basics, this book is for you. The book assumes intermediate-level knowledge of Python programming and the Django framework.
+                        </p>
+                        <h4>Table of Contents</h4>
+                        <ol>
+                            <li>Undertaking a Colossal Project</li>
+                            <li>Project Configuration</li>
+                            <li>Models, Relations, and Inheritance</li>
+                            <li>URLs, Views, and Templates</li>
+                            <li>Django Forms</li>
+                            <li>Exploring the Django Admin Site</li>
+                            <li>Working with Messages, Email Notifications, and PDF Reports</li>
+                            <li>Working with the Django REST Framework</li>
+                            <li>Django Testing</li>
+                            <li>Database Management</li>
+                        </ol>
+                        <h4>Code in Action</h4>
+                        <div class="project-tech">
+                            <a href="https://www.youtube.com/playlist?list=PLeLcvrwLe184Ws5cDLqQc1DxvuENJKlvf" class="tech-tag" target="_blank" title="View Tutorial Videos on YouTube" aria-label="View Tutorial Videos on YouTube">YouTube</a>
+                            <a href="https://github.com/PacktPublishing/Becoming-an-Enterprise-Django-Developer" class="tech-tag" target="_blank" title="View public code that accompanies this book" aria-label="View public code that accompanies this book">GitHub</a>
+                        </div>
+                        <h4>Purchase A Copy Today</h4>
+                        <div class="project-tech">
+                            <a href="https://www.packtpub.com/en-us/product/becoming-an-enterprise-django-developer-9781801073639" class="tech-tag" target="_blank" title="Purchase a copy from Packt Publishing" aria-label="Purchase a copy from Packt Publishing">Packt Publishing</a>
+                            <a href="https://www.amazon.com/Becoming-Enterprise-Django-Developer-applications/dp/1801073635" class="tech-tag" target="_blank" title="Purchase a copy from Amazon" aria-label="Purchase a copy from Amazon">Amazon</a>
+                            <a href="https://booksrun.com/9781801073639-becoming-an-enterprise-django-developer-discover-best-practices-tooling-and-solutions-for-writing-and-organizing-django-applications-in-production" class="tech-tag" target="_blank" title="Purchase a copy from BooksRun" aria-label="Purchase a copy from BooksRun">BooksRun</a>
+                            <a href="https://www.vitalsource.com/products/becoming-an-enterprise-django-developer-michael-dinder-v9781801070942?srsltid=AfmBOoo1hUzGkHEHdGLCwiI821sIzeunGGdZBzDNqZWwSiUO_QAUqCYz" class="tech-tag" target="_blank" title="Purchase a copy from VitalSource" aria-label="Purchase a copy from VitalSource">VitalSource</a>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -809,55 +1363,84 @@
                 <h2 class="section-title">Featured Projects</h2>
                 <div class="projects-grid">
                     <div class="project-card">
-                        <h3 class="project-title">E-Commerce Platform</h3>
+                        <h3 class="project-title">AI Templates</h3>
                         <p class="project-description">
-                            Built a full-featured e-commerce platform with payment integration, 
-                            real-time inventory management, and admin dashboard. Handles 10K+ daily transactions.
+                            A collection of HTML templates created using Generative AI and the Prompt's used to create them. This project is only to demonstrate my ability to use Prompts in AI tools to generate code that can be used in a real-world scenario.
                         </p>
                         <div class="project-tech">
-                            <span class="tech-tag">React</span>
-                            <span class="tech-tag">Node.js</span>
-                            <span class="tech-tag">MongoDB</span>
-                            <span class="tech-tag">Stripe</span>
+                            <a href="/AI/AI-Project.html" class="tech-tag" title="Artificial intelligence Project" aria-label="Artificial intelligence Project">AI Project</a>
                         </div>
                     </div>
                     <div class="project-card">
-                        <h3 class="project-title">Real-Time Chat Application</h3>
+                        <h3 class="project-title">Django</h3>
                         <p class="project-description">
-                            Developed a scalable real-time chat application with WebSocket support, 
-                            user authentication, and file sharing capabilities. Supports 1000+ concurrent users.
+                            A mock project that demonstrates my ability to spin up a Django project on my own web server and display capabilities like form submission, E-mail Sending, REST API requests, PostgreSQL Database and Django Models, File Upload and more...
                         </p>
                         <div class="project-tech">
-                            <span class="tech-tag">Socket.io</span>
-                            <span class="tech-tag">Express</span>
-                            <span class="tech-tag">Redis</span>
-                            <span class="tech-tag">JWT</span>
+                            <a href="https://django.mikedinder.com" class="tech-tag" title="Django Project" aria-label="Django Project">Django Project</a>
                         </div>
                     </div>
                     <div class="project-card">
-                        <h3 class="project-title">AI-Powered Analytics Dashboard</h3>
+                        <h3 class="project-title">Angular.js</h3>
                         <p class="project-description">
-                            Created an analytics dashboard with machine learning predictions, 
-                            data visualization, and automated reporting. Processes 1M+ data points daily.
+                            A mock project that demonstrates my ability to spin up an Angular.js project and display various REST API requests. This project works in conjunction with a stripped down Django project to also display how Django can be used with various front-end frameworks.
                         </p>
                         <div class="project-tech">
-                            <span class="tech-tag">Python</span>
-                            <span class="tech-tag">TensorFlow</span>
-                            <span class="tech-tag">D3.js</span>
-                            <span class="tech-tag">PostgreSQL</span>
+                            <a href="https://angular.mikedinder.com" class="tech-tag" title="Angular.js Project" aria-label="Angular.js Project">Angular.js Project</a>
                         </div>
                     </div>
                     <div class="project-card">
-                        <h3 class="project-title">Task Management System</h3>
+                        <h3 class="project-title">React.js</h3>
                         <p class="project-description">
-                            Designed a collaborative task management system with team workflows, 
-                            notifications, and progress tracking. Used by 500+ teams worldwide.
+                            A mock project that demonstrates my ability to spin up an React.js project and display various REST API requests. This project works in conjunction with a stripped down Django project to also display how Django can be used with various front-end frameworks.
                         </p>
                         <div class="project-tech">
-                            <span class="tech-tag">Next.js</span>
-                            <span class="tech-tag">GraphQL</span>
-                            <span class="tech-tag">Prisma</span>
-                            <span class="tech-tag">AWS</span>
+                            <a href="https://react.mikedinder.com" class="tech-tag" title="React.js Project" aria-label="React.js Project">React.js Project</a>
+                        </div>
+                    </div>
+                    <div class="project-card">
+                        <h3 class="project-title">Vue.js</h3>
+                        <p class="project-description">
+                            A mock project that demonstrates my ability to spin up an Vue.js project and display various REST API requests. This project works in conjunction with a stripped down Django project to also display how Django can be used with various front-end frameworks.
+                        </p>
+                        <div class="project-tech">
+                            <a href="https://vue.mikedinder.com" class="tech-tag" title="Vue.js Project" aria-label="Vue.js Project">Vue.js Project</a>
+                        </div>
+                    </div>
+                    <div class="project-card">
+                        <h3 class="project-title">FastAPI</h3>
+                        <p class="project-description">
+                            A mock project that demonstrates my ability to spin up an FastAPI project and display various REST API requests.
+                        </p>
+                        <div class="project-tech">
+                            <a href="https://fastapi.mikedinder.com" class="tech-tag" title="FastAPI Project" aria-label="FastAPI Project">FastAPI Project</a>
+                        </div>
+                    </div>
+                    <div class="project-card">
+                        <h3 class="project-title">Flask</h3>
+                        <p class="project-description">
+                            A mock project that demonstrates my ability to spin up an Flask project and display various REST API requests.
+                        </p>
+                        <div class="project-tech">
+                            <a href="https://flask.mikedinder.com" class="tech-tag" title="Flask Project" aria-label="Flask Project">Flask Project</a>
+                        </div>
+                    </div>
+                    <div class="project-card">
+                        <h3 class="project-title">Development Environment</h3>
+                        <p class="project-description">
+                            A mock project that demonstrates my ability to wire up a CI/CD Pipeline for a Development Environment with GitHub and AWS EC2 Instances.
+                        </p>
+                        <div class="project-tech">
+                            <a href="https://dev.mikedinder.com" class="tech-tag" title="Development Environment Project" aria-label="Development Environment Project">Development Environment Project</a>
+                        </div>
+                    </div>
+                    <div class="project-card">
+                        <h3 class="project-title">Staging</h3>
+                        <p class="project-description">
+                            A mock project that demonstrates my ability to wire up a CI/CD Pipeline for a Staging Environment with GitHub and AWS EC2 Instances.
+                        </p>
+                        <div class="project-tech">
+                            <a href="https://staging.mikedinder.com" class="tech-tag" title="Staging Environment Project" aria-label="Staging Environment Project">Staging Environment Project</a>
                         </div>
                     </div>
                 </div>
@@ -992,23 +1575,69 @@
             });
 
             // 3D Tilt Effect on Skill Cards
-            const skillCards = document.querySelectorAll('.skill-card');
-            
+            const skillCards = document.querySelectorAll('.main-card');
+
             skillCards.forEach(card => {
                 card.addEventListener('mousemove', (e) => {
                     const rect = card.getBoundingClientRect();
                     const x = e.clientX - rect.left;
                     const y = e.clientY - rect.top;
-                    
+
                     const centerX = rect.width / 2;
                     const centerY = rect.height / 2;
-                    
-                    const rotateX = (y - centerY) / 10;
-                    const rotateY = (centerX - x) / 10;
-                    
+
+                    const rotateX = (y - centerY) / 30;
+                    const rotateY = (centerX - x) / 30;
+
                     card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-10px)`;
                 });
-                
+
+                card.addEventListener('mouseleave', () => {
+                    card.style.transform = '';
+                });
+            });
+
+            // 3D Tilt Effect on Certification Cards
+            const certCards = document.querySelectorAll('.cert-card');
+
+            certCards.forEach(card => {
+                card.addEventListener('mousemove', (e) => {
+                    const rect = card.getBoundingClientRect();
+                    const x = e.clientX - rect.left;
+                    const y = e.clientY - rect.top;
+
+                    const centerX = rect.width / 2;
+                    const centerY = rect.height / 2;
+
+                    const rotateX = (y - centerY) / 100;
+                    const rotateY = (centerX - x) / 100;
+
+                    card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-10px)`;
+                });
+
+                card.addEventListener('mouseleave', () => {
+                    card.style.transform = '';
+                });
+            });
+
+            // 3D Tilt Effect on Client Cards
+            const clientCards = document.querySelectorAll('.client-card');
+
+            clientCards.forEach(card => {
+                card.addEventListener('mousemove', (e) => {
+                    const rect = card.getBoundingClientRect();
+                    const x = e.clientX - rect.left;
+                    const y = e.clientY - rect.top;
+
+                    const centerX = rect.width / 2;
+                    const centerY = rect.height / 2;
+
+                    const rotateX = (y - centerY) / 150;
+                    const rotateY = (centerX - x) / 150;
+
+                    card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-10px)`;
+                });
+
                 card.addEventListener('mouseleave', () => {
                     card.style.transform = '';
                 });
