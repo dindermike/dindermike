@@ -649,6 +649,23 @@
                 overflow: hidden;
             }
 
+            .project-card::before {
+                content: '';
+                position: absolute;
+                top: -50%;
+                left: -50%;
+                width: 200%;
+                height: 200%;
+                background: radial-gradient(circle, rgba(51, 102, 153, 0.1), transparent);
+                opacity: 0;
+                transition: opacity 0.3s ease;
+                z-index: -999999;
+            }
+
+            .project-card:hover::before {
+                opacity: 1;
+            }
+
             .project-card:hover {
                 border-color: var(--cyan);
                 transform: translateY(-10px) scale(1.02);
