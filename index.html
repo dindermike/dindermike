@@ -464,6 +464,18 @@
                 color: var(--text-gray);
                 font-size: 0.9rem;
                 margin-bottom: 15px;
+                display: inline-block;
+                width: 100%;
+            }
+
+            .experience-date span.left {
+                display: inline-block;
+                float: left;
+            }
+
+            .experience-date span.right {
+                display: inline-block;
+                float: right;
             }
 
             .experience-description {
@@ -1067,32 +1079,111 @@
                 <div class="experience-timeline">
                     <div class="experience-item">
                         <h3 class="experience-title">Senior Software Engineer</h3>
-                        <p class="experience-company">Tech Company Inc.</p>
-                        <p class="experience-date">Jan 2022 - Present</p>
+                        <p class="experience-company">Cart.com, Inc</p>
+                        <p class="experience-date">
+                            <span class="left">Feb 2022 - Oct 2025</span>
+                            <span class="right">Remote</span></p>
                         <p class="experience-description">
-                            Led development of scalable microservices architecture serving 1M+ users. 
-                            Implemented CI/CD pipelines reducing deployment time by 60%. Mentored junior 
-                            developers and conducted code reviews to maintain high code quality standards.
+                            Overhauled a broken legacy test suite by implementing the Django Test Framework, creating more than 900 test cases that improved coverage to 40% and reduced post-release bugs by 30%. Assisted with a full migration of Django from version 1.x to 4.2 and Python to 3.13, improving code stability, performance, and security across multiple business-critical applications. Designed and integrated RESTful APIs to connect internal systems with third-party platforms, enhancing data accuracy and processing speed across departments using Django REST Framework and GraphQL. Includes building new feature requests and automating background celery tasks or updating queries as async celery tasks. Deployed DataDog and Rollbar for production monitoring, using structlog to build visual dashboards that accelerated debugging and performance insights.
                         </p>
                     </div>
                     <div class="experience-item">
-                        <h3 class="experience-title">Software Engineer</h3>
-                        <p class="experience-company">Startup Solutions LLC</p>
-                        <p class="experience-date">Jun 2020 - Dec 2021</p>
+                        <h3 class="experience-title">Author</h3>
+                        <p class="experience-company">Packt Publishing</p>
+                        <p class="experience-date">
+                            <span class="left">Dec 2020 - Jun 2022</span>
+                            <span class="right">Remote</span>
+                        </p>
                         <p class="experience-description">
-                            Developed and maintained full-stack web applications using React and Node.js. 
-                            Optimized database queries resulting in 40% performance improvement. 
-                            Collaborated with cross-functional teams in an Agile environment.
+                            Authored and had published 'Becoming an Enterprise Django Developer', a 526-page guide with over 11 hours of tutorials that helped developers' master enterprise-level Django practices. Created and maintained example repositories with production-ready code to illustrate advanced Django concepts and architectural patterns. Collaborated with Packt editors and engineers to align content with industry standards for secure, scalable Django applications. Delivered technical documentation and video explanations to guide readers through full-stack Django development workflows.
                         </p>
                     </div>
                     <div class="experience-item">
-                        <h3 class="experience-title">Junior Developer</h3>
-                        <p class="experience-company">Digital Agency Co.</p>
-                        <p class="experience-date">Jan 2019 - May 2020</p>
+                        <h3 class="experience-title">Django/Python &amp; VB.NET Web Developer</h3>
+                        <p class="experience-company">
+                            Corcoran Pacific Properties<br /><em>(Elite Pacific Properties)</em>
+                        </p>
+                        <p class="experience-date">
+                            <span class="left">Aug 2019 - Feb 2022</span>
+                            <span class="right">Scottsdale, AZ</span>
+                        </p>
                         <p class="experience-description">
-                            Built responsive websites and web applications for various clients. 
-                            Participated in all phases of the software development lifecycle. 
-                            Gained experience with modern JavaScript frameworks and RESTful API design.
+                            Built and deployed a complete Django CMS that streamlined content management for their real-estate listings. Rebuilt their old VB.NET system in Pyhton/Django while maintaining their old VB.NET system until the new one was finished. Integrated XMPie print services into the company platform, automating custom marketing material generation and branding consistency. Collaborated with cross-functional teams to deliver responsive and accessible web interfaces that boosted client engagement. Authored detailed internal system documentation to help users and IT staff use the new system.
+                        </p>
+                    </div>
+                    <div class="experience-item">
+                        <h3 class="experience-title">Django/Python Web Developer</h3>
+                        <p class="experience-company">
+                            PayPal<br /><em>(via Insight Global)</em>
+                        </p>
+                        <p class="experience-date">
+                            <span class="left">May 2019 - Jul 2020</span>
+                            <span class="right">Scottsdale, AZ</span>
+                        </p>
+                        <p class="experience-description">
+                            Developed internal dashboards and REST APIs that connected multiple tools for their Bug Bounty team to keep track of the life-cycle of incoming Bug Bounty tickets. Rebuilt their old PHP system in Python/Django. Automated repetitive processes using Celery, enabling faster execution of internal security operations and tool synchronization. Strengthened backend performance and reliability through optimized code structure and automated validation testing. Collaborated with QA and product teams to align backend development with security compliance and testing requirements.
+                        </p>
+                    </div>
+                    <div class="experience-item">
+                        <h3 class="experience-title">Django/Python Web Developer</h3>
+                        <p class="experience-company">Connect-IO, Inc</p>
+                        <p class="experience-date">
+                            <span class="left">Mar 2018 - May 2019</span>
+                            <span class="right">Phoenix, AZ</span>
+                        </p>
+                        <p class="experience-description">
+                            Delivered customized Django/Python web solutions for clients across industries, enhancing uptime and overall system responsiveness. Conducted in-depth code and data analysis to identify bottlenecks and implemented performance optimization strategies. Coordinated with infrastructure teams to ensure compatibility between software builds and server configurations. Provided tailored solutions for platforms including WordPress, Shopify, and ASP.NET to meet client-specific performance goals.
+                        </p>
+                    </div>
+                    <div class="experience-item">
+                        <h3 class="experience-title">Senior Interactive Developer</h3>
+                        <p class="experience-company">PrizeLogic, Inc</p>
+                        <div class="logo">
+                            <img src="/Images/PrizeLogic.jpg" role="img" aria-label="Prizelogic Logo" alt="Prizelogic Logo" />
+                        </div>
+                        <p class="experience-date">
+                            <span class="left">Jan 2014 - Feb 2018</span>
+                            <span class="right">Scottsdale, AZ</span>
+                        </p>
+                        <p class="experience-description">
+                            Produced high-traffic promotional websites for major brands like Disney and Pepsi, ensuring cross-browser and responsive performance using frontend technologies such as JavaScript, jQuery, Angular.js, React.js and GSAP. Improved project delivery speed by 20% through streamlined front-end development workflows and documentation standards. Collaborated with design and QA teams to achieve pixel-perfect, accessible user experiences across all client campaigns. Mentored junior developers on company standards and reusable code structures to maintain development consistency.
+                        </p>
+                    </div>
+                    <div class="experience-item">
+                        <h3 class="experience-title">Webmaster</h3>
+                        <p class="experience-company">Jetset Magazine</p>
+                        <p class="experience-date">
+                            <span class="left">Jan 2013 - Dec 2013</span>
+                            <span class="right">Scottsdale, AZ</span>
+                        </p>
+                        <p class="experience-description">
+                            Managed digital publication of print editions, optimizing SEO and site structure to boost online visibility and increase organic traffic by 20%. Developed dynamic advertising and landing pages using PHP and JavaScript, improving client campaign conversions by 15% through targeted design by working with in-house graphic designers to implement their work on the web. Implemented responsive WordPress templates, enhancing mobile performance and reducing bounce rates across devices by 20%. Coordinated with editors to publish timely content updates, maintaining 100% accuracy and consistency between digital and print editions.
+                        </p>
+                    </div>
+                    <div class="experience-item">
+                        <h3 class="experience-title">Junior Web Developer</h3>
+                        <p class="experience-company">
+                            Mission e-Commerce Small Business<br /><em>(MECSB)</em>
+                        </p>
+                        <p class="experience-date">
+                            <span class="left">Mar 2010 - May 2011</span>
+                            <span class="right">Scottsdale, AZ</span>
+                        </p>
+                        <p class="experience-description">
+                            Designed and implemented interactive websites using HTML, CSS, and JavaScript, improving client engagement and reducing bounce rate by 20% through intuitive layouts. Created high-fidelity Photoshop mockups and prototypes to visualize project goals, achieving 100% client approval on design presentations before development. Assisted in backend maintenance and performed cross-platform testing, increasing compatibility and load consistency across 5+ major browsers. Collaborated with senior developers to apply UX and responsive design principles to build the information websites that clients approved of my very own design mockups.
+                        </p>
+                    </div>
+                    <div class="experience-item">
+                        <h3 class="experience-title">Private First Class - E2</h3>
+                        <p class="experience-company">
+                            United States Marine Corps<br /><em>USMC</em>
+                        </p>
+                        <p class="experience-date">
+                            <span class="left">2005</span>
+                            <span class="right">Camp Pendleton, CA</span>
+                        </p>
+                        <p class="experience-description">
+                            Basic training. I did not go any farther due to suffering two separate injuries and I was medically discharged as a result of that. But I did learn a lot about Leadership, Team Work, Communication and its utmost importance not just on the battlefield but in the civilian sector as well. Attention to detail is also high on my the list of things that I gained from this training. Semper Fi!
                         </p>
                     </div>
                 </div>

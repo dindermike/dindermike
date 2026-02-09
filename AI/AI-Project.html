@@ -159,8 +159,8 @@
 
             .glow-ring {
                 position: absolute;
-                width: 400px;
-                height: 400px;
+                width: 1200px;
+                height: 1200px;
                 border: 2px solid rgba(100, 150, 255, 0.3);
                 border-radius: 50%;
                 top: 50%;
@@ -318,7 +318,34 @@
                 transform: translateY(-3px);
             }
 
-            @media (max-width: 768px) {
+            /* Responsive Design */
+            @media (max-width: 1399px) {
+                .glow-ring {
+                    width: 1000px;
+                    height: 1000px;
+                }
+            }
+
+            @media (max-width: 1199px) {
+                .glow-ring {
+                    width: 850px;
+                    height: 850px;
+                }
+            }
+
+            @media (max-width: 1023px) {
+                .glow-ring {
+                    width: 700px;
+                    height: 700px;
+                }
+            }
+
+            @media (max-width: 767px) {
+                .glow-ring {
+                    width: 600px;
+                    height: 600px;
+                }
+
                 .logo {
                     font-size: 2.5rem;
                     letter-spacing: 4px;
@@ -341,13 +368,32 @@
                 }
             }
 
+            @media (max-width: 639px) {
+                .glow-ring {
+                    width: 450px;
+                    height: 450px;
+                }
+            }
+
             @media (max-width: 479px) {
+                .glow-ring {
+                    width: 350px;
+                    height: 350px;
+                }
+
                 .planet-jupiter,
                 .planet-uranus,
                 .planet-mars,
                 .planet-earth,
                 .glow-ring {
                     animation: none !important;
+                }
+            }
+
+            @media (max-width: 319px) {
+                .glow-ring {
+                    width: 275px;
+                    height: 275px;
                 }
             }
         </style>
