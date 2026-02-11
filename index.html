@@ -86,6 +86,75 @@
                 line-height: 1.6;
             }
 
+            /* Loader Container/Spinner */
+            #loader-container {
+                display: none;
+                position: relative;
+                width: 100vw;
+                height: 100vh;
+            }
+
+            #loader-container.visible {
+                display: block;
+            }
+
+            #loader-container .loader-content {
+                position: absolute;
+                text-align: center;
+                top: calc(50% - 60px);
+                left: calc(50% - 40px);
+            }
+
+            .spinner {
+                width: 60px;
+                height: 60px;
+                border: 4px solid rgba(51, 102, 153, 0.3);
+                border-top-color: #336699;
+                border-radius: 50%;
+                animation: spin 1s linear infinite;
+                margin: 0 auto 20px;
+            }
+
+            @keyframes spin {
+                to { transform: rotate(360deg); }
+            }
+
+            .loading-text {
+                color: #336699;
+                font-size: 18px;
+                font-weight: 500;
+                letter-spacing: 0.5px;
+            }
+
+            .dots {
+                display: inline-block;
+                width: 30px;
+                text-align: left;
+            }
+
+            .dots::after {
+                content: '';
+                animation: dots 1.5s steps(6, end) infinite;
+            }
+
+            @keyframes dots {
+                0% { content: ''; }
+                20% { content: '.'; }
+                40% { content: '..'; }
+                60% { content: '...'; }
+                80% { content: '....'; }
+                100% { content: '.....'; }
+            }
+
+            #body-content {
+                opacity: 0;
+            }
+
+            #body-content.visible {
+                opacity: 1;
+                transition: all 0.3s ease;
+            }
+
             /* Cursor Trail Effect */
             .cursor-trail {
                 position: fixed;
@@ -445,6 +514,42 @@
                 box-shadow: 0 10px 40px rgba(51, 102, 153, 0.2);
             }
 
+            #experience-1.experience-item::before {
+                top: 0%;
+            }
+
+            #experience-2.experience-item::before {
+                top: 12.5%;
+            }
+
+            #experience-3.experience-item::before {
+                top: 25%;
+            }
+
+            #experience-4.experience-item::before {
+                top: 37.5%;
+            }
+
+            #experience-5.experience-item::before {
+                top: 50%;
+            }
+
+            #experience-6.experience-item::before {
+                top: 62.5%;
+            }
+
+            #experience-7.experience-item::before {
+                top: 75%;
+            }
+
+            #experience-8.experience-item::before {
+                top: 87.5%;
+            }
+
+            #experience-9.experience-item::before {
+                top: 100%;
+            }
+
             .experience-item .logo {
                 width: 50px;
                 height: 50px;
@@ -783,6 +888,7 @@
                 .hero h1 {
                     font-size: 3em;
                 }
+
                 .section-title {
                     font-size: 2em;
                 }
@@ -792,9 +898,11 @@
                 .hero h1 {
                     font-size: 2.5em;
                 }
+
                 .hero h2 {
                     font-size: 1.3em;
                 }
+
                 .profile-image {
                     width: 150px;
                     height: 150px;
@@ -837,6 +945,7 @@
                 .hero h1 {
                     font-size: 1.8em;
                 }
+
                 .cta-button {
                     padding: 12px 30px;
                     font-size: 1em;
@@ -921,1054 +1030,1094 @@
     </head>
 
     <body>
-        <!-- Scroll Progress Bar -->
-        <div class="scroll-progress"></div>
-
-        <!-- Starfield Background -->
-        <div class="starfield" id="starfield"></div>
-
-        <!-- Hero Section -->
-        <section class="hero" aria-label="Profile Photo and Description Section - Mike Dinder a Software Systems Engineer, Full-Stack Developer, Backend Developer, Web Developer, Problem Solver, Adventurer and Outdoors Enthusiast">
-            <div class="container">
-                <div class="hero-content">
-                    <div class="profile-image-container">
-                        <img src="Images/profile_optimized.jpg" alt="Mike Dinder" class="profile-image" id="profileImage">
-                    </div>
-                    <h1><span class="typing-text" id="typing-text"></span></h1>
-                    <h2>Professional Developer Looking for Work</h2>
-                    <a href="#contact" class="cta-button">Get In Touch</a>
+        <div id="loader-container" class="visible" aria-hidden="true">
+            <div class="loader-content">
+                <div class="spinner"></div>
+                <div class="loading-text">
+                    Loading<span class="dots"></span>
                 </div>
             </div>
+        </div>
 
-            <!-- Floating Particles -->
-            <div id="particles"></div>
-        </section>
+        <div id="body-content">
+            <!-- Scroll Progress Bar -->
+            <div class="scroll-progress" aria-hidden="true"></div>
 
-        <!-- Summary Section -->
-        <section id="summary" aria-labelledby="summary-title">
-            <div class="container">
-                <h2 id="summary-title" class="section-title">Professional Summary</h2>
-                <p>
-                    &emsp;Seasoned Senior Software Engineer with over 13 years in web development and over 7 years specializing in Django/Python. Proven record of accomplishment of assisting in the modernizing of large-scale systems, upgrading frameworks, and delivering high-impact solutions through RESTful API design, automated testing, and CI/CD best practices. Proficient in DataDog and Rollbar for production monitoring, with a history of improving code quality and reducing defects by implementing robust test frameworks. Recognized for publishing a 526-page Django/Python book with Packt Publishing and for leading cross-functional collaboration across engineering, product, and QA teams. Committed to writing clean, maintainable code that enhances performance, reliability, and business outcomes.
-                </p>
-            </div>
-        </section>
+            <!-- Starfield Background -->
+            <div class="starfield" id="starfield" aria-hidden="true"></div>
 
-        <!-- Skills Section -->
-        <section id="skills" aria-labelledby="skills-title">
-            <div class="container">
-                <h2 id="skills-title" class="section-title">Technical Skills/Core Competencies</h2>
-                <div class="skills-grid">
-                    <div class="skill-card main-card">
-                        <!-- <h3 class="skill-category">Example Card Title</h3> -->
-                        <ul class="skill-list">
-                            <li>Full-Stack Software Development</li>
-                            <li>RESTful API Architecture &amp; Integration</li>
-                            <li>Agile &amp; Scrum Workflows</li>
-                            <li>Test Driven Development (TDD)</li>
-                            <li>CI/CD Implementation</li>
-                        </ul>
-                    </div>
-                    <div class="skill-card main-card">
-                        <ul class="skill-list">
-                            <li>System Optimization &amp; Troubleshooting</li>
-                            <li>PostgreSQL, MSSQL, MySQL &amp; Wrote Raw SQL Queries</li>
-                            <li>Cross-Functional Collaboration</li>
-                            <li>Application/System Modernization</li>
-                            <li>Technical Documentation</li>
-                        </ul>
-                    </div>
-                    <div class="skill-card main-card">
-                        <ul class="skill-list">
-                            <li>Scalable Software Architecture</li>
-                            <li>Code Reviews</li>
-                            <li>Heroku: Cloud-based Containerized Platform as a Service (PaaS)</li>
-                            <li>NGINX Server Configuration</li>
-                            <li>AWS EC2 &amp; other Hosting Services. Still new to this one.</li>
-                        </ul>
+            <!-- Hero Section -->
+            <section class="hero" aria-label="Profile Photo and Description Section - Mike Dinder a Software Systems Engineer, Full-Stack Developer, Backend Developer, Web Developer, Problem Solver, Adventurer and Outdoors Enthusiast">
+                <div class="container">
+                    <div class="hero-content">
+                        <div class="profile-image-container">
+                            <img src="Images/profile_optimized.jpg" alt="Mike Dinder" class="profile-image" id="profileImage">
+                        </div>
+                        <h1 aria-hidden="true"><span class="typing-text" id="typing-text"></span></h1>
+                        <h2>Professional Developer Looking for Work</h2>
+                        <a href="#contact" class="cta-button">Get In Touch</a>
                     </div>
                 </div>
-            </div>
-        </section>
 
-        <!-- Tools Section -->
-        <section id="tools" aria-labelledby="tools-title">
-            <div class="container">
-                <h2 id="tools-title" class="section-title">Tools &amp; Platforms</h2>
-                <div class="skills-grid">
-                    <div class="skill-card main-card">
-                        <h3 class="skill-category">Development &amp; Deployment</h3>
-                        <ul class="skill-list">
-                            <!-- <li>React.js / Next.js</li>
-                            <li>JavaScript / TypeScript</li>
-                            <li>HTML5 / CSS3 / SASS</li>
-                            <li>Tailwind CSS / Bootstrap</li>
-                            <li>Redux / Context API</li> -->
-                            <li>
-                                <a href="https://www.docker.com/" target="_blank" title="Docker Containerization" aria-label="Docker Containerization">Docker Containerization</a>
-                            </li>
-                            <li>
-                                <a href="https://kubernetes.io/" target="_blank" title="Kubernetes Containerization Management" aria-label="Kubernetes Containerization Management">Kubernetes</a>
-                            </li>
-                            <li>
-                                <a href="https://www.heroku.com/" target="_blank" title="Heroku Hosting and Deployment" aria-label="Heroku Hosting and Deployment">Heroku</a>
-                            </li>
-                            <li>
-                                <a href="https://code.visualstudio.com/" target="_blank" title="Visual Studio Code" aria-label="Visual Studio Code">Visual Studio Code</a>
-                            </li>
-                            <li>
-                                <a href="https://visualstudio.microsoft.com/vs/community/" target="_blank" title="Visual Studio - Community Edition" aria-label="Visual Studio - Community Edition">Visual Studio - Community Edition</a>
-                            </li>
-                            <li>
-                                <a href="https://learn.microsoft.com/en-us/powershell/" target="_blank" title="PowerShell" aria-label="PowerShell">PowerShell</a>
-                            </li>
-                            <li>
-                                <a href="https://www.jetbrains.com/pycharm/" target="_blank" title="PyCharm" aria-label="PyCharm">PyCharm</a>
-                            </li>
-                            <li>
-                                <a href="https://www.npmjs.com/" target="_blank" title="Node Package Manager" aria-label="Node Package Manager">Node Package Manager (NPM)</a>
-                            </li>
-                            <li>
-                                <a href="https://webpack.js.org/" target="_blank" title="Webpack" aria-label="Webpack">Webpack</a>
-                            </li>
-                            <li>
-                                <a href="https://gulpjs.com/" target="_blank" title="Gulp" aria-label="Gulp">Gulp</a>
-                            </li>
-                        </ul>
-                    </div>
+                <!-- Floating Particles -->
+                <div id="particles" aria-hidden="true"></div>
+            </section>
 
-                    <div class="skill-card main-card">
-                        <h3 class="skill-category">Version Control &amp; Collaboration</h3>
-                        <ul class="skill-list">
-                            <!-- <li>Node.js / Express</li>
-                            <li>Python / Django / Flask</li>
-                            <li>RESTful APIs / GraphQL</li>
-                            <li>PostgreSQL / MongoDB</li>
-                            <li>Redis / ElasticSearch</li> -->
-                            <li>
-                                <a href="https://git-scm.com/" target="_blank" title="Git" aria-label="Git">Git</a>
-                            </li>
-                            <li>
-                                <a href="https://github.com/" target="_blank" title="GitHub" aria-label="GitHub">GitHub</a>
-                            </li>
-                            <li>
-                                <a href="https://about.gitlab.com/" target="_blank" title="GitLab" aria-label="GitLab">GitLab</a>
-                            </li>
-                            <li>
-                                <a href="https://bitbucket.org/" target="_blank" title="BitBucket" aria-label="BitBucket">BitBucket</a>
-                            </li>
-                            <li>
-                                <a href="https://www.atlassian.com/software/jira" target="_blank" title="Jira" aria-label="Jira">Jira</a>
-                            </li>
-                            <li>
-                                <a href="https://monday.com/" target="_blank" title="Monday.com" aria-label="Monday.com">Monday.com</a>
-                            </li>
-                            <li>
-                                <a href="https://copilot.microsoft.com/" target="_blank" title="Microsoft CoPilot" aria-label="Microsoft CoPilot">CoPilot</a>
-                            </li>
-                            <li>
-                                <a href="https://claude.ai/" target="_blank" title="Claude-AI" aria-label="Claude-AI">Claude-AI</a>
-                            </li>
-                            <li>
-                                <a href="https://chatgpt.com/" target="_blank" title="ChatGPT" aria-label="ChatGPT">ChatGPT</a>
-                            </li>
-                            <li>
-                                <a href="https://slack.com/" target="_blank" title="Slack" aria-label="Slack">Slack</a>
-                            </li>
-                            <li>
-                                <a href="https://www.zendesk.com/lp/brand/" target="_blank" title="Zendesk" aria-label="Zendesk">Zendesk</a>
-                            </li>
-                        </ul>
-                    </div>
-
-                    <div class="skill-card main-card">
-                        <h3 class="skill-category">Monitoring &amp; Debug</h3>
-                        <ul class="skill-list">
-                            <!-- <li>Docker / Kubernetes</li>
-                            <li>AWS / Azure / GCP</li>
-                            <li>CI/CD Pipelines</li>
-                            <li>Git / GitHub / GitLab</li>
-                            <li>Linux / Bash Scripting</li> -->
-                            <li>
-                                <a href="https://www.datadoghq.com" target="_blank" title="DataDog" aria-label="DataDog">DataDog</a>
-                            </li>
-                            <li>
-                                <a href="https://rollbar.com/" target="_blank" title="Rollbar" aria-label="Rollbar">Rollbar</a>
-                            </li>
-                            <li>
-                                <a href="https://docs.python.org/3/library/logging.html" target="_blank" title="Python Event Logging" aria-label="Python Event Logging">Python Event Logging</a>
-                            </li>
-                            <li>
-                                <a href="https://matplotlib.org/" target="_blank" title="Dashboard Visualization" aria-label="Dashboard Visualization">Dashboard Visualization</a>
-                            </li>
-                            <li>
-                                <a href="https://swagger.io" target="_blank" title="Swagger" aria-label="Swagger">Swagger</a>
-                            </li>
-                            <li>
-                                <a href="https://www.django-rest-framework.org/topics/browsable-api/" target="_blank" title="Browsable API" aria-label="Browsable API">Browsable API</a>
-                            </li>
-                            <li>
-                                <a href="https://django-debug-toolbar.readthedocs.io/en/latest/" target="_blank" title="Django Debug Toolbar" aria-label="Django Debug Toolbar">DjDT</a>
-                            </li>
-                            <li>
-                                <a href="https://www.postman.com/" target="_blank" title="Postman" aria-label="Postman">Postman</a>
-                            </li>
-                            <li>
-                                <a href="https://reqres.in/" target="_blank" title="ReqRes" aria-label="ReqRes">ReqRes</a>
-                            </li>
-                            <li>
-                                <a href="https://docs.python.org/3/library/pdb.html" target="_blank" title="The Python Debugger" aria-label="The Python Debugger">The Python Debugger (PDB)</a>
-                            </li>
-                        </ul>
-                    </div>
-
-                    <div class="skill-card main-card">
-                        <h3 class="skill-category">Design &amp; Productivity</h3>
-                        <ul class="skill-list">
-                            <!-- <li>Agile / Scrum</li>
-                            <li>Test-Driven Development</li>
-                            <li>Microservices Architecture</li>
-                            <li>System Design</li>
-                            <li>Performance Optimization</li> -->
-                            <li>
-                                <a href="https://www.adobe.com/products/photoshop.html" target="_blank" title="Adobe Photoshop" aria-label="Adobe Photoshop">Adobe Photoshop</a>
-                            </li>
-                            <li>
-                                <a href="https://www.adobe.com/products/illustrator.html" target="_blank" title="Adobe Illustrator" aria-label="Adobe Illustrator">Adobe Illustrator</a>
-                            </li>
-                            <li>
-                                <a href="https://www.adobe.com/products/dreamweaver.html" target="_blank" title="Adobe Dreamweaver" aria-label="Adobe Dreamweaver">Adobe Dreamweaver</a>
-                            </li>
-                            <li>
-                                <a href="https://www.microsoft.com/en/microsoft-365/products-apps-services" target="_blank" title="Microsoft Office Suite" aria-label="Microsoft Office Suite">Microsoft Office Suite</a>
-                            </li>
-                            <li>
-                                <a href="https://miro.com/" target="_blank" title="Miro" aria-label="Miro">Miro</a>
-                            </li>
-                            <li>
-                                <a href="https://www.figma.com/" target="_blank" title="Figma" aria-label="Figma">Figma</a>
-                            </li>
-                            <li>
-                                <a href="https://www.canva.com/" target="_blank" title="Canva" aria-label="Canva">Canva</a>
-                            </li>
-                            <li>
-                                <a href="https://gsap.com/" target="_blank" title="JavaScript Animation Library GSAP" aria-label="JavaScript Animation Library GSAP">GSAP</a>
-                            </li>
-                            <li>
-                                <a href="https://getbootstrap.com/" target="_blank" title="Bootstrap CSS" aria-label="Bootstrap CSS">Bootstrap</a>
-                            </li>
-                            <li>
-                                <a href="https://tailwindcss.com/" target="_blank" title="Tailwind CSS" aria-label="Tailwind CSS">Tailwind</a>
-                            </li>
-                            <li>
-                                <a href="https://fontawesome.com/" target="_blank" title="Font Awesome" aria-label="Font Awesome">Font Awesome</a>
-                            </li>
-                        </ul>
-                    </div>
+            <!-- Summary Section -->
+            <section id="summary" aria-labelledby="summary-title">
+                <div class="container">
+                    <h2 id="summary-title" class="section-title">Professional Summary</h2>
+                    <p>
+                        &emsp;Seasoned Senior Software Engineer with over 13 years in web development and over 7 years specializing in Django/Python. Proven record of accomplishment of assisting in the modernizing of large-scale systems, upgrading frameworks, and delivering high-impact solutions through RESTful API design, automated testing, and CI/CD best practices. Proficient in DataDog and Rollbar for production monitoring, with a history of improving code quality and reducing defects by implementing robust test frameworks. Recognized for publishing a 526-page Django/Python book with Packt Publishing and for leading cross-functional collaboration across engineering, product, and QA teams. Committed to writing clean, maintainable code that enhances performance, reliability, and business outcomes.
+                    </p>
                 </div>
-            </div>
-        </section>
+            </section>
 
-        <!-- Experience Section -->
-        <section id="experience" aria-labelledby="work-title">
-            <div class="container">
-                <h2 id="work-title" class="section-title">Work Experience</h2>
-
-                <div class="experience-timeline">
-                    <div class="experience-item">
-                        <h3 class="experience-title">Senior Software Engineer</h3>
-                        <p class="experience-company">Cart.com, Inc</p>
-                        <div class="logo">
-                            <img src="Images/Cart.jpg" role="img" aria-label="Cart.com, Inc Logo" alt="Cart.com, Inc Logo" />
+            <!-- Skills Section -->
+            <section id="skills" aria-labelledby="skills-title">
+                <div class="container">
+                    <h2 id="skills-title" class="section-title">Technical Skills/Core Competencies</h2>
+                    <div class="skills-grid">
+                        <div class="skill-card main-card" tabindex="0">
+                            <!-- <h3 class="skill-category">Example Card Title</h3> -->
+                            <ul class="skill-list">
+                                <li>Full-Stack Software Development</li>
+                                <li>RESTful API Architecture &amp; Integration</li>
+                                <li>Agile &amp; Scrum Workflows</li>
+                                <li>Test Driven Development (TDD)</li>
+                                <li>CI/CD Implementation</li>
+                            </ul>
                         </div>
-                        <p class="experience-date">
-                            <span class="left">Feb 2022 - Oct 2025</span>
-                            <span class="right">Remote</span>
-                        </p>
-                        <p class="experience-description">
-                            Overhauled a broken legacy test suite by implementing the Django Test Framework, creating more than 900 test cases that improved coverage to 40% and reduced post-release bugs by 30%. Assisted with a full migration of Django from version 1.x to 4.2 and Python to 3.13, improving code stability, performance, and security across multiple business-critical applications. Designed and integrated RESTful APIs to connect internal systems with third-party platforms, enhancing data accuracy and processing speed across departments using Django REST Framework and GraphQL. Includes building new feature requests and automating background celery tasks or updating queries as async celery tasks. Deployed DataDog and Rollbar for production monitoring, using structlog to build visual dashboards that accelerated debugging and performance insights.
-                        </p>
-                    </div>
 
-                    <div class="experience-item">
-                        <h3 class="experience-title">Author</h3>
-                        <p class="experience-company">Packt Publishing</p>
-                        <div class="logo">
-                            <img src="Images/Packt.png" role="img" aria-label="Packt Publishing Logo" alt="Packt Publishing Logo" />
+                        <div class="skill-card main-card" tabindex="0">
+                            <ul class="skill-list">
+                                <li>System Optimization &amp; Troubleshooting</li>
+                                <li>PostgreSQL, MSSQL, MySQL &amp; Wrote Raw SQL Queries</li>
+                                <li>Cross-Functional Collaboration</li>
+                                <li>Application/System Modernization</li>
+                                <li>Technical Documentation</li>
+                            </ul>
                         </div>
-                        <p class="experience-date">
-                            <span class="left">Dec 2020 - Jun 2022</span>
-                            <span class="right">Remote</span>
-                        </p>
-                        <p class="experience-description">
-                            Authored and had published "Becoming an Enterprise Django Developer", a 526-page guide with over 11 hours of tutorials that helped developers master enterprise-level Django practices. Created and maintained example repositories with production-ready code to illustrate advanced Django concepts and architectural patterns. Collaborated with Packt editors and engineers to align content with industry standards for secure, scalable Django applications. Delivered technical documentation and video explanations to guide readers through full-stack Django development workflows.
-                        </p>
-                    </div>
 
-                    <div class="experience-item">
-                        <h3 class="experience-title">Django/Python &amp; VB.NET Web Developer</h3>
-                        <p class="experience-company">
-                            Corcoran Pacific Properties<br /><em>(Elite Pacific Properties)</em>
-                        </p>
-                        <div class="logo">
-                            <img src="Images/CPP.png" role="img" aria-label="Corcoran Pacific Properties Logo" alt="Corcoran Pacific Properties Logo" />
-                        </div>
-                        <p class="experience-date">
-                            <span class="left">Aug 2019 - Feb 2022</span>
-                            <span class="right">Scottsdale, AZ</span>
-                        </p>
-                        <p class="experience-description">
-                            Built and deployed a complete Django CMS that streamlined content management for their real-estate listings. Rebuilt their old VB.NET system in Python/Django while maintaining their old VB.NET system until the new one was finished. Integrated XMPie print services into the company platform, automating custom marketing material generation and branding consistency. Collaborated with cross-functional teams to deliver responsive and accessible web interfaces that boosted client engagement. Authored detailed internal system documentation to help users and IT staff use the new system.
-                        </p>
-                    </div>
-
-                    <div class="experience-item">
-                        <h3 class="experience-title">Django/Python Web Developer</h3>
-                        <p class="experience-company">
-                            PayPal<br /><em>(via Insight Global)</em>
-                        </p>
-                        <div class="logo">
-                            <img src="Images/PayPal.png" role="img" aria-label="PayPal Logo" alt="PayPal Logo" />
-                        </div>
-                        <p class="experience-date">
-                            <span class="left">May 2019 - Jul 2020</span>
-                            <span class="right">Scottsdale, AZ</span>
-                        </p>
-                        <p class="experience-description">
-                            Developed internal dashboards and REST APIs that connected multiple tools for their Bug Bounty team to keep track of the life-cycle of incoming Bug Bounty tickets. Rebuilt their old PHP system in Python/Django. Automated repetitive processes using Celery, enabling faster execution of internal security operations and tool synchronization. Strengthened backend performance and reliability through optimized code structure and automated validation testing. Collaborated with QA and product teams to align backend development with security compliance and testing requirements.
-                        </p>
-                    </div>
-
-                    <div class="experience-item">
-                        <h3 class="experience-title">Django/Python Web Developer</h3>
-                        <p class="experience-company">Connect-IO, Inc</p>
-                        <div class="logo">
-                            <img src="Images/Connect-IO.jpg" role="img" aria-label="Connect-IO, Inc Logo" alt="Connect-IO, Inc Logo" />
-                        </div>
-                        <p class="experience-date">
-                            <span class="left">Mar 2018 - May 2019</span>
-                            <span class="right">Phoenix, AZ</span>
-                        </p>
-                        <p class="experience-description">
-                            Delivered customized Django/Python web solutions for clients across industries, enhancing uptime and overall system responsiveness. Conducted in-depth code and data analysis to identify bottlenecks and implemented performance optimization strategies. Coordinated with infrastructure teams to ensure compatibility between software builds and server configurations. Provided tailored solutions for platforms including WordPress, Shopify, and ASP.NET to meet client-specific performance goals.
-                        </p>
-                    </div>
-
-                    <div class="experience-item">
-                        <h3 class="experience-title">Senior Interactive Developer</h3>
-                        <p class="experience-company">PrizeLogic, Inc</p>
-                        <div class="logo">
-                            <img src="Images/PrizeLogic.jpg" role="img" aria-label="Prizelogic Logo" alt="Prizelogic Logo" />
-                        </div>
-                        <p class="experience-date">
-                            <span class="left">Jan 2014 - Feb 2018</span>
-                            <span class="right">Scottsdale, AZ</span>
-                        </p>
-                        <p class="experience-description">
-                            Produced high-traffic promotional websites for major brands like Disney and Pepsi, ensuring cross-browser and responsive performance using frontend technologies such as JavaScript, jQuery, Angular.js, React.js and GSAP. Improved project delivery speed by 20% through streamlined front-end development workflows and documentation standards. Collaborated with design and QA teams to achieve pixel-perfect, accessible user experiences across all client campaigns. Mentored junior developers on company standards and reusable code structures to maintain development consistency.
-                        </p>
-                    </div>
-
-                    <div class="experience-item">
-                        <h3 class="experience-title">Webmaster</h3>
-                        <p class="experience-company">Jetset Magazine</p>
-                        <div class="logo">
-                            <img src="Images/Jetset-Magazine.jpg" role="img" aria-label="Jetset Magazine Logo" alt="Jetset Magazine Logo" />
-                        </div>
-                        <p class="experience-date">
-                            <span class="left">Jan 2013 - Dec 2013</span>
-                            <span class="right">Scottsdale, AZ</span>
-                        </p>
-                        <p class="experience-description">
-                            Managed digital publication of print editions, optimizing SEO and site structure to boost online visibility and increase organic traffic by 20%. Developed dynamic advertising and landing pages using PHP and JavaScript, improving client campaign conversions by 15% through targeted design by working with in-house graphic designers to implement their work on the web. Implemented responsive WordPress templates, enhancing mobile performance and reducing bounce rates across devices by 20%. Coordinated with editors to publish timely content updates, maintaining 100% accuracy and consistency between digital and print editions.
-                        </p>
-                    </div>
-
-                    <div class="experience-item">
-                        <h3 class="experience-title">Junior Web Developer</h3>
-                        <p class="experience-company">
-                            Mission e-Commerce Small Business<br /><em>(MECSB)</em>
-                        </p>
-                        <p class="experience-date">
-                            <span class="left">Mar 2010 - May 2011</span>
-                            <span class="right">Scottsdale, AZ</span>
-                        </p>
-                        <p class="experience-description">
-                            Designed and implemented interactive websites using HTML, CSS, and JavaScript, improving client engagement and reducing bounce rate by 20% through intuitive layouts. Created high-fidelity Photoshop mockups and prototypes to visualize project goals, achieving 100% client approval on design presentations before development. Assisted in backend maintenance and performed cross-platform testing, increasing compatibility and load consistency across 5+ major browsers. Collaborated with senior developers to apply UX and responsive design principles to build the information websites that clients approved of my very own design mockups.
-                        </p>
-                    </div>
-
-                    <div class="experience-item">
-                        <h3 class="experience-title">Private First Class - E2</h3>
-                        <p class="experience-company">
-                            United States Marine Corps<br /><em>USMC</em>
-                        </p>
-                        <div class="logo">
-                            <img src="Images/USMC.png" role="img" aria-label="United States Marine Corps Logo" alt="United States Marine Corps Logo" />
-                        </div>
-                        <p class="experience-date">
-                            <span class="left">2005</span>
-                            <span class="right">Camp Pendleton, CA</span>
-                        </p>
-                        <p class="experience-description">
-                            I did not go very far due to suffering two separate injuries and I was medically discharged as a result of those injuries. But I did learn a lot about Leadership, Team Work, Communication and its utmost importance not just on the battlefield but in the civilian sector as well. Attention to detail is also high on my the list of things that I gained from this training. Semper Fi!
-                        </p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Education Section -->
-        <section id="education" aria-labelledby="school-title">
-            <div class="container">
-                <h2 id="school-title" class="section-title">Education</h2>
-                <div class="education-grid">
-                    <div class="education-card">
-                        <h3 class="education-degree">Bachelor of Science in Information Technology</h3>
-                        <h4>For Software Systems Engineering</h4>
-                        <p class="education-school">Colorado Technical University - Online</p>
-                        <p class="education-date">2009 - 2011</p>
-                    </div>
-
-                    <div class="education-card">
-                        <h3 class="education-degree">Associate of Science in Information Technology</h3>
-                        <p class="education-school">Colorado Technical University - Online</p>
-                        <p class="education-date">2007 - 2009</p>
-                    </div>
-
-                    <div class="education-card">
-                        <h3 class="education-degree">Python Practice Test - For Practice Exams</h3>
-                        <p class="education-school">
-                            <a href="https://www.udemy.com/" target="_blank" title="Udemy Online Courses" aria-label="Udemy Online Courses">Udemy</a>
-                        </p>
-                        <p class="education-date">2022</p>
-                        <a href="https://www.udemy.com/course/python-pcep-certification-preparation-practice-tests" class="tech-tag" title="View Udemy Course, Python Practice Test - For Practice Exams" aria-label="View Udemy Course, Python Practice Test - For Practice Exams">View Course</a>
-                    </div>
-
-                    <div class="education-card">
-                        <h3 class="education-degree">DevOps Micro-Internship: Docker, K8s, Cloud + 4 Projects</h3>
-                        <p class="education-school">
-                            <a href="https://www.udemy.com/" target="_blank" title="Udemy Online Courses" aria-label="Udemy Online Courses">Udemy</a>
-                        </p>
-                        <p class="education-date">Currently Enrolled</p>
-                        <a href="https://www.udemy.com/course/devops-for-beginners-docker-k8s-cloud-cicd-4-projects/" class="tech-tag" title="View Udemy Course, DevOps Micro-Internship: Docker, K8s, Cloud + 4 Projects" aria-label="View Udemy Course, DevOps Micro-Internship: Docker, K8s, Cloud + 4 Projects">View Course</a>
-                    </div>
-
-                    <div class="education-card">
-                        <h3 class="education-degree">Ultimate AWS Certified Developer Associate 2026 DVA-C02</h3>
-                        <p class="education-school">
-                            <a href="https://www.udemy.com/" target="_blank" title="Udemy Online Courses" aria-label="Udemy Online Courses">Udemy</a>
-                        </p>
-                        <p class="education-date">Currently Enrolled</p>
-                        <a href="https://www.udemy.com/course/aws-certified-developer-associate-dva-c01" class="tech-tag" title="View Udemy Course, Ultimate AWS Certified Developer Associate 2026 DVA-C02" aria-label="View Udemy Course, Ultimate AWS Certified Developer Associate 2026 DVA-C02">View Course</a>
-                    </div>
-
-                    <div class="education-card">
-                        <h3 class="education-degree">Ultimate React JS Course: Build 15 Web Projects with React</h3>
-                        <p class="education-school">
-                            <a href="https://www.udemy.com/" target="_blank" title="Udemy Online Courses" aria-label="Udemy Online Courses">Udemy</a>
-                        </p>
-                        <p class="education-date">Currently Enrolled</p>
-                        <a href="https://www.udemy.com/course/ultimate-react-js-course-build-15-web-projects-with-react" class="tech-tag" title="View Udemy Course, Ultimate React JS Course: Build 15 Web Projects with React" aria-label="View Udemy Course, Ultimate React JS Course: Build 15 Web Projects with React">View Course</a>
-                    </div>
-
-                    <div class="education-card">
-                        <h3 class="education-degree">Complete Data Science, Machine Learning, DL, NLP Bootcamp</h3>
-                        <p class="education-school">
-                            <a href="https://www.udemy.com/" target="_blank" title="Udemy Online Courses" aria-label="Udemy Online Courses">Udemy</a>
-                        </p>
-                        <p class="education-date">Currently Enrolled</p>
-                        <a href="https://www.udemy.com/course/complete-machine-learning-nlp-bootcamp-mlops-deployment" class="tech-tag" title="View Udemy Course, Complete Data Science, Machine Learning, DL, NLP Bootcamp" aria-label="View Udemy Course, Complete Data Science, Machine Learning, DL, NLP Bootcamp">View Course</a>
-                    </div>
-
-                    <div class="education-card">
-                        <h3 class="education-degree">A Deep Understanding of AI Large Language Model Mechanisms</h3>
-                        <p class="education-school">
-                            <a href="https://www.udemy.com/" target="_blank" title="Udemy Online Courses" aria-label="Udemy Online Courses">Udemy</a>
-                        </p>
-                        <p class="education-date">Currently Enrolled</p>
-                        <a href="https://www.udemy.com/course/dullms_x/" class="tech-tag" title="View Udemy Course, A deep understanding of AI large language model mechanisms" aria-label="View Udemy Course, A deep understanding of AI large language model mechanisms">View Course</a>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Certifications Section -->
-        <section id="certifications" aria-labelledby="cert-title">
-            <div class="container">
-                <h2 id="cert-title" class="section-title">Certifications</h2>
-                <div class="skills-grid">
-                    <div class="skill-card cert-card">
-                        <ul class="skill-list cert-list">
-                            <li>
-                                <span class="left">XMPie – Personal Effect Suite Training (Employer Provided)</span>
-                                <span class="right">2019</span>
-                            </li>
-                            <li>
-                                <span class="left">Object Oriented Methods (CTU)</span>
-                                <span class="right">2010</span>
-                            </li>
-                            <li>
-                                <span class="left">Computer Network Telecommunications (CTU)</span>
-                                <span class="right">2010</span>
-                            </li>
-                            <li>
-                                <span class="left">Server Java Programming (CTU)</span>
-                                <span class="right">2010</span>
-                            </li>
-                            <li>
-                                <span class="left">Client Java Programming (CTU)</span>
-                                <span class="right">2009</span>
-                            </li>
-                            <li>
-                                <span class="left">CompTIA Network+ Fundamentals (CTU)</span>
-                                <span class="right">2008</span>
-                            </li>
-                            <li>
-                                <span class="left">Unix Network Administration (CTU)</span>
-                                <span class="right">2008</span>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Clients Section -->
-        <section id="clients" aria-labelledby="client-title">
-            <div class="container">
-                <h2 id="client-title" class="section-title">Clients &amp; Notable Work</h2>
-                <div class="skills-grid">
-                    <div class="skill-card client-card">
-                        <h3 class="skill-category">Corporate &amp; Enterprise Clients</h3>
-                        <ul class="skill-list">
-                            <li>20th Century Fox</li>
-                            <li>Amazon</li>
-                            <li>American Express</li>
-                            <li>Aston Martin</li>
-                            <li>BabyBel</li>
-                            <li>Beam Suntory</li>
-                            <li>Bentley</li>
-                            <li>Blue Moon</li>
-                            <li>Capital One</li>
-                            <li>Disney</li>
-                            <li>eBay</li>
-                            <li>Frito Lay</li>
-                            <li>Gatorade</li>
-                            <li>Goodwill</li>
-                            <li>Gucci</li>
-                            <li>Hershey's</li>
-                            <li>Lipton</li>
-                            <li>McDonald's</li>
-                            <li>Pepsi</li>
-                            <li>Reese's</li>
-                            <li>Rolls Royce</li>
-                            <li>Starbucks</li>
-                            <li>T-Mobile</li>
-                            <li>Target</li>
-                            <li>Tyson</li>
-                            <li>United Airlines</li>
-                            <li>Victoria's Secret</li>
-                        </ul>
-                    </div>
-                    <div class="skill-card client-card">
-                        <h3 class="skill-category">Agency &amp; Professional Partnerships</h3>
-                        <ul class="skill-list">
-                            <li>602ABCWater</li>
-                            <li>Bradley Wealth Management</li>
-                            <li>Food Lion</li>
-                            <li>Insight Global</li>
-                            <li>Keystone Lite</li>
-                            <li>Mars Agency</li>
-                            <li>Mindi Meade Photography</li>
-                            <li>MovePHX</li>
-                            <li>Pinnacle Vodka</li>
-                            <li>Poster My Print</li>
-                            <li>Samsung</li>
-                            <li>Temp Control AZ</li>
-                            <li>Tequila Patrón</li>
-                            <li>The Marketing Store</li>
-                            <li>The Martz Agency</li>
-                            <li>Tracy Locke</li>
-                        </ul>
-                    </div>
-                </div>
-                <p>
-                    <br />
-                    <em>Note: The clients and projects listed represent organizations I contributed work for through various employers and contract engagements. These ARE NOT direct employment roles with these clients. Please refer to my Work Experience section for the actual employers that I have worked for and where I have engaged in projects supporting these clients.</em>
-                </p>
-            </div>
-        </section>
-
-        <!-- Publications Section -->
-        <section id="publications" aria-labelledby="pub-title">
-            <div class="container">
-                <h2 id="pub-title" class="section-title">Publications</h2>
-                <div class="projects-grid">
-                    <div class="project-card">
-                        <h3 class="project-title">
-                            <a href="https://www.packtpub.com/en-us/product/becoming-an-enterprise-django-developer-9781801073639" target="_blank" title="Purchase a copy from Packt Publishing" aria-label="Purchase a copy from Packt Publishing">Becoming an Enterprise Django Developer</a>
-                        </h3>
-                        <p class="pub-description">
-                            Discover best practices, tooling, and solutions for writing and organizing Django applications in production
-                        </p>
-                        <h6>ISBN-13: <em>978-1801073639</em>, <em>526 Pages</em></h6>
-                        <h4>Key Features</h4>
-                        <ul>
-                            <li>Expert tips to help you use the right packages, tools, and libraries and understand their scope for your project</li>
-                            <li>Gain a thorough understanding of the essential components that comprise a large-scale Python web app</li>
-                            <li>Learn best practices for creating a project structure for better performance</li>
-                        </ul>
-                        <h4>Book Description</h4>
-                        <p class="pub-description">
-                            &emsp;Django is a powerful framework but choosing the right add-ons that match the scale and scope of your enterprise projects can be tricky. This book will help you explore the multifarious options available for enterprise Django development. Countless organizations are already using Django and more migrating to it, unleashing the power of Python with many different packages and dependencies, including AI technologies.
-                            <br /><br />
-                            &emsp;This practical guide will help you understand practices, blueprints, and design decisions to put Django to work the way you want it to. You'll learn various ways in which data can be rendered onto a page and discover the power of Django for large-scale production applications. Starting with the basics of getting an enterprise project up and running, you'll get to grips with maintaining the project throughout its lifecycle while learning what the Django application lifecycle is.
-                            <br /><br />
-                            &emsp;By the end of this book, you'll have learned how to build and deploy a Django project to the web and implement various components into the site.
-                        </p>
-                        <h4>What You Will Learn</h4>
-                        <ul>
-                            <li>Use Django to develop enterprise-level apps to help scale your business</li>
-                            <li>Understand the steps and tools used to scale up a proof-of-concept project to production without going too deep into specific technologies</li>
-                            <li>Explore core Django components and how to use them in different ways to suit your app's needs</li>
-                            <li>Find out how Django allows you to build RESTful APIs</li>
-                            <li>Extract, parse, and migrate data from an old database system to a new system with Django and Python</li>
-                            <li>Write and run a test using the built-in testing tools in Django</li>
-                            
-                        </ul>
-                        <h4>Who This Book is For</h4>
-                        <p class="pub-description">
-                            &emsp;This book is for Django developers who want to learn the full-stack enterprise app development lifecycle. If you are a Python web developer looking to learn how to maintain a production website and explore Django beyond the basics, this book is for you.
-                            <br /><br />
-                            &emsp;The book assumes intermediate-level knowledge of Python programming and the Django framework.
-                        </p>
-                        <h4>Table of Contents</h4>
-                        <ol>
-                            <li>Undertaking a Colossal Project</li>
-                            <li>Project Configuration</li>
-                            <li>Models, Relations, and Inheritance</li>
-                            <li>URLs, Views, and Templates</li>
-                            <li>Django Forms</li>
-                            <li>Exploring the Django Admin Site</li>
-                            <li>Working with Messages, Email Notifications, and PDF Reports</li>
-                            <li>Working with the Django REST Framework</li>
-                            <li>Django Testing</li>
-                            <li>Database Management</li>
-                        </ol>
-                        <h4>Code in Action</h4>
-                        <div class="project-tech">
-                            <a href="https://www.youtube.com/playlist?list=PLeLcvrwLe184Ws5cDLqQc1DxvuENJKlvf" class="tech-tag" target="_blank" title="View Tutorial Videos on YouTube" aria-label="View Tutorial Videos on YouTube">YouTube</a>
-                            <a href="https://github.com/PacktPublishing/Becoming-an-Enterprise-Django-Developer" class="tech-tag" target="_blank" title="View public code that accompanies this book" aria-label="View public code that accompanies this book">GitHub</a>
-                        </div>
-                        <h4>Purchase A Copy Today</h4>
-                        <div class="project-tech">
-                            <a href="https://www.packtpub.com/en-us/product/becoming-an-enterprise-django-developer-9781801073639" class="tech-tag" target="_blank" title="Purchase a copy from Packt Publishing" aria-label="Purchase a copy from Packt Publishing">Packt Publishing</a>
-                            <a href="https://www.amazon.com/Becoming-Enterprise-Django-Developer-applications/dp/1801073635" class="tech-tag" target="_blank" title="Purchase a copy from Amazon" aria-label="Purchase a copy from Amazon">Amazon</a>
-                            <a href="https://booksrun.com/9781801073639-becoming-an-enterprise-django-developer-discover-best-practices-tooling-and-solutions-for-writing-and-organizing-django-applications-in-production" class="tech-tag" target="_blank" title="Purchase a copy from BooksRun" aria-label="Purchase a copy from BooksRun">BooksRun</a>
-                            <a href="https://www.walmart.com/ip/Becoming-an-Enterprise-Django-Developer-Discover-best-practices-tooling-and-solutions-for-writing-and-organizing-Djan-Paperback-9781801073639/1787521540" class="tech-tag" target="_blank" title="Purchase a copy from Walmart" aria-label="Purchase a copy from Walmart">Walmart</a>
-                            <a href="https://www.betterworldbooks.com/product/detail/becoming-an-enterprise-django-developer-discover-best-practices-tooling-and-solutions-for-writing-an-9781801073639?shipto=US&curcode=USD&utm_source=google&utm_medium=cpc&utm_campaign=Shopping-New-USA&utm_content=186849722375&utm_term=&creative=777596326024" class="tech-tag" target="_blank" title="Purchase a copy from Better World Books" aria-label="Purchase a copy from Better World Books">Better World Books</a>
-                            <a href="https://www.thriftbooks.com/w/becoming-an-enterprise-django-developer-discover-best-practices-tooling-and-solutions-for-writing-and-organizing-django-applications-in-production/37174575/item/53651704/" class="tech-tag" target="_blank" title="Purchase a copy from Thrift Books" aria-label="Purchase a copy from Thrift Books">Thrift Books</a>
-                            <a href="https://www.worldofbooks.com/products/becoming-an-enterprise-django-developer-book-michael-dinder-9781801073639?sku=NIN9781801073639" class="tech-tag" target="_blank" title="Purchase a copy from World of Books" aria-label="Purchase a copy from World of Books">World of Books</a>
-                            <!-- <a href="" class="tech-tag" target="_blank" title="Purchase a copy from " aria-label="Purchase a copy from "></a> -->
+                        <div class="skill-card main-card" tabindex="0">
+                            <ul class="skill-list">
+                                <li>Scalable Software Architecture</li>
+                                <li>Code Reviews</li>
+                                <li>Heroku: Cloud-based Containerized Platform as a Service (PaaS)</li>
+                                <li>NGINX Server Configuration</li>
+                                <li>AWS EC2 &amp; other Hosting Services. Still new to this one.</li>
+                            </ul>
                         </div>
                     </div>
                 </div>
-            </div>
-        </section>
+            </section>
 
-        <!-- Projects Section -->
-        <section id="projects" aria-labelledby="projects-title">
-            <div class="container">
-                <h2 id="projects-title" class="section-title">Featured Projects</h2>
-                <div class="projects-grid">
-                    <div class="project-card">
-                        <h3 class="project-title">AI Templates</h3>
-                        <p class="project-description">
-                            A collection of HTML templates created using Generative AI and the Prompt's used to create them. This project is only to demonstrate my ability to use Prompts in AI tools to generate code that can be used in a real-world scenario.
-                        </p>
-                        <div class="project-tech">
-                            <a href="AI/AI-Project.html" class="tech-tag" title="Artificial intelligence Project" aria-label="Artificial intelligence Project">AI Project</a>
+            <!-- Tools Section -->
+            <section id="tools" aria-labelledby="tools-title">
+                <div class="container">
+                    <h2 id="tools-title" class="section-title">Tools &amp; Platforms</h2>
+                    <div class="skills-grid">
+                        <div class="skill-card main-card" tabindex="0">
+                            <h3 class="skill-category">Development &amp; Deployment</h3>
+                            <ul class="skill-list">
+                                <!-- <li>React.js / Next.js</li>
+                                <li>JavaScript / TypeScript</li>
+                                <li>HTML5 / CSS3 / SASS</li>
+                                <li>Tailwind CSS / Bootstrap</li>
+                                <li>Redux / Context API</li> -->
+                                <li>
+                                    <a href="https://www.docker.com/" target="_blank" title="Docker Containerization" aria-label="Docker Containerization">Docker Containerization</a>
+                                </li>
+                                <li>
+                                    <a href="https://kubernetes.io/" target="_blank" title="Kubernetes Containerization Management" aria-label="Kubernetes Containerization Management">Kubernetes</a>
+                                </li>
+                                <li>
+                                    <a href="https://www.heroku.com/" target="_blank" title="Heroku Hosting and Deployment" aria-label="Heroku Hosting and Deployment">Heroku</a>
+                                </li>
+                                <li>
+                                    <a href="https://code.visualstudio.com/" target="_blank" title="Visual Studio Code" aria-label="Visual Studio Code">Visual Studio Code</a>
+                                </li>
+                                <li>
+                                    <a href="https://visualstudio.microsoft.com/vs/community/" target="_blank" title="Visual Studio - Community Edition" aria-label="Visual Studio - Community Edition">Visual Studio - Community Edition</a>
+                                </li>
+                                <li>
+                                    <a href="https://learn.microsoft.com/en-us/powershell/" target="_blank" title="PowerShell" aria-label="PowerShell">PowerShell</a>
+                                </li>
+                                <li>
+                                    <a href="https://www.jetbrains.com/pycharm/" target="_blank" title="PyCharm" aria-label="PyCharm">PyCharm</a>
+                                </li>
+                                <li>
+                                    <a href="https://www.npmjs.com/" target="_blank" title="Node Package Manager" aria-label="Node Package Manager">Node Package Manager (NPM)</a>
+                                </li>
+                                <li>
+                                    <a href="https://webpack.js.org/" target="_blank" title="Webpack" aria-label="Webpack">Webpack</a>
+                                </li>
+                                <li>
+                                    <a href="https://gulpjs.com/" target="_blank" title="Gulp" aria-label="Gulp">Gulp</a>
+                                </li>
+                            </ul>
                         </div>
-                    </div>
-                    <div class="project-card">
-                        <h3 class="project-title">Python</h3>
-                        <p class="project-description">
-                            A collection of Python Scripts that are not related to Django to demonstrate my abilities to work with plain Python libraries.
-                        </p>
-                        <div class="project-tech">
-                            <a href="https://python.mikedinder.com" class="tech-tag" title="Python Project" aria-label="Python Project">Python Project</a>
+
+                        <div class="skill-card main-card" tabindex="0">
+                            <h3 class="skill-category">Version Control &amp; Collaboration</h3>
+                            <ul class="skill-list">
+                                <!-- <li>Node.js / Express</li>
+                                <li>Python / Django / Flask</li>
+                                <li>RESTful APIs / GraphQL</li>
+                                <li>PostgreSQL / MongoDB</li>
+                                <li>Redis / ElasticSearch</li> -->
+                                <li>
+                                    <a href="https://git-scm.com/" target="_blank" title="Git" aria-label="Git">Git</a>
+                                </li>
+                                <li>
+                                    <a href="https://github.com/" target="_blank" title="GitHub" aria-label="GitHub">GitHub</a>
+                                </li>
+                                <li>
+                                    <a href="https://about.gitlab.com/" target="_blank" title="GitLab" aria-label="GitLab">GitLab</a>
+                                </li>
+                                <li>
+                                    <a href="https://bitbucket.org/" target="_blank" title="BitBucket" aria-label="BitBucket">BitBucket</a>
+                                </li>
+                                <li>
+                                    <a href="https://www.atlassian.com/software/jira" target="_blank" title="Jira" aria-label="Jira">Jira</a>
+                                </li>
+                                <li>
+                                    <a href="https://monday.com/" target="_blank" title="Monday.com" aria-label="Monday.com">Monday.com</a>
+                                </li>
+                                <li>
+                                    <a href="https://copilot.microsoft.com/" target="_blank" title="Microsoft CoPilot" aria-label="Microsoft CoPilot">CoPilot</a>
+                                </li>
+                                <li>
+                                    <a href="https://claude.ai/" target="_blank" title="Claude-AI" aria-label="Claude-AI">Claude-AI</a>
+                                </li>
+                                <li>
+                                    <a href="https://chatgpt.com/" target="_blank" title="ChatGPT" aria-label="ChatGPT">ChatGPT</a>
+                                </li>
+                                <li>
+                                    <a href="https://slack.com/" target="_blank" title="Slack" aria-label="Slack">Slack</a>
+                                </li>
+                                <li>
+                                    <a href="https://www.zendesk.com/lp/brand/" target="_blank" title="Zendesk" aria-label="Zendesk">Zendesk</a>
+                                </li>
+                            </ul>
                         </div>
-                    </div>
-                    <div class="project-card">
-                        <h3 class="project-title">Django</h3>
-                        <p class="project-description">
-                            A mock project that demonstrates my ability to spin up a Django project on my own web server and display capabilities like form submission, E-mail Sending, REST API requests, PostgreSQL Database and Django Models, File Upload and more...
-                        </p>
-                        <div class="project-tech">
-                            <a href="https://django.mikedinder.com" class="tech-tag" title="Django Project" aria-label="Django Project">Django Project</a>
+
+                        <div class="skill-card main-card" tabindex="0">
+                            <h3 class="skill-category">Monitoring &amp; Debug</h3>
+                            <ul class="skill-list">
+                                <!-- <li>Docker / Kubernetes</li>
+                                <li>AWS / Azure / GCP</li>
+                                <li>CI/CD Pipelines</li>
+                                <li>Git / GitHub / GitLab</li>
+                                <li>Linux / Bash Scripting</li> -->
+                                <li>
+                                    <a href="https://www.datadoghq.com" target="_blank" title="DataDog" aria-label="DataDog">DataDog</a>
+                                </li>
+                                <li>
+                                    <a href="https://rollbar.com/" target="_blank" title="Rollbar" aria-label="Rollbar">Rollbar</a>
+                                </li>
+                                <li>
+                                    <a href="https://docs.python.org/3/library/logging.html" target="_blank" title="Python Event Logging" aria-label="Python Event Logging">Python Event Logging</a>
+                                </li>
+                                <li>
+                                    <a href="https://matplotlib.org/" target="_blank" title="Dashboard Visualization" aria-label="Dashboard Visualization">Dashboard Visualization</a>
+                                </li>
+                                <li>
+                                    <a href="https://swagger.io" target="_blank" title="Swagger" aria-label="Swagger">Swagger</a>
+                                </li>
+                                <li>
+                                    <a href="https://www.django-rest-framework.org/topics/browsable-api/" target="_blank" title="Browsable API" aria-label="Browsable API">Browsable API</a>
+                                </li>
+                                <li>
+                                    <a href="https://django-debug-toolbar.readthedocs.io/en/latest/" target="_blank" title="Django Debug Toolbar" aria-label="Django Debug Toolbar">DjDT</a>
+                                </li>
+                                <li>
+                                    <a href="https://www.postman.com/" target="_blank" title="Postman" aria-label="Postman">Postman</a>
+                                </li>
+                                <li>
+                                    <a href="https://reqres.in/" target="_blank" title="ReqRes" aria-label="ReqRes">ReqRes</a>
+                                </li>
+                                <li>
+                                    <a href="https://docs.python.org/3/library/pdb.html" target="_blank" title="The Python Debugger" aria-label="The Python Debugger">The Python Debugger (PDB)</a>
+                                </li>
+                            </ul>
                         </div>
-                    </div>
-                    <div class="project-card">
-                        <h3 class="project-title">Angular.js</h3>
-                        <p class="project-description">
-                            A mock project that demonstrates my ability to spin up an Angular.js project and display various REST API requests. This project works in conjunction with a stripped down Django project to also display how Django can be used with various front-end frameworks.
-                        </p>
-                        <div class="project-tech">
-                            <a href="https://angular.mikedinder.com" class="tech-tag" title="Angular.js Project" aria-label="Angular.js Project">Angular.js Project</a>
-                        </div>
-                    </div>
-                    <div class="project-card">
-                        <h3 class="project-title">React.js</h3>
-                        <p class="project-description">
-                            A mock project that demonstrates my ability to spin up an React.js project and display various REST API requests. This project works in conjunction with a stripped down Django project to also display how Django can be used with various front-end frameworks.
-                        </p>
-                        <div class="project-tech">
-                            <a href="https://react.mikedinder.com" class="tech-tag" title="React.js Project" aria-label="React.js Project">React.js Project</a>
-                        </div>
-                    </div>
-                    <div class="project-card">
-                        <h3 class="project-title">Vue.js</h3>
-                        <p class="project-description">
-                            A mock project that demonstrates my ability to spin up an Vue.js project and display various REST API requests. This project works in conjunction with a stripped down Django project to also display how Django can be used with various front-end frameworks.
-                        </p>
-                        <div class="project-tech">
-                            <a href="https://vue.mikedinder.com" class="tech-tag" title="Vue.js Project" aria-label="Vue.js Project">Vue.js Project</a>
-                        </div>
-                    </div>
-                    <div class="project-card">
-                        <h3 class="project-title">FastAPI</h3>
-                        <p class="project-description">
-                            A mock project that demonstrates my ability to spin up an FastAPI project and display various REST API requests.
-                        </p>
-                        <div class="project-tech">
-                            <a href="https://fastapi.mikedinder.com" class="tech-tag" title="FastAPI Project" aria-label="FastAPI Project">FastAPI Project</a>
-                        </div>
-                    </div>
-                    <div class="project-card">
-                        <h3 class="project-title">Flask</h3>
-                        <p class="project-description">
-                            A mock project that demonstrates my ability to spin up an Flask project and display various REST API requests.
-                        </p>
-                        <div class="project-tech">
-                            <a href="https://flask.mikedinder.com" class="tech-tag" title="Flask Project" aria-label="Flask Project">Flask Project</a>
-                        </div>
-                    </div>
-                    <div class="project-card">
-                        <h3 class="project-title">Development Environment</h3>
-                        <p class="project-description">
-                            A mock project that demonstrates my ability to wire up a CI/CD Pipeline for a Development Environment with GitHub and AWS EC2 Instances.
-                        </p>
-                        <div class="project-tech">
-                            <a href="https://dev.mikedinder.com" class="tech-tag" title="Development Environment Project" aria-label="Development Environment Project">Dev Environment Project</a>
-                        </div>
-                    </div>
-                    <div class="project-card">
-                        <h3 class="project-title">Staging</h3>
-                        <p class="project-description">
-                            A mock project that demonstrates my ability to wire up a CI/CD Pipeline for a Staging Environment with GitHub and AWS EC2 Instances.
-                        </p>
-                        <div class="project-tech">
-                            <a href="https://staging.mikedinder.com" class="tech-tag" title="Staging Environment Project" aria-label="Staging Environment Project">Staging Environment Project</a>
+
+                        <div class="skill-card main-card" tabindex="0">
+                            <h3 class="skill-category">Design &amp; Productivity</h3>
+                            <ul class="skill-list">
+                                <!-- <li>Agile / Scrum</li>
+                                <li>Test-Driven Development</li>
+                                <li>Microservices Architecture</li>
+                                <li>System Design</li>
+                                <li>Performance Optimization</li> -->
+                                <li>
+                                    <a href="https://www.adobe.com/products/photoshop.html" target="_blank" title="Adobe Photoshop" aria-label="Adobe Photoshop">Adobe Photoshop</a>
+                                </li>
+                                <li>
+                                    <a href="https://www.adobe.com/products/illustrator.html" target="_blank" title="Adobe Illustrator" aria-label="Adobe Illustrator">Adobe Illustrator</a>
+                                </li>
+                                <li>
+                                    <a href="https://www.adobe.com/products/dreamweaver.html" target="_blank" title="Adobe Dreamweaver" aria-label="Adobe Dreamweaver">Adobe Dreamweaver</a>
+                                </li>
+                                <li>
+                                    <a href="https://www.microsoft.com/en/microsoft-365/products-apps-services" target="_blank" title="Microsoft Office Suite" aria-label="Microsoft Office Suite">Microsoft Office Suite</a>
+                                </li>
+                                <li>
+                                    <a href="https://miro.com/" target="_blank" title="Miro" aria-label="Miro">Miro</a>
+                                </li>
+                                <li>
+                                    <a href="https://www.figma.com/" target="_blank" title="Figma" aria-label="Figma">Figma</a>
+                                </li>
+                                <li>
+                                    <a href="https://www.canva.com/" target="_blank" title="Canva" aria-label="Canva">Canva</a>
+                                </li>
+                                <li>
+                                    <a href="https://gsap.com/" target="_blank" title="JavaScript Animation Library GSAP" aria-label="JavaScript Animation Library GSAP">GSAP</a>
+                                </li>
+                                <li>
+                                    <a href="https://getbootstrap.com/" target="_blank" title="Bootstrap CSS" aria-label="Bootstrap CSS">Bootstrap</a>
+                                </li>
+                                <li>
+                                    <a href="https://tailwindcss.com/" target="_blank" title="Tailwind CSS" aria-label="Tailwind CSS">Tailwind</a>
+                                </li>
+                                <li>
+                                    <a href="https://fontawesome.com/" target="_blank" title="Font Awesome" aria-label="Font Awesome">Font Awesome</a>
+                                </li>
+                            </ul>
                         </div>
                     </div>
                 </div>
-            </div>
-        </section>
+            </section>
 
-        <!-- Footer -->
-        <footer id="contact">
-            <div class="container">
-                <div class="social-links">
-                    <a href="https://www.linkedin.com/in/mikedinder/" target="_blank" class="social-link" title="LinkedIn" aria-label="LinkedIn"><i class="fa-brands fa-linkedin"></i></a>
-                    <a href="https://github.com/dindermike" target="_blank" class="social-link" title="GitHub" aria-label="GitHub"><i class="fa-brands fa-github"></i></a>
-                    <a href="mailto:dindermike@hotmail.com" target="_blank" class="social-link" title="Primary Email" aria-label="Primary Email"><i class="fa-solid fa-envelope"></i></a>
-                    <a href="mailto:mike@mikedinder.com" target="_blank" class="social-link" title="Secondary Email" aria-label="Secondary Email"><i class="fa-solid fa-envelope"></i></a>
+            <!-- Experience Section -->
+            <section id="experience" aria-labelledby="work-title">
+                <div class="container">
+                    <h2 id="work-title" class="section-title">Work Experience</h2>
+
+                    <div class="experience-timeline">
+                        <div id="experience-1" class="experience-item" tabindex="0">
+                            <h3 class="experience-title">Senior Software Engineer</h3>
+                            <p class="experience-company">Cart.com, Inc</p>
+                            <div class="logo">
+                                <img src="Images/Cart.jpg" role="img" aria-label="Cart.com, Inc Logo" alt="Cart.com, Inc Logo" />
+                            </div>
+                            <p class="experience-date">
+                                <span class="left">Feb 2022 - Oct 2025</span>
+                                <span class="right">Remote</span>
+                            </p>
+                            <p class="experience-description">
+                                Overhauled a broken legacy test suite by implementing the Django Test Framework, creating more than 900 test cases that improved coverage to 40% and reduced post-release bugs by 30%. Assisted with a full migration of Django from version 1.x to 4.2 and Python to 3.13, improving code stability, performance, and security across multiple business-critical applications. Designed and integrated RESTful APIs to connect internal systems with third-party platforms, enhancing data accuracy and processing speed across departments using Django REST Framework and GraphQL. Includes building new feature requests and automating background celery tasks or updating queries as async celery tasks. Deployed DataDog and Rollbar for production monitoring, using structlog to build visual dashboards that accelerated debugging and performance insights.
+                            </p>
+                        </div>
+
+                        <div id="experience-2" class="experience-item" tabindex="0">
+                            <h3 class="experience-title">Author</h3>
+                            <p class="experience-company">Packt Publishing</p>
+                            <div class="logo">
+                                <img src="Images/Packt.png" role="img" aria-label="Packt Publishing Logo" alt="Packt Publishing Logo" />
+                            </div>
+                            <p class="experience-date">
+                                <span class="left">Dec 2020 - Jun 2022</span>
+                                <span class="right">Remote</span>
+                            </p>
+                            <p class="experience-description">
+                                Authored and had published "Becoming an Enterprise Django Developer", a 526-page guide with over 11 hours of tutorials that helped developers master enterprise-level Django practices. Created and maintained example repositories with production-ready code to illustrate advanced Django concepts and architectural patterns. Collaborated with Packt editors and engineers to align content with industry standards for secure, scalable Django applications. Delivered technical documentation and video explanations to guide readers through full-stack Django development workflows.
+                            </p>
+                        </div>
+
+                        <div id="experience-3" class="experience-item" tabindex="0">
+                            <h3 class="experience-title">Django/Python &amp; VB.NET Web Developer</h3>
+                            <p class="experience-company">
+                                Corcoran Pacific Properties<br /><em>(Elite Pacific Properties)</em>
+                            </p>
+                            <div class="logo">
+                                <img src="Images/CPP.png" role="img" aria-label="Corcoran Pacific Properties Logo" alt="Corcoran Pacific Properties Logo" />
+                            </div>
+                            <p class="experience-date">
+                                <span class="left">Aug 2019 - Feb 2022</span>
+                                <span class="right">Scottsdale, AZ</span>
+                            </p>
+                            <p class="experience-description">
+                                Built and deployed a complete Django CMS that streamlined content management for their real-estate listings. Rebuilt their old VB.NET system in Python/Django while maintaining their old VB.NET system until the new one was finished. Integrated XMPie print services into the company platform, automating custom marketing material generation and branding consistency. Collaborated with cross-functional teams to deliver responsive and accessible web interfaces that boosted client engagement. Authored detailed internal system documentation to help users and IT staff use the new system.
+                            </p>
+                        </div>
+
+                        <div id="experience-4" class="experience-item" tabindex="0">
+                            <h3 class="experience-title">Django/Python Web Developer</h3>
+                            <p class="experience-company">
+                                PayPal<br /><em>(via Insight Global)</em>
+                            </p>
+                            <div class="logo">
+                                <img src="Images/PayPal.png" role="img" aria-label="PayPal Logo" alt="PayPal Logo" />
+                            </div>
+                            <p class="experience-date">
+                                <span class="left">May 2019 - Jul 2020</span>
+                                <span class="right">Scottsdale, AZ</span>
+                            </p>
+                            <p class="experience-description">
+                                Developed internal dashboards and REST APIs that connected multiple tools for their Bug Bounty team to keep track of the life-cycle of incoming Bug Bounty tickets. Rebuilt their old PHP system in Python/Django. Automated repetitive processes using Celery, enabling faster execution of internal security operations and tool synchronization. Strengthened backend performance and reliability through optimized code structure and automated validation testing. Collaborated with QA and product teams to align backend development with security compliance and testing requirements.
+                            </p>
+                        </div>
+
+                        <div id="experience-5" class="experience-item" tabindex="0">
+                            <h3 class="experience-title">Django/Python Web Developer</h3>
+                            <p class="experience-company">Connect-IO, Inc</p>
+                            <div class="logo">
+                                <img src="Images/Connect-IO.jpg" role="img" aria-label="Connect-IO, Inc Logo" alt="Connect-IO, Inc Logo" />
+                            </div>
+                            <p class="experience-date">
+                                <span class="left">Mar 2018 - May 2019</span>
+                                <span class="right">Phoenix, AZ</span>
+                            </p>
+                            <p class="experience-description">
+                                Delivered customized Django/Python web solutions for clients across industries, enhancing uptime and overall system responsiveness. Conducted in-depth code and data analysis to identify bottlenecks and implemented performance optimization strategies. Coordinated with infrastructure teams to ensure compatibility between software builds and server configurations. Provided tailored solutions for platforms including WordPress, Shopify, and ASP.NET to meet client-specific performance goals.
+                            </p>
+                        </div>
+
+                        <div id="experience-6" class="experience-item" tabindex="0">
+                            <h3 class="experience-title">Senior Interactive Developer</h3>
+                            <p class="experience-company">PrizeLogic, Inc</p>
+                            <div class="logo">
+                                <img src="Images/PrizeLogic.jpg" role="img" aria-label="Prizelogic Logo" alt="Prizelogic Logo" />
+                            </div>
+                            <p class="experience-date">
+                                <span class="left">Jan 2014 - Feb 2018</span>
+                                <span class="right">Scottsdale, AZ</span>
+                            </p>
+                            <p class="experience-description">
+                                Produced high-traffic promotional websites for major brands like Disney and Pepsi, ensuring cross-browser and responsive performance using frontend technologies such as JavaScript, jQuery, Angular.js, React.js and GSAP. Improved project delivery speed by 20% through streamlined front-end development workflows and documentation standards. Collaborated with design and QA teams to achieve pixel-perfect, accessible user experiences across all client campaigns. Mentored junior developers on company standards and reusable code structures to maintain development consistency.
+                            </p>
+                        </div>
+
+                        <div id="experience-7" class="experience-item" tabindex="0">
+                            <h3 class="experience-title">Webmaster</h3>
+                            <p class="experience-company">Jetset Magazine</p>
+                            <div class="logo">
+                                <img src="Images/Jetset-Magazine.jpg" role="img" aria-label="Jetset Magazine Logo" alt="Jetset Magazine Logo" />
+                            </div>
+                            <p class="experience-date">
+                                <span class="left">Jan 2013 - Dec 2013</span>
+                                <span class="right">Scottsdale, AZ</span>
+                            </p>
+                            <p class="experience-description">
+                                Managed digital publication of print editions, optimizing SEO and site structure to boost online visibility and increase organic traffic by 20%. Developed dynamic advertising and landing pages using PHP and JavaScript, improving client campaign conversions by 15% through targeted design by working with in-house graphic designers to implement their work on the web. Implemented responsive WordPress templates, enhancing mobile performance and reducing bounce rates across devices by 20%. Coordinated with editors to publish timely content updates, maintaining 100% accuracy and consistency between digital and print editions.
+                            </p>
+                        </div>
+
+                        <div id="experience-8" class="experience-item" tabindex="0">
+                            <h3 class="experience-title">Junior Web Developer</h3>
+                            <p class="experience-company">
+                                Mission e-Commerce Small Business<br /><em>(MECSB)</em>
+                            </p>
+                            <p class="experience-date">
+                                <span class="left">Mar 2010 - May 2011</span>
+                                <span class="right">Scottsdale, AZ</span>
+                            </p>
+                            <p class="experience-description">
+                                Designed and implemented interactive websites using HTML, CSS, and JavaScript, improving client engagement and reducing bounce rate by 20% through intuitive layouts. Created high-fidelity Photoshop mockups and prototypes to visualize project goals, achieving 100% client approval on design presentations before development. Assisted in backend maintenance and performed cross-platform testing, increasing compatibility and load consistency across 5+ major browsers. Collaborated with senior developers to apply UX and responsive design principles to build the information websites that clients approved of my very own design mockups.
+                            </p>
+                        </div>
+
+                        <div id="experience-9" class="experience-item" tabindex="0">
+                            <h3 class="experience-title">Private First Class - E2</h3>
+                            <p class="experience-company">
+                                United States Marine Corps<br /><em>USMC</em>
+                            </p>
+                            <div class="logo">
+                                <img src="Images/USMC.png" role="img" aria-label="United States Marine Corps Logo" alt="United States Marine Corps Logo" />
+                            </div>
+                            <p class="experience-date">
+                                <span class="left">2005</span>
+                                <span class="right">Camp Pendleton, CA</span>
+                            </p>
+                            <p class="experience-description">
+                                I did not go very far due to suffering two separate injuries and I was medically discharged as a result of those injuries. But I did learn a lot about Leadership, Team Work, Communication and its utmost importance not just on the battlefield but in the civilian sector as well. Attention to detail is also high on my the list of things that I gained from this training. Semper Fi!
+                            </p>
+                        </div>
+                    </div>
                 </div>
-                <p>&copy; 2026 MikeDinder.com, All Rights Reserved. Built with AI, Python, HTML, CSS, JavaScript</p>
-            </div>
-        </footer>
+            </section>
+
+            <!-- Education Section -->
+            <section id="education" aria-labelledby="school-title">
+                <div class="container">
+                    <h2 id="school-title" class="section-title">Education</h2>
+                    <div class="education-grid">
+                        <div class="education-card" tabindex="0">
+                            <h3 class="education-degree">Bachelor of Science in Information Technology</h3>
+                            <h4>For Software Systems Engineering</h4>
+                            <p class="education-school">Colorado Technical University - Online</p>
+                            <p class="education-date">2009 - 2011</p>
+                        </div>
+
+                        <div class="education-card" tabindex="0">
+                            <h3 class="education-degree">Associate of Science in Information Technology</h3>
+                            <p class="education-school">Colorado Technical University - Online</p>
+                            <p class="education-date">2007 - 2009</p>
+                        </div>
+
+                        <div class="education-card" tabindex="0">
+                            <h3 class="education-degree">Python Practice Test - For Practice Exams</h3>
+                            <p class="education-school">
+                                <a href="https://www.udemy.com/" target="_blank" title="Udemy Online Courses" aria-label="Udemy Online Courses">Udemy</a>
+                            </p>
+                            <p class="education-date">2022</p>
+                            <a href="https://www.udemy.com/course/python-pcep-certification-preparation-practice-tests" class="tech-tag" title="View Udemy Course, Python Practice Test - For Practice Exams" aria-label="View Udemy Course, Python Practice Test - For Practice Exams">View Course</a>
+                        </div>
+
+                        <div class="education-card" tabindex="0">
+                            <h3 class="education-degree">DevOps Micro-Internship: Docker, K8s, Cloud + 4 Projects</h3>
+                            <p class="education-school">
+                                <a href="https://www.udemy.com/" target="_blank" title="Udemy Online Courses" aria-label="Udemy Online Courses">Udemy</a>
+                            </p>
+                            <p class="education-date">Currently Enrolled</p>
+                            <a href="https://www.udemy.com/course/devops-for-beginners-docker-k8s-cloud-cicd-4-projects/" class="tech-tag" title="View Udemy Course, DevOps Micro-Internship: Docker, K8s, Cloud + 4 Projects" aria-label="View Udemy Course, DevOps Micro-Internship: Docker, K8s, Cloud + 4 Projects">View Course</a>
+                        </div>
+
+                        <div class="education-card" tabindex="0">
+                            <h3 class="education-degree">Ultimate AWS Certified Developer Associate 2026 DVA-C02</h3>
+                            <p class="education-school">
+                                <a href="https://www.udemy.com/" target="_blank" title="Udemy Online Courses" aria-label="Udemy Online Courses">Udemy</a>
+                            </p>
+                            <p class="education-date">Currently Enrolled</p>
+                            <a href="https://www.udemy.com/course/aws-certified-developer-associate-dva-c01" class="tech-tag" title="View Udemy Course, Ultimate AWS Certified Developer Associate 2026 DVA-C02" aria-label="View Udemy Course, Ultimate AWS Certified Developer Associate 2026 DVA-C02">View Course</a>
+                        </div>
+
+                        <div class="education-card" tabindex="0">
+                            <h3 class="education-degree">Ultimate React JS Course: Build 15 Web Projects with React</h3>
+                            <p class="education-school">
+                                <a href="https://www.udemy.com/" target="_blank" title="Udemy Online Courses" aria-label="Udemy Online Courses">Udemy</a>
+                            </p>
+                            <p class="education-date">Currently Enrolled</p>
+                            <a href="https://www.udemy.com/course/ultimate-react-js-course-build-15-web-projects-with-react" class="tech-tag" title="View Udemy Course, Ultimate React JS Course: Build 15 Web Projects with React" aria-label="View Udemy Course, Ultimate React JS Course: Build 15 Web Projects with React">View Course</a>
+                        </div>
+
+                        <div class="education-card" tabindex="0">
+                            <h3 class="education-degree">Complete Data Science, Machine Learning, DL, NLP Bootcamp</h3>
+                            <p class="education-school">
+                                <a href="https://www.udemy.com/" target="_blank" title="Udemy Online Courses" aria-label="Udemy Online Courses">Udemy</a>
+                            </p>
+                            <p class="education-date">Currently Enrolled</p>
+                            <a href="https://www.udemy.com/course/complete-machine-learning-nlp-bootcamp-mlops-deployment" class="tech-tag" title="View Udemy Course, Complete Data Science, Machine Learning, DL, NLP Bootcamp" aria-label="View Udemy Course, Complete Data Science, Machine Learning, DL, NLP Bootcamp">View Course</a>
+                        </div>
+
+                        <div class="education-card" tabindex="0">
+                            <h3 class="education-degree">A Deep Understanding of AI Large Language Model Mechanisms</h3>
+                            <p class="education-school">
+                                <a href="https://www.udemy.com/" target="_blank" title="Udemy Online Courses" aria-label="Udemy Online Courses">Udemy</a>
+                            </p>
+                            <p class="education-date">Currently Enrolled</p>
+                            <a href="https://www.udemy.com/course/dullms_x/" class="tech-tag" title="View Udemy Course, A deep understanding of AI large language model mechanisms" aria-label="View Udemy Course, A deep understanding of AI large language model mechanisms">View Course</a>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Certifications Section -->
+            <section id="certifications" aria-labelledby="cert-title">
+                <div class="container">
+                    <h2 id="cert-title" class="section-title">Certifications</h2>
+                    <div class="skills-grid">
+                        <div class="skill-card cert-card" tabindex="0">
+                            <ul class="skill-list cert-list">
+                                <li>
+                                    <span class="left">XMPie – Personal Effect Suite Training (Employer Provided)</span>
+                                    <span class="right">2019</span>
+                                </li>
+                                <li>
+                                    <span class="left">Object Oriented Methods (CTU)</span>
+                                    <span class="right">2010</span>
+                                </li>
+                                <li>
+                                    <span class="left">Computer Network Telecommunications (CTU)</span>
+                                    <span class="right">2010</span>
+                                </li>
+                                <li>
+                                    <span class="left">Server Java Programming (CTU)</span>
+                                    <span class="right">2010</span>
+                                </li>
+                                <li>
+                                    <span class="left">Client Java Programming (CTU)</span>
+                                    <span class="right">2009</span>
+                                </li>
+                                <li>
+                                    <span class="left">CompTIA Network+ Fundamentals (CTU)</span>
+                                    <span class="right">2008</span>
+                                </li>
+                                <li>
+                                    <span class="left">Unix Network Administration (CTU)</span>
+                                    <span class="right">2008</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Clients Section -->
+            <section id="clients" aria-labelledby="client-title">
+                <div class="container">
+                    <h2 id="client-title" class="section-title">Clients &amp; Notable Work</h2>
+                    <div class="skills-grid">
+                        <div class="skill-card client-card" tabindex="0">
+                            <h3 class="skill-category">Corporate &amp; Enterprise Clients</h3>
+                            <ul class="skill-list">
+                                <li>20th Century Fox</li>
+                                <li>Amazon</li>
+                                <li>American Express</li>
+                                <li>Aston Martin</li>
+                                <li>BabyBel</li>
+                                <li>Beam Suntory</li>
+                                <li>Bentley</li>
+                                <li>Blue Moon</li>
+                                <li>Capital One</li>
+                                <li>Disney</li>
+                                <li>eBay</li>
+                                <li>Frito Lay</li>
+                                <li>Gatorade</li>
+                                <li>Goodwill</li>
+                                <li>Gucci</li>
+                                <li>Hershey's</li>
+                                <li>Lipton</li>
+                                <li>McDonald's</li>
+                                <li>Pepsi</li>
+                                <li>Reese's</li>
+                                <li>Rolls Royce</li>
+                                <li>Starbucks</li>
+                                <li>T-Mobile</li>
+                                <li>Target</li>
+                                <li>Tyson</li>
+                                <li>United Airlines</li>
+                                <li>Victoria's Secret</li>
+                            </ul>
+                        </div>
+
+                        <div class="skill-card client-card" tabindex="0">
+                            <h3 class="skill-category">Agency &amp; Professional Partnerships</h3>
+                            <ul class="skill-list">
+                                <li>602ABCWater</li>
+                                <li>Bradley Wealth Management</li>
+                                <li>Food Lion</li>
+                                <li>Insight Global</li>
+                                <li>Keystone Lite</li>
+                                <li>Mars Agency</li>
+                                <li>Mindi Meade Photography</li>
+                                <li>MovePHX</li>
+                                <li>Pinnacle Vodka</li>
+                                <li>Poster My Print</li>
+                                <li>Samsung</li>
+                                <li>Temp Control AZ</li>
+                                <li>Tequila Patrón</li>
+                                <li>The Marketing Store</li>
+                                <li>The Martz Agency</li>
+                                <li>Tracy Locke</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <p>
+                        <br />
+                        <em>Note: The clients and projects listed represent organizations I contributed work for through various employers and contract engagements. These ARE NOT direct employment roles with these clients. Please refer to my Work Experience section for the actual employers that I have worked for and where I have engaged in projects supporting these clients.</em>
+                    </p>
+                </div>
+            </section>
+
+            <!-- Publications Section -->
+            <section id="publications" aria-labelledby="pub-title">
+                <div class="container">
+                    <h2 id="pub-title" class="section-title">Publications</h2>
+                    <div class="projects-grid">
+                        <div class="project-card" tabindex="0">
+                            <h3 class="project-title">
+                                <a href="https://www.packtpub.com/en-us/product/becoming-an-enterprise-django-developer-9781801073639" target="_blank" title="Purchase a copy from Packt Publishing" aria-label="Purchase a copy from Packt Publishing">Becoming an Enterprise Django Developer</a>
+                            </h3>
+                            <p class="pub-description">
+                                Discover best practices, tooling, and solutions for writing and organizing Django applications in production
+                            </p>
+                            <h6>ISBN-13: <em>978-1801073639</em>, <em>526 Pages</em></h6>
+                            <h4>Key Features</h4>
+                            <ul>
+                                <li>Expert tips to help you use the right packages, tools, and libraries and understand their scope for your project</li>
+                                <li>Gain a thorough understanding of the essential components that comprise a large-scale Python web app</li>
+                                <li>Learn best practices for creating a project structure for better performance</li>
+                            </ul>
+                            <h4>Book Description</h4>
+                            <p class="pub-description">
+                                &emsp;Django is a powerful framework but choosing the right add-ons that match the scale and scope of your enterprise projects can be tricky. This book will help you explore the multifarious options available for enterprise Django development. Countless organizations are already using Django and more migrating to it, unleashing the power of Python with many different packages and dependencies, including AI technologies.
+                                <br /><br />
+                                &emsp;This practical guide will help you understand practices, blueprints, and design decisions to put Django to work the way you want it to. You'll learn various ways in which data can be rendered onto a page and discover the power of Django for large-scale production applications. Starting with the basics of getting an enterprise project up and running, you'll get to grips with maintaining the project throughout its lifecycle while learning what the Django application lifecycle is.
+                                <br /><br />
+                                &emsp;By the end of this book, you'll have learned how to build and deploy a Django project to the web and implement various components into the site.
+                            </p>
+                            <h4>What You Will Learn</h4>
+                            <ul>
+                                <li>Use Django to develop enterprise-level apps to help scale your business</li>
+                                <li>Understand the steps and tools used to scale up a proof-of-concept project to production without going too deep into specific technologies</li>
+                                <li>Explore core Django components and how to use them in different ways to suit your app's needs</li>
+                                <li>Find out how Django allows you to build RESTful APIs</li>
+                                <li>Extract, parse, and migrate data from an old database system to a new system with Django and Python</li>
+                                <li>Write and run a test using the built-in testing tools in Django</li>
+                                
+                            </ul>
+                            <h4>Who This Book is For</h4>
+                            <p class="pub-description">
+                                &emsp;This book is for Django developers who want to learn the full-stack enterprise app development lifecycle. If you are a Python web developer looking to learn how to maintain a production website and explore Django beyond the basics, this book is for you.
+                                <br /><br />
+                                &emsp;The book assumes intermediate-level knowledge of Python programming and the Django framework.
+                            </p>
+                            <h4>Table of Contents</h4>
+                            <ol>
+                                <li>Undertaking a Colossal Project</li>
+                                <li>Project Configuration</li>
+                                <li>Models, Relations, and Inheritance</li>
+                                <li>URLs, Views, and Templates</li>
+                                <li>Django Forms</li>
+                                <li>Exploring the Django Admin Site</li>
+                                <li>Working with Messages, Email Notifications, and PDF Reports</li>
+                                <li>Working with the Django REST Framework</li>
+                                <li>Django Testing</li>
+                                <li>Database Management</li>
+                            </ol>
+                            <h4>Code in Action</h4>
+                            <div class="project-tech">
+                                <a href="https://www.youtube.com/playlist?list=PLeLcvrwLe184Ws5cDLqQc1DxvuENJKlvf" class="tech-tag" target="_blank" title="View Tutorial Videos on YouTube" aria-label="View Tutorial Videos on YouTube">YouTube</a>
+                                <a href="https://github.com/PacktPublishing/Becoming-an-Enterprise-Django-Developer" class="tech-tag" target="_blank" title="View public code that accompanies this book" aria-label="View public code that accompanies this book">GitHub</a>
+                            </div>
+                            <h4>Purchase A Copy Today</h4>
+                            <div class="project-tech">
+                                <a href="https://www.packtpub.com/en-us/product/becoming-an-enterprise-django-developer-9781801073639" class="tech-tag" target="_blank" title="Purchase a copy from Packt Publishing" aria-label="Purchase a copy from Packt Publishing">Packt Publishing</a>
+                                <a href="https://www.amazon.com/Becoming-Enterprise-Django-Developer-applications/dp/1801073635" class="tech-tag" target="_blank" title="Purchase a copy from Amazon" aria-label="Purchase a copy from Amazon">Amazon</a>
+                                <a href="https://booksrun.com/9781801073639-becoming-an-enterprise-django-developer-discover-best-practices-tooling-and-solutions-for-writing-and-organizing-django-applications-in-production" class="tech-tag" target="_blank" title="Purchase a copy from BooksRun" aria-label="Purchase a copy from BooksRun">BooksRun</a>
+                                <a href="https://www.walmart.com/ip/Becoming-an-Enterprise-Django-Developer-Discover-best-practices-tooling-and-solutions-for-writing-and-organizing-Djan-Paperback-9781801073639/1787521540" class="tech-tag" target="_blank" title="Purchase a copy from Walmart" aria-label="Purchase a copy from Walmart">Walmart</a>
+                                <a href="https://www.betterworldbooks.com/product/detail/becoming-an-enterprise-django-developer-discover-best-practices-tooling-and-solutions-for-writing-an-9781801073639?shipto=US&curcode=USD&utm_source=google&utm_medium=cpc&utm_campaign=Shopping-New-USA&utm_content=186849722375&utm_term=&creative=777596326024" class="tech-tag" target="_blank" title="Purchase a copy from Better World Books" aria-label="Purchase a copy from Better World Books">Better World Books</a>
+                                <a href="https://www.thriftbooks.com/w/becoming-an-enterprise-django-developer-discover-best-practices-tooling-and-solutions-for-writing-and-organizing-django-applications-in-production/37174575/item/53651704/" class="tech-tag" target="_blank" title="Purchase a copy from Thrift Books" aria-label="Purchase a copy from Thrift Books">Thrift Books</a>
+                                <a href="https://www.worldofbooks.com/products/becoming-an-enterprise-django-developer-book-michael-dinder-9781801073639?sku=NIN9781801073639" class="tech-tag" target="_blank" title="Purchase a copy from World of Books" aria-label="Purchase a copy from World of Books">World of Books</a>
+                                <!-- <a href="" class="tech-tag" target="_blank" title="Purchase a copy from " aria-label="Purchase a copy from "></a> -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Projects Section -->
+            <section id="projects" aria-labelledby="projects-title">
+                <div class="container">
+                    <h2 id="projects-title" class="section-title">Featured Projects</h2>
+                    <div class="projects-grid">
+                        <div class="project-card" tabindex="0">
+                            <h3 class="project-title">AI Templates</h3>
+                            <p class="project-description">
+                                A collection of HTML templates created using Generative AI and the Prompt's used to create them. This project is only to demonstrate my ability to use Prompts in AI tools to generate code that can be used in a real-world scenario.
+                            </p>
+                            <div class="project-tech">
+                                <a href="AI/AI-Project.html" class="tech-tag" title="Artificial intelligence Project" aria-label="Artificial intelligence Project">AI Project</a>
+                            </div>
+                        </div>
+
+                        <div class="project-card" tabindex="0">
+                            <h3 class="project-title">Python</h3>
+                            <p class="project-description">
+                                A collection of Python Scripts that are not related to Django to demonstrate my abilities to work with plain Python libraries.
+                            </p>
+                            <div class="project-tech">
+                                <a href="https://python.mikedinder.com" class="tech-tag" title="Python Project" aria-label="Python Project">Python Project</a>
+                            </div>
+                        </div>
+
+                        <div class="project-card" tabindex="0">
+                            <h3 class="project-title">Django</h3>
+                            <p class="project-description">
+                                A mock project that demonstrates my ability to spin up a Django project on my own web server and display capabilities like form submission, E-mail Sending, REST API requests, PostgreSQL Database and Django Models, File Upload and more...
+                            </p>
+                            <div class="project-tech">
+                                <a href="https://django.mikedinder.com" class="tech-tag" title="Django Project" aria-label="Django Project">Django Project</a>
+                            </div>
+                        </div>
+
+                        <div class="project-card" tabindex="0">
+                            <h3 class="project-title">Angular.js</h3>
+                            <p class="project-description">
+                                A mock project that demonstrates my ability to spin up an Angular.js project and display various REST API requests. This project works in conjunction with a stripped down Django project to also display how Django can be used with various front-end frameworks.
+                            </p>
+                            <div class="project-tech">
+                                <a href="https://angular.mikedinder.com" class="tech-tag" title="Angular.js Project" aria-label="Angular.js Project">Angular.js Project</a>
+                            </div>
+                        </div>
+
+                        <div class="project-card" tabindex="0">
+                            <h3 class="project-title">React.js</h3>
+                            <p class="project-description">
+                                A mock project that demonstrates my ability to spin up an React.js project and display various REST API requests. This project works in conjunction with a stripped down Django project to also display how Django can be used with various front-end frameworks.
+                            </p>
+                            <div class="project-tech">
+                                <a href="https://react.mikedinder.com" class="tech-tag" title="React.js Project" aria-label="React.js Project">React.js Project</a>
+                            </div>
+                        </div>
+
+                        <div class="project-card" tabindex="0">
+                            <h3 class="project-title">Vue.js</h3>
+                            <p class="project-description">
+                                A mock project that demonstrates my ability to spin up an Vue.js project and display various REST API requests. This project works in conjunction with a stripped down Django project to also display how Django can be used with various front-end frameworks.
+                            </p>
+                            <div class="project-tech">
+                                <a href="https://vue.mikedinder.com" class="tech-tag" title="Vue.js Project" aria-label="Vue.js Project">Vue.js Project</a>
+                            </div>
+                        </div>
+
+                        <div class="project-card" tabindex="0">
+                            <h3 class="project-title">FastAPI</h3>
+                            <p class="project-description">
+                                A mock project that demonstrates my ability to spin up an FastAPI project and display various REST API requests.
+                            </p>
+                            <div class="project-tech">
+                                <a href="https://fastapi.mikedinder.com" class="tech-tag" title="FastAPI Project" aria-label="FastAPI Project">FastAPI Project</a>
+                            </div>
+                        </div>
+
+                        <div class="project-card" tabindex="0">
+                            <h3 class="project-title">Flask</h3>
+                            <p class="project-description">
+                                A mock project that demonstrates my ability to spin up an Flask project and display various REST API requests.
+                            </p>
+                            <div class="project-tech">
+                                <a href="https://flask.mikedinder.com" class="tech-tag" title="Flask Project" aria-label="Flask Project">Flask Project</a>
+                            </div>
+                        </div>
+
+                        <div class="project-card" tabindex="0">
+                            <h3 class="project-title">Development Environment</h3>
+                            <p class="project-description">
+                                A mock project that demonstrates my ability to wire up a CI/CD Pipeline for a Development Environment with GitHub and AWS EC2 Instances.
+                            </p>
+                            <div class="project-tech">
+                                <a href="https://dev.mikedinder.com" class="tech-tag" title="Development Environment Project" aria-label="Development Environment Project">Dev Environment Project</a>
+                            </div>
+                        </div>
+
+                        <div class="project-card" tabindex="0">
+                            <h3 class="project-title">Staging</h3>
+                            <p class="project-description">
+                                A mock project that demonstrates my ability to wire up a CI/CD Pipeline for a Staging Environment with GitHub and AWS EC2 Instances.
+                            </p>
+                            <div class="project-tech">
+                                <a href="https://staging.mikedinder.com" class="tech-tag" title="Staging Environment Project" aria-label="Staging Environment Project">Staging Environment Project</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Footer -->
+            <footer id="contact">
+                <div class="container">
+                    <div class="social-links">
+                        <a href="https://www.linkedin.com/in/mikedinder/" target="_blank" class="social-link" title="LinkedIn" aria-label="LinkedIn"><i class="fa-brands fa-linkedin"></i></a>
+                        <a href="https://github.com/dindermike" target="_blank" class="social-link" title="GitHub" aria-label="GitHub"><i class="fa-brands fa-github"></i></a>
+                        <a href="mailto:dindermike@hotmail.com" target="_blank" class="social-link" title="Primary Email" aria-label="Primary Email"><i class="fa-solid fa-envelope"></i></a>
+                        <a href="mailto:mike@mikedinder.com" target="_blank" class="social-link" title="Secondary Email" aria-label="Secondary Email"><i class="fa-solid fa-envelope"></i></a>
+                    </div>
+                    <p>&copy; 2026 MikeDinder.com, All Rights Reserved. Built with AI, Python, HTML, CSS, JavaScript</p>
+                </div>
+            </footer>
+        </div>
 
         <script type="text/javascript">
-            // Typing Animation
-            const texts = ["Mike Dinder", "Software Systems Engineer", "Full-Stack Developer", "Backend Developer", "Web Developer", "Problem Solver", "Adventurer", "Outdoors Enthusiast"];
-            let textIndex = 0;
-            let charIndex = 0;
-            let isDeleting = false;
-            const typingElement = document.getElementById('typing-text');
+            // Run Initialization When DOM is Loaded
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', init);
+            } else {
+                init();
+            }
 
-            function type() {
-                const currentText = texts[textIndex];
-                
-                if (isDeleting) {
-                    typingElement.textContent = currentText.substring(0, charIndex - 1);
-                    charIndex--;
-                } else {
-                    typingElement.textContent = currentText.substring(0, charIndex + 1);
-                    charIndex++;
+            // Initialize All Effects
+            function init() {
+                const loaderContainer = document.getElementById('loader-container');
+                const bodyContent = document.getElementById('body-content');
+
+                loaderContainer.classList.remove('visible');
+                bodyContent.classList.add('visible');
+
+                // Typing Animation
+                const texts = ["Mike Dinder", "Software Systems Engineer", "Full-Stack Developer", "Backend Developer", "Web Developer", "Problem Solver", "Adventurer", "Outdoors Enthusiast"];
+                let textIndex = 0;
+                let charIndex = 0;
+                let isDeleting = false;
+                const typingElement = document.getElementById('typing-text');
+
+                function type() {
+                    const currentText = texts[textIndex];
+                    
+                    if (isDeleting) {
+                        typingElement.textContent = currentText.substring(0, charIndex - 1);
+                        charIndex--;
+                    } else {
+                        typingElement.textContent = currentText.substring(0, charIndex + 1);
+                        charIndex++;
+                    }
+
+                    if (!isDeleting && charIndex === currentText.length) {
+                        setTimeout(() => isDeleting = true, 2000);
+                    } else if (isDeleting && charIndex === 0) {
+                        isDeleting = false;
+                        textIndex = (textIndex + 1) % texts.length;
+                    }
+
+                    const typingSpeed = isDeleting ? 50 : 100;
+                    setTimeout(type, typingSpeed);
                 }
 
-                if (!isDeleting && charIndex === currentText.length) {
-                    setTimeout(() => isDeleting = true, 2000);
-                } else if (isDeleting && charIndex === 0) {
-                    isDeleting = false;
-                    textIndex = (textIndex + 1) % texts.length;
+                document.addEventListener('DOMContentLoaded', () => {
+                    setTimeout(type, 500);
+                });
+
+                // Create Starfield
+                const starfield = document.getElementById('starfield');
+                for (let i = 0; i < 200; i++) {
+                    const star = document.createElement('div');
+                    star.className = 'star';
+                    const size = Math.random() * 2;
+                    star.style.width = size + 'px';
+                    star.style.height = size + 'px';
+                    star.style.left = Math.random() * 100 + '%';
+                    star.style.top = Math.random() * 100 + '%';
+                    star.style.animationDelay = Math.random() * 3 + 's';
+                    starfield.appendChild(star);
                 }
 
-                const typingSpeed = isDeleting ? 50 : 100;
-                setTimeout(type, typingSpeed);
-            }
+                // Create Floating Particles
+                const particlesContainer = document.getElementById('particles');
+                for (let i = 0; i < 30; i++) {
+                    const particle = document.createElement('div');
+                    particle.className = 'particle';
+                    const size = Math.random() * 5 + 2;
+                    particle.style.width = size + 'px';
+                    particle.style.height = size + 'px';
+                    particle.style.left = Math.random() * 100 + '%';
+                    particle.style.animationDuration = (Math.random() * 10 + 10) + 's';
+                    particle.style.animationDelay = Math.random() * 5 + 's';
+                    particlesContainer.appendChild(particle);
+                }
 
-            document.addEventListener('DOMContentLoaded', () => {
-                setTimeout(type, 500);
-            });
+                // Cursor Trail Effect
+                const cursorTrails = [];
+                const trailCount = 5;
 
-            // Create Starfield
-            const starfield = document.getElementById('starfield');
-            for (let i = 0; i < 200; i++) {
-                const star = document.createElement('div');
-                star.className = 'star';
-                const size = Math.random() * 2;
-                star.style.width = size + 'px';
-                star.style.height = size + 'px';
-                star.style.left = Math.random() * 100 + '%';
-                star.style.top = Math.random() * 100 + '%';
-                star.style.animationDelay = Math.random() * 3 + 's';
-                starfield.appendChild(star);
-            }
+                for (let i = 0; i < trailCount; i++) {
+                    const trail = document.createElement('div');
+                    trail.className = 'cursor-trail';
+                    trail.style.opacity = (1 - i / trailCount) * 0.6;
+                    trail.style.width = (20 - i * 3) + 'px';
+                    trail.style.height = (20 - i * 3) + 'px';
+                    document.body.appendChild(trail);
+                    cursorTrails.push({ element: trail, x: 0, y: 0 });
+                }
 
-            // Create Floating Particles
-            const particlesContainer = document.getElementById('particles');
-            for (let i = 0; i < 30; i++) {
-                const particle = document.createElement('div');
-                particle.className = 'particle';
-                const size = Math.random() * 5 + 2;
-                particle.style.width = size + 'px';
-                particle.style.height = size + 'px';
-                particle.style.left = Math.random() * 100 + '%';
-                particle.style.animationDuration = (Math.random() * 10 + 10) + 's';
-                particle.style.animationDelay = Math.random() * 5 + 's';
-                particlesContainer.appendChild(particle);
-            }
+                let mouseX = 0, mouseY = 0;
 
-            // Cursor Trail Effect
-            const cursorTrails = [];
-            const trailCount = 5;
-
-            for (let i = 0; i < trailCount; i++) {
-                const trail = document.createElement('div');
-                trail.className = 'cursor-trail';
-                trail.style.opacity = (1 - i / trailCount) * 0.6;
-                trail.style.width = (20 - i * 3) + 'px';
-                trail.style.height = (20 - i * 3) + 'px';
-                document.body.appendChild(trail);
-                cursorTrails.push({ element: trail, x: 0, y: 0 });
-            }
-
-            let mouseX = 0, mouseY = 0;
-
-            document.addEventListener('mousemove', (e) => {
-                mouseX = e.clientX;
-                mouseY = e.clientY;
-            });
-
-            function updateTrails() {
-                cursorTrails.forEach((trail, index) => {
-                    const delay = (index + 1) * 0.1;
-                    trail.x += (mouseX - trail.x) * (1 - delay);
-                    trail.y += (mouseY - trail.y) * (1 - delay);
-                    trail.element.style.left = trail.x + 'px';
-                    trail.element.style.top = trail.y + 'px';
-                });
-                requestAnimationFrame(updateTrails);
-            }
-
-            updateTrails();
-
-            const windowWidth = window.innerWidth;
-            var this_threshold = 0.095;
-
-            if (windowWidth >= 768 && windowWidth <= 1199) {
-                this_threshold = 0.1;
-            } else if (windowWidth >= 480 && windowWidth <= 767) {
-                this_threshold = 0.075;
-            } else if (windowWidth <= 479) {
-                this_threshold = 0.05;
-            }
-
-            // Scroll Animations
-            const observerOptions = {
-                threshold: this_threshold,
-                rootMargin: '0px 0px -100px 0px'
-            };
-
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add('visible');
-                    }
-                });
-            }, observerOptions);
-
-            document.querySelectorAll('section').forEach(section => {
-                observer.observe(section);
-            });
-
-            // 3D Tilt Effect on Skill Cards
-            const skillCards = document.querySelectorAll('.main-card');
-
-            skillCards.forEach(card => {
-                card.addEventListener('mousemove', (e) => {
-                    const rect = card.getBoundingClientRect();
-                    const x = e.clientX - rect.left;
-                    const y = e.clientY - rect.top;
-
-                    const centerX = rect.width / 2;
-                    const centerY = rect.height / 2;
-
-                    const rotateX = (y - centerY) / 30;
-                    const rotateY = (centerX - x) / 30;
-
-                    card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-10px)`;
+                document.addEventListener('mousemove', (e) => {
+                    mouseX = e.clientX;
+                    mouseY = e.clientY;
                 });
 
-                card.addEventListener('mouseleave', () => {
-                    card.style.transform = '';
-                });
-            });
+                function updateTrails() {
+                    cursorTrails.forEach((trail, index) => {
+                        const delay = (index + 1) * 0.1;
+                        trail.x += (mouseX - trail.x) * (1 - delay);
+                        trail.y += (mouseY - trail.y) * (1 - delay);
+                        trail.element.style.left = trail.x + 'px';
+                        trail.element.style.top = trail.y + 'px';
+                    });
+                    requestAnimationFrame(updateTrails);
+                }
 
-            // 3D Tilt Effect on Certification Cards
-            const certCards = document.querySelectorAll('.cert-card');
+                updateTrails();
 
-            certCards.forEach(card => {
-                card.addEventListener('mousemove', (e) => {
-                    const rect = card.getBoundingClientRect();
-                    const x = e.clientX - rect.left;
-                    const y = e.clientY - rect.top;
+                const windowWidth = window.innerWidth;
+                var this_threshold = 0.095;
 
-                    const centerX = rect.width / 2;
-                    const centerY = rect.height / 2;
+                if (windowWidth >= 768 && windowWidth <= 1199) {
+                    this_threshold = 0.1;
+                } else if (windowWidth >= 480 && windowWidth <= 767) {
+                    this_threshold = 0.075;
+                } else if (windowWidth <= 479) {
+                    this_threshold = 0.05;
+                }
 
-                    const rotateX = (y - centerY) / 100;
-                    const rotateY = (centerX - x) / 100;
+                // Scroll Animations
+                const observerOptions = {
+                    threshold: this_threshold,
+                    rootMargin: '0px 0px -100px 0px'
+                };
 
-                    card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-10px)`;
-                });
+                const observer = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            entry.target.classList.add('visible');
+                        }
+                    });
+                }, observerOptions);
 
-                card.addEventListener('mouseleave', () => {
-                    card.style.transform = '';
-                });
-            });
-
-            // 3D Tilt Effect on Client Cards
-            const clientCards = document.querySelectorAll('.client-card');
-
-            clientCards.forEach(card => {
-                card.addEventListener('mousemove', (e) => {
-                    const rect = card.getBoundingClientRect();
-                    const x = e.clientX - rect.left;
-                    const y = e.clientY - rect.top;
-
-                    const centerX = rect.width / 2;
-                    const centerY = rect.height / 2;
-
-                    const rotateX = (y - centerY) / 150;
-                    const rotateY = (centerX - x) / 150;
-
-                    card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-10px)`;
+                document.querySelectorAll('section').forEach(section => {
+                    observer.observe(section);
                 });
 
-                card.addEventListener('mouseleave', () => {
-                    card.style.transform = '';
+                // 3D Tilt Effect on Skill Cards
+                const skillCards = document.querySelectorAll('.main-card');
+
+                skillCards.forEach(card => {
+                    card.addEventListener('mousemove', (e) => {
+                        const rect = card.getBoundingClientRect();
+                        const x = e.clientX - rect.left;
+                        const y = e.clientY - rect.top;
+
+                        const centerX = rect.width / 2;
+                        const centerY = rect.height / 2;
+
+                        const rotateX = (y - centerY) / 30;
+                        const rotateY = (centerX - x) / 30;
+
+                        card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-10px)`;
+                    });
+
+                    card.addEventListener('mouseleave', () => {
+                        card.style.transform = '';
+                    });
                 });
-            });
 
-            // Ripple Effect on Project Cards
-            const projectCards = document.querySelectorAll('.project-card');
-            
-            projectCards.forEach(card => {
-                card.addEventListener('click', function(e) {
-                    const ripple = document.createElement('span');
-                    ripple.classList.add('ripple');
-                    
-                    const rect = this.getBoundingClientRect();
-                    const size = Math.max(rect.width, rect.height);
-                    const x = e.clientX - rect.left - size / 2;
-                    const y = e.clientY - rect.top - size / 2;
-                    
-                    ripple.style.width = ripple.style.height = size + 'px';
-                    ripple.style.left = x + 'px';
-                    ripple.style.top = y + 'px';
-                    
-                    this.appendChild(ripple);
-                    
-                    setTimeout(() => ripple.remove(), 600);
+                // 3D Tilt Effect on Certification Cards
+                const certCards = document.querySelectorAll('.cert-card');
+
+                certCards.forEach(card => {
+                    card.addEventListener('mousemove', (e) => {
+                        const rect = card.getBoundingClientRect();
+                        const x = e.clientX - rect.left;
+                        const y = e.clientY - rect.top;
+
+                        const centerX = rect.width / 2;
+                        const centerY = rect.height / 2;
+
+                        const rotateX = (y - centerY) / 100;
+                        const rotateY = (centerX - x) / 100;
+
+                        card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-10px)`;
+                    });
+
+                    card.addEventListener('mouseleave', () => {
+                        card.style.transform = '';
+                    });
                 });
-            });
 
-            // Scroll Progress Bar
-            window.addEventListener('scroll', () => {
-                const windowHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-                const scrolled = (window.scrollY / windowHeight) * 100;
-                document.querySelector('.scroll-progress').style.width = scrolled + '%';
-            });
+                // 3D Tilt Effect on Client Cards
+                const clientCards = document.querySelectorAll('.client-card');
 
-            // Parallax Effect on Hero
-            window.addEventListener('scroll', () => {
-                const scrolled = window.scrollY;
-                const hero = document.querySelector('.hero-content');
-                hero.style.transform = `translateY(${scrolled * 0.5}px)`;
-                hero.style.opacity = 1 - (scrolled / 600);
-            });
+                clientCards.forEach(card => {
+                    card.addEventListener('mousemove', (e) => {
+                        const rect = card.getBoundingClientRect();
+                        const x = e.clientX - rect.left;
+                        const y = e.clientY - rect.top;
 
-            // Smooth Scroll for Links
-            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-                anchor.addEventListener('click', function (e) {
-                    e.preventDefault();
-                    const target = document.querySelector(this.getAttribute('href'));
-                    if (target) {
-                        target.scrollIntoView({
-                            behavior: 'smooth',
-                            block: 'start'
-                        });
-                    }
+                        const centerX = rect.width / 2;
+                        const centerY = rect.height / 2;
+
+                        const rotateX = (y - centerY) / 150;
+                        const rotateY = (centerX - x) / 150;
+
+                        card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-10px)`;
+                    });
+
+                    card.addEventListener('mouseleave', () => {
+                        card.style.transform = '';
+                    });
                 });
-            });
 
-            // Galaxy Background Effect
-            const canvas = document.createElement('canvas');
-            const ctx = canvas.getContext('2d');
-            starfield.appendChild(canvas);
-            canvas.style.position = 'absolute';
-            canvas.style.top = '0';
-            canvas.style.left = '0';
-            canvas.style.width = '100%';
-            canvas.style.height = '100%';
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
-
-            function drawGalaxy() {
-                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                // Ripple Effect on Project Cards
+                const projectCards = document.querySelectorAll('.project-card');
                 
-                const gradient = ctx.createRadialGradient(
-                    canvas.width / 2, canvas.height / 2, 0,
-                    canvas.width / 2, canvas.height / 2, canvas.width / 2
-                );
-                gradient.addColorStop(0, 'rgba(107, 130, 197, 0.2)');
-                gradient.addColorStop(0.5, 'rgba(45, 53, 97, 0.1)');
-                gradient.addColorStop(1, 'rgba(10, 14, 39, 0)');
-                
-                ctx.fillStyle = gradient;
-                ctx.fillRect(0, 0, canvas.width, canvas.height);
-            }
+                projectCards.forEach(card => {
+                    card.addEventListener('click', function(e) {
+                        const ripple = document.createElement('span');
+                        ripple.classList.add('ripple');
+                        
+                        const rect = this.getBoundingClientRect();
+                        const size = Math.max(rect.width, rect.height);
+                        const x = e.clientX - rect.left - size / 2;
+                        const y = e.clientY - rect.top - size / 2;
+                        
+                        ripple.style.width = ripple.style.height = size + 'px';
+                        ripple.style.left = x + 'px';
+                        ripple.style.top = y + 'px';
+                        
+                        this.appendChild(ripple);
+                        
+                        setTimeout(() => ripple.remove(), 600);
+                    });
+                });
 
-            drawGalaxy();
+                // Scroll Progress Bar
+                window.addEventListener('scroll', () => {
+                    const windowHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+                    const scrolled = (window.scrollY / windowHeight) * 100;
+                    document.querySelector('.scroll-progress').style.width = scrolled + '%';
+                });
 
-            window.addEventListener('resize', () => {
+                // Parallax Effect on Hero
+                window.addEventListener('scroll', () => {
+                    const scrolled = window.scrollY;
+                    const hero = document.querySelector('.hero-content');
+                    hero.style.transform = `translateY(${scrolled * 0.5}px)`;
+                    hero.style.opacity = 1 - (scrolled / 600);
+                });
+
+                // Smooth Scroll for Links
+                document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                    anchor.addEventListener('click', function (e) {
+                        e.preventDefault();
+                        const target = document.querySelector(this.getAttribute('href'));
+                        if (target) {
+                            target.scrollIntoView({
+                                behavior: 'smooth',
+                                block: 'start'
+                            });
+                        }
+                    });
+                });
+
+                // Galaxy Background Effect
+                const canvas = document.createElement('canvas');
+                const ctx = canvas.getContext('2d');
+                starfield.appendChild(canvas);
+                canvas.style.position = 'absolute';
+                canvas.style.top = '0';
+                canvas.style.left = '0';
+                canvas.style.width = '100%';
+                canvas.style.height = '100%';
                 canvas.width = window.innerWidth;
                 canvas.height = window.innerHeight;
+
+                function drawGalaxy() {
+                    ctx.clearRect(0, 0, canvas.width, canvas.height);
+                    
+                    const gradient = ctx.createRadialGradient(
+                        canvas.width / 2, canvas.height / 2, 0,
+                        canvas.width / 2, canvas.height / 2, canvas.width / 2
+                    );
+                    gradient.addColorStop(0, 'rgba(107, 130, 197, 0.2)');
+                    gradient.addColorStop(0.5, 'rgba(45, 53, 97, 0.1)');
+                    gradient.addColorStop(1, 'rgba(10, 14, 39, 0)');
+                    
+                    ctx.fillStyle = gradient;
+                    ctx.fillRect(0, 0, canvas.width, canvas.height);
+                }
+
                 drawGalaxy();
-            });
+
+                window.addEventListener('resize', () => {
+                    canvas.width = window.innerWidth;
+                    canvas.height = window.innerHeight;
+                    drawGalaxy();
+                });
+            }
         </script>
     </body>
 </html>
