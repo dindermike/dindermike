@@ -327,7 +327,7 @@
             .skill-card {
                 background: rgba(42, 47, 75, 0.5);
                 backdrop-filter: blur(10px);
-                border: 1px solid rgba(51, 102, 153, 0.1);
+                border: 1px solid rgba(51, 102, 153, 0.45);
                 border-radius: 15px;
                 padding: 30px;
                 transition: all 0.3s ease;
@@ -425,7 +425,7 @@
                 margin-bottom: 50px;
                 background: rgba(42, 47, 75, 0.5);
                 backdrop-filter: blur(10px);
-                border: 1px solid rgba(51, 102, 153, 0.1);
+                border: 1px solid rgba(51, 102, 153, 0.45);
                 border-radius: 15px;
                 padding: 30px;
                 transition: all 0.3s ease;
@@ -508,7 +508,7 @@
             .education-card {
                 background: rgba(42, 47, 75, 0.5);
                 backdrop-filter: blur(10px);
-                border: 1px solid rgba(51, 102, 153, 0.1);
+                border: 1px solid rgba(51, 102, 153, 0.45);
                 border-radius: 15px;
                 padding: 30px;
                 transition: all 0.3s ease;
@@ -537,6 +537,14 @@
                 border-color: var(--cyan);
                 transform: translateY(-10px);
                 box-shadow: 0 10px 40px rgba(51, 102, 153, 0.2);
+            }
+
+            .education-card .tech-tag {
+                margin: 10px 0 0;
+                display: inline-block;
+                position: absolute;
+                bottom: 20px;
+                right: 20px;
             }
 
             .education-degree {
@@ -641,7 +649,7 @@
             .project-card {
                 background: rgba(42, 47, 75, 0.5);
                 backdrop-filter: blur(10px);
-                border: 1px solid rgba(51, 102, 153, 0.1);
+                border: 1px solid rgba(51, 102, 153, 0.45);
                 border-radius: 15px;
                 padding: 30px;
                 transition: all 0.3s ease;
@@ -866,6 +874,14 @@
                 .profile-image {
                     width: 120px;
                     height: 120px;
+                }
+
+                .education-card .tech-tag {
+                    margin: 20px 0 0;
+                    display: inline-block;
+                    position: relative;
+                    bottom: 0;
+                    right: 0;
                 }
             }
 
@@ -1315,53 +1331,48 @@
                     </div>
 
                     <div class="education-card">
-                        <h3 class="education-degree">
-                            <a href="https://www.udemy.com/course/devops-for-beginners-docker-k8s-cloud-cicd-4-projects/" target="_blank" title="Udemy Course, DevOps Micro-Internship: Docker, K8s, Cloud + 4 Projects" aria-label="Udemy Course, DevOps Micro-Internship: Docker, K8s, Cloud + 4 Projects">DevOps Micro-Internship: Docker, K8s, Cloud + 4 Projects</a>
-                        </h3>
+                        <h3 class="education-degree">DevOps Micro-Internship: Docker, K8s, Cloud + 4 Projects</h3>
                         <p class="education-school">
                             <a href="https://www.udemy.com/" target="_blank" title="Udemy Online Courses" aria-label="Udemy Online Courses">Udemy</a>
                         </p>
                         <p class="education-date">Currently Enrolled</p>
+                        <a href="https://www.udemy.com/course/devops-for-beginners-docker-k8s-cloud-cicd-4-projects/" class="tech-tag" title="View Udemy Course, DevOps Micro-Internship: Docker, K8s, Cloud + 4 Projects" aria-label="View Udemy Course, DevOps Micro-Internship: Docker, K8s, Cloud + 4 Projects">View Course</a>
                     </div>
 
                     <div class="education-card">
-                        <h3 class="education-degree">
-                            <a href="https://www.udemy.com/course/aws-certified-developer-associate-dva-c01" target="_blank" title="Udemy Course, Ultimate AWS Certified Developer Associate 2026 DVA-C02" aria-label="Udemy Course, Ultimate AWS Certified Developer Associate 2026 DVA-C02">Ultimate AWS Certified Developer Associate 2026 DVA-C02</a>
-                        </h3>
+                        <h3 class="education-degree">Ultimate AWS Certified Developer Associate 2026 DVA-C02</h3>
                         <p class="education-school">
                             <a href="https://www.udemy.com/" target="_blank" title="Udemy Online Courses" aria-label="Udemy Online Courses">Udemy</a>
                         </p>
                         <p class="education-date">Currently Enrolled</p>
+                        <a href="https://www.udemy.com/course/aws-certified-developer-associate-dva-c01" class="tech-tag" title="View Udemy Course, Ultimate AWS Certified Developer Associate 2026 DVA-C02" aria-label="View Udemy Course, Ultimate AWS Certified Developer Associate 2026 DVA-C02">View Course</a>
                     </div>
 
                     <div class="education-card">
-                        <h3 class="education-degree">
-                            <a href="https://www.udemy.com/course/ultimate-react-js-course-build-15-web-projects-with-react" target="_blank" title="Udemy Course, Ultimate React JS Course: Build 15 Web Projects with React" aria-label="Udemy Course, Ultimate React JS Course: Build 15 Web Projects with React">Ultimate React JS Course: Build 15 Web Projects with React</a>
-                        </h3>
+                        <h3 class="education-degree">Ultimate React JS Course: Build 15 Web Projects with React</h3>
                         <p class="education-school">
                             <a href="https://www.udemy.com/" target="_blank" title="Udemy Online Courses" aria-label="Udemy Online Courses">Udemy</a>
                         </p>
                         <p class="education-date">Currently Enrolled</p>
+                        <a href="https://www.udemy.com/course/ultimate-react-js-course-build-15-web-projects-with-react" class="tech-tag" title="View Udemy Course, Ultimate React JS Course: Build 15 Web Projects with React" aria-label="View Udemy Course, Ultimate React JS Course: Build 15 Web Projects with React">View Course</a>
                     </div>
 
                     <div class="education-card">
-                        <h3 class="education-degree">
-                            <a href="https://www.udemy.com/course/complete-machine-learning-nlp-bootcamp-mlops-deployment" target="_blank" title="Udemy Course, Complete Data Science,Machine Learning,DL,NLP Bootcamp" aria-label="Udemy Course, Complete Data Science,Machine Learning,DL,NLP Bootcamp">Complete Data Science,Machine Learning,DL,NLP Bootcamp</a>
-                        </h3>
+                        <h3 class="education-degree">Complete Data Science, Machine Learning, DL, NLP Bootcamp</h3>
                         <p class="education-school">
                             <a href="https://www.udemy.com/" target="_blank" title="Udemy Online Courses" aria-label="Udemy Online Courses">Udemy</a>
                         </p>
                         <p class="education-date">Currently Enrolled</p>
+                        <a href="https://www.udemy.com/course/complete-machine-learning-nlp-bootcamp-mlops-deployment" class="tech-tag" title="View Udemy Course, Complete Data Science, Machine Learning, DL, NLP Bootcamp" aria-label="View Udemy Course, Complete Data Science, Machine Learning, DL, NLP Bootcamp">View Course</a>
                     </div>
 
                     <div class="education-card">
-                        <h3 class="education-degree">
-                            <a href="https://www.udemy.com/course/dullms_x/" target="_blank" title="Udemy Course, A deep understanding of AI large language model mechanisms" aria-label="Udemy Course, A deep understanding of AI large language model mechanisms">A deep understanding of AI large language model mechanisms</a>
-                        </h3>
+                        <h3 class="education-degree">A Deep Understanding of AI Large Language Model Mechanisms</h3>
                         <p class="education-school">
                             <a href="https://www.udemy.com/" target="_blank" title="Udemy Online Courses" aria-label="Udemy Online Courses">Udemy</a>
                         </p>
                         <p class="education-date">Currently Enrolled</p>
+                        <a href="https://www.udemy.com/course/dullms_x/" class="tech-tag" title="View Udemy Course, A deep understanding of AI large language model mechanisms" aria-label="View Udemy Course, A deep understanding of AI large language model mechanisms">View Course</a>
                     </div>
                 </div>
             </div>
@@ -1760,7 +1771,7 @@
             updateTrails();
 
             const windowWidth = window.innerWidth;
-            var this_threshold = 0.125;
+            var this_threshold = 0.095;
 
             if (windowWidth >= 768 && windowWidth <= 1199) {
                 this_threshold = 0.1;
