@@ -86,6 +86,18 @@
                 line-height: 1.6;
             }
 
+            .mobile-hide {
+                display: block;
+            }
+
+            .mobile-hide-inline {
+                display: inline-block;
+            }
+
+            .mobile-br {
+                display: none;
+            }
+
             /* Loader Container/Spinner */
             #loader-container {
                 display: none;
@@ -163,7 +175,7 @@
                 z-index: 2;
                 pointer-events: none;
                 filter: drop-shadow(0 0 10px var(--star-gold));
-                animation: rocketFly 40s infinite linear;
+                animation: rocketFly 90s infinite linear;
             }
 
             .rocket .rocket-ship {
@@ -990,6 +1002,10 @@
             }
 
             @media (max-width: 480px) {
+                .rocket {
+                    animation: rocketFly 45s infinite linear;
+                }
+
                 .hero h1 {
                     font-size: 1.8em;
                 }
@@ -1025,6 +1041,15 @@
                 .experience-date span.right {
                     display: block;
                     float: none;
+                }
+
+                .mobile-hide,
+                .mobile-hide-inline {
+                    display: none;
+                }
+
+                .mobile-br {
+                    display: block;
                 }
             }
 
@@ -1107,7 +1132,7 @@
                             <img src="Images/profile_optimized.jpg" alt="Mike Dinder" class="profile-image" id="profileImage" />
                         </div>
                         <h1 aria-hidden="true"><span class="typing-text" id="typing-text"></span></h1>
-                        <h2>Professional Developer Looking for Work</h2>
+                        <h2>Professional Developer<span class="mobile-hide-inline">&nbsp;</span><br class="mobile-br" />Looking for Work</h2>
                         <a href="#contact" class="cta-button">Get In Touch</a>
                     </div>
                 </div>
@@ -1682,9 +1707,7 @@
                     <h2 id="pub-title" class="section-title">Publications</h2>
                     <div class="projects-grid">
                         <div class="project-card" tabindex="0">
-                            <h3 class="project-title">
-                                <a href="https://www.packtpub.com/en-us/product/becoming-an-enterprise-django-developer-9781801073639" target="_blank" title="Purchase a copy from Packt Publishing" aria-label="Purchase a copy from Packt Publishing">Becoming an Enterprise Django Developer</a>
-                            </h3>
+                            <h3 class="project-title">Becoming an Enterprise Django Developer</h3>
                             <p class="pub-description">
                                 Discover best practices, tooling, and solutions for writing and organizing Django applications in production
                             </p>
@@ -1746,6 +1769,11 @@
                                 <a href="https://www.betterworldbooks.com/product/detail/becoming-an-enterprise-django-developer-discover-best-practices-tooling-and-solutions-for-writing-an-9781801073639?shipto=US&curcode=USD&utm_source=google&utm_medium=cpc&utm_campaign=Shopping-New-USA&utm_content=186849722375&utm_term=&creative=777596326024" class="tech-tag" target="_blank" title="Purchase a copy from Better World Books" aria-label="Purchase a copy from Better World Books">Better World Books</a>
                                 <a href="https://www.thriftbooks.com/w/becoming-an-enterprise-django-developer-discover-best-practices-tooling-and-solutions-for-writing-and-organizing-django-applications-in-production/37174575/item/53651704/" class="tech-tag" target="_blank" title="Purchase a copy from Thrift Books" aria-label="Purchase a copy from Thrift Books">Thrift Books</a>
                                 <a href="https://www.worldofbooks.com/products/becoming-an-enterprise-django-developer-book-michael-dinder-9781801073639?sku=NIN9781801073639" class="tech-tag" target="_blank" title="Purchase a copy from World of Books" aria-label="Purchase a copy from World of Books">World of Books</a>
+                                <a href="https://www.oreilly.com/library/view/becoming-an-enterprise/9781801073639/" class="tech-tag" target="_blank" title="Purchase a copy from O'Reilly Books" aria-label="Purchase a copy from O'Reilly Books">O'Reilly Books</a>
+                                <a href="https://www.barnesandnoble.com/w/becoming-an-enterprise-django-developer-michael-dinder/1140873005" class="tech-tag" target="_blank" title="Purchase a copy from Barnes and Noble" aria-label="Purchase a copy from Barnes and Noble">Barnes &amp; Noble</a>
+                                <a href="https://www.booksamillion.com/p/Becoming-Enterprise-Django-Developer/Michael-Dinder/9781801073639" class="tech-tag" target="_blank" title="Purchase a copy from Books A Million (BAM)" aria-label="Purchase a copy from Books A Million (BAM)">Books A Million (BAM)</a>
+                                <a href="https://bookshop.org/p/books/becoming-an-enterprise-django-developer-discover-best-practices-tooling-and-solutions-for-writing-and-organizing-django-applications-in-production-m/d2c9f2f4413c4287" class="tech-tag" target="_blank" title="Purchase a copy from Bookshop" aria-label="Purchase a copy from Bookshop">Bookshop</a>
+                                <a href="https://store.poisonedpen.com/item/1HBh1upbbzyjFKieYLK1uQ" class="tech-tag" target="_blank" title="Purchase a copy from The Poisoned Pen" aria-label="Purchase a copy from The Poisoned Pen">The Poisoned Pen</a>
                                 <!-- <a href="" class="tech-tag" target="_blank" title="Purchase a copy from " aria-label="Purchase a copy from "></a> -->
                             </div>
                         </div>
