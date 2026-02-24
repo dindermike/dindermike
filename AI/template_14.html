@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Python Interactive Console</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: #1e1e2e;
+    color: #cdd6f4;
+    font-family: 'Cascadia Code', 'Fira Code', 'Consolas', monospace;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+  #header {
+    background: #181825;
+    padding: 10px 16px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    border-bottom: 1px solid #313244;
+  }
+  #header h1 { font-size: 15px; color: #cba6f7; font-weight: 600; }
+  #status {
+    margin-left: auto;
+    font-size: 12px;
+    padding: 3px 10px;
+    border-radius: 12px;
+    background: #313244;
+    color: #a6e3a1;
+  }
+  #status.loading { color: #f9e2af; }
+  #status.error { color: #f38ba8; }
+
+  #main { display: flex; flex: 1; overflow: hidden; }
+
+  /* Editor panel */
+  #editor-panel {
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+    border-right: 1px solid #313244;
+  }
+  #editor-toolbar {
+    background: #181825;
+    padding: 6px 10px;
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    border-bottom: 1px solid #313244;
+  }
+  #editor-toolbar span { font-size: 11px; color: #6c7086; }
+  button {
+    font-family: inherit;
+    font-size: 12px;
+    border: none;
+    border-radius: 6px;
+    padding: 5px 14px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: opacity 0.15s;
+  }
+  button:hover { opacity: 0.85; }
+  button:disabled { opacity: 0.4; cursor: not-allowed; }
+  #run-btn { background: #a6e3a1; color: #1e1e2e; }
+  #clear-code-btn { background: #313244; color: #cdd6f4; }
+  #code-input {
+    flex: 1;
+    background: #1e1e2e;
+    color: #cdd6f4;
+    border: none;
+    outline: none;
+    padding: 14px;
+    font-family: inherit;
+    font-size: 14px;
+    line-height: 1.6;
+    resize: none;
+    tab-size: 4;
+  }
+  #code-input::placeholder { color: #45475a; }
+
+  /* Console panel */
+  #console-panel {
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+  }
+  #console-toolbar {
+    background: #181825;
+    padding: 6px 10px;
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    border-bottom: 1px solid #313244;
+  }
+  #console-toolbar span { font-size: 11px; color: #6c7086; }
+  #clear-btn { background: #313244; color: #cdd6f4; }
+  #output {
+    flex: 1;
+    overflow-y: auto;
+    padding: 14px;
+    font-size: 13px;
+    line-height: 1.7;
+  }
+  .out-line { white-space: pre-wrap; word-break: break-all; }
+  .out-line.stdout { color: #cdd6f4; }
+  .out-line.stderr { color: #f38ba8; }
+  .out-line.info { color: #89b4fa; font-style: italic; }
+  .out-line.prompt { color: #cba6f7; }
+  .out-line.user-input { color: #a6e3a1; }
+
+  /* Input row */
+  #input-row {
+    display: none;
+    align-items: center;
+    background: #181825;
+    border-top: 1px solid #313244;
+    padding: 8px 12px;
+    gap: 8px;
+  }
+  #input-row.active { display: flex; }
+  #input-prompt-label { color: #cba6f7; font-size: 13px; white-space: pre; }
+  #runtime-input {
+    flex: 1;
+    background: transparent;
+    border: none;
+    outline: none;
+    color: #a6e3a1;
+    font-family: inherit;
+    font-size: 13px;
+  }
+  #input-submit {
+    background: #cba6f7;
+    color: #1e1e2e;
+    padding: 4px 12px;
+    font-size: 12px;
+  }
+
+  /* Scrollbar */
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: #45475a; border-radius: 3px; }
+
+  /* Loading indicator */
+  #loading-overlay {
+    position: fixed; inset: 0;
+    background: rgba(30,30,46,0.85);
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    gap: 16px; z-index: 100;
+  }
+  #loading-overlay.hidden { display: none; }
+  .spinner {
+    width: 36px; height: 36px;
+    border: 3px solid #313244;
+    border-top-color: #cba6f7;
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  #loading-overlay p { color: #89b4fa; font-size: 14px; }
+
+  @media (max-width: 700px) {
+    #main { flex-direction: column; }
+    #editor-panel, #console-panel { width: 100%; }
+    #editor-panel { border-right: none; border-bottom: 1px solid #313244; }
+  }
+</style>
+</head>
+<body>
+
+<div id="loading-overlay">
+  <div class="spinner"></div>
+  <p>Loading Python (Pyodide)…</p>
+</div>
+
+<div id="header">
+  <h1>🐍 Python Interactive Console</h1>
+  <div id="status" class="loading">Loading…</div>
+</div>
+
+<div id="main">
+  <div id="editor-panel">
+    <div id="editor-toolbar">
+      <span>EDITOR</span>
+      <button id="run-btn" disabled>▶ Run</button>
+      <button id="clear-code-btn">Clear</button>
+    </div>
+    <textarea id="code-input" placeholder="# Write Python here and click Run&#10;# input() is fully supported!&#10;&#10;name = input('What is your name? ')&#10;print(f'Hello, {name}!')&#10;&#10;age = int(input('How old are you? '))&#10;print(f'In 10 years you will be {age + 10}')"></textarea>
+  </div>
+
+  <div id="console-panel">
+    <div id="console-toolbar">
+      <span>OUTPUT</span>
+      <button id="clear-btn">Clear</button>
+    </div>
+    <div id="output"></div>
+    <div id="input-row">
+      <span id="input-prompt-label"></span>
+      <input id="runtime-input" type="text" autocomplete="off" spellcheck="false" />
+      <button id="input-submit">Enter ↵</button>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/pyodide/v0.26.2/full/pyodide.js"></script>
+<script>
+(async () => {
+
+  // ── DOM refs ──────────────────────────────────────────────────────────────
+  const output       = document.getElementById('output');
+  const codeInput    = document.getElementById('code-input');
+  const runBtn       = document.getElementById('run-btn');
+  const clearBtn     = document.getElementById('clear-btn');
+  const clearCodeBtn = document.getElementById('clear-code-btn');
+  const inputRow     = document.getElementById('input-row');
+  const inputPromptLabel = document.getElementById('input-prompt-label');
+  const runtimeInput = document.getElementById('runtime-input');
+  const inputSubmit  = document.getElementById('input-submit');
+  const statusEl     = document.getElementById('status');
+  const loadingOverlay = document.getElementById('loading-overlay');
+
+  // ── Helpers ───────────────────────────────────────────────────────────────
+  function addLine(text, cls) {
+    const el = document.createElement('div');
+    el.className = 'out-line ' + cls;
+    el.textContent = text;
+    output.appendChild(el);
+    output.scrollTop = output.scrollHeight;
+  }
+
+  function setStatus(text, cls) {
+    statusEl.textContent = text;
+    statusEl.className = cls || '';
+  }
+
+  // ── input() machinery ─────────────────────────────────────────────────────
+  // We keep a queue of pending resolvers. Each call to input() from Python
+  // will push a Promise whose resolve is handed off to the UI.
+  let inputResolver = null;
+
+  function jsInput(prompt) {
+    // Show prompt text in output
+    addLine(prompt, 'prompt');
+    // Show the input row
+    inputPromptLabel.textContent = '';
+    runtimeInput.value = '';
+    inputRow.classList.add('active');
+    runtimeInput.focus();
+
+    return new Promise((resolve) => {
+      inputResolver = resolve;
+    });
+  }
+
+  function submitInput() {
+    if (!inputResolver) return;
+    const val = runtimeInput.value;
+    addLine(val, 'user-input');
+    inputRow.classList.remove('active');
+    runtimeInput.value = '';
+    const r = inputResolver;
+    inputResolver = null;
+    r(val);
+  }
+
+  inputSubmit.addEventListener('click', submitInput);
+  runtimeInput.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') submitInput();
+  });
+
+  // ── Load Pyodide ──────────────────────────────────────────────────────────
+  let pyodide;
+  try {
+    pyodide = await loadPyodide();
+  } catch (e) {
+    setStatus('Failed to load', 'error');
+    loadingOverlay.classList.add('hidden');
+    addLine('ERROR: Could not load Pyodide. Check your internet connection.', 'stderr');
+    return;
+  }
+
+  // ── Redirect stdout / stderr ──────────────────────────────────────────────
+  pyodide.setStdout({ batched: (text) => addLine(text, 'stdout') });
+  pyodide.setStderr({ batched: (text) => addLine(text, 'stderr') });
+
+  // ── Patch builtins.input via Python ──────────────────────────────────────
+  // We expose jsInput to Python, then override __builtins__.input.
+  // Using pyodide.globals.set to pass the JS function directly.
+  // In Python we wrap it so it calls the JS promise synchronously via
+  // pyodide's ability to await JS promises from async Python.
+  pyodide.globals.set('__js_input__', jsInput);
+
+  await pyodide.runPythonAsync(`
+import builtins, js
+
+async def _patched_input(prompt=''):
+    result = await js.__js_input__(str(prompt))
+    return result
+
+builtins.input = _patched_input
+`);
+
+  // ── Ready ─────────────────────────────────────────────────────────────────
+  loadingOverlay.classList.add('hidden');
+  setStatus('Ready', '');
+  runBtn.disabled = false;
+  addLine('Python ready. Click ▶ Run to execute your code.', 'info');
+
+  // ── Run handler ───────────────────────────────────────────────────────────
+  async function runCode() {
+    const code = codeInput.value;
+    if (!code.trim()) return;
+
+    runBtn.disabled = true;
+    setStatus('Running…', 'loading');
+    addLine('─'.repeat(40), 'info');
+
+    try {
+      await pyodide.runPythonAsync(code);
+      setStatus('Done ✓', '');
+    } catch (err) {
+      // Format traceback nicely
+      const msg = err.message || String(err);
+      addLine(msg, 'stderr');
+      setStatus('Error', 'error');
+    } finally {
+      // Make sure input row is hidden if execution ended
+      inputRow.classList.remove('active');
+      inputResolver = null;
+      runBtn.disabled = false;
+    }
+  }
+
+  runBtn.addEventListener('click', runCode);
+
+  // Ctrl+Enter to run
+  codeInput.addEventListener('keydown', (e) => {
+    if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
+      e.preventDefault();
+      if (!runBtn.disabled) runCode();
+    }
+  });
+
+  // Tab key inserts spaces
+  codeInput.addEventListener('keydown', (e) => {
+    if (e.key === 'Tab') {
+      e.preventDefault();
+      const start = codeInput.selectionStart;
+      const end = codeInput.selectionEnd;
+      codeInput.value = codeInput.value.substring(0, start) + '    ' + codeInput.value.substring(end);
+      codeInput.selectionStart = codeInput.selectionEnd = start + 4;
+    }
+  });
+
+  clearBtn.addEventListener('click', () => {
+    output.innerHTML = '';
+  });
+
+  clearCodeBtn.addEventListener('click', () => {
+    codeInput.value = '';
+    codeInput.focus();
+  });
+
+})();
+</script>
+</body>
+</html>

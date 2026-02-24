@@ -1,0 +1,869 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Python — The Language of the Universe</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;600&family=Space+Mono:ital@0;1&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy: #030b1a;
+    --deep: #050e22;
+    --blue-1: #0a1f3c;
+    --blue-2: #0d2a50;
+    --cyan: #00d4ff;
+    --cyan-dim: #007fa0;
+    --gold: #ffd166;
+    --white: #e8f4ff;
+    --muted: #5a7fa0;
+    --glow: rgba(0,212,255,0.15);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--navy);
+    color: var(--white);
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 18px;
+    overflow-x: hidden;
+    cursor: none;
+  }
+
+  /* Custom cursor */
+  .cursor {
+    position: fixed;
+    width: 12px; height: 12px;
+    background: var(--cyan);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 9999;
+    transform: translate(-50%, -50%);
+    transition: transform 0.1s, width 0.2s, height 0.2s, opacity 0.2s;
+    mix-blend-mode: screen;
+  }
+  .cursor-ring {
+    position: fixed;
+    width: 36px; height: 36px;
+    border: 1px solid rgba(0,212,255,0.5);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 9998;
+    transform: translate(-50%, -50%);
+    transition: transform 0.15s ease-out, width 0.3s, height 0.3s;
+  }
+
+  /* Stars background */
+  #stars-canvas {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    z-index: 0;
+    pointer-events: none;
+  }
+
+  /* Navigation */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.2rem 3rem;
+    background: rgba(3,11,26,0.7);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(0,212,255,0.1);
+  }
+  .nav-logo {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 1.1rem;
+    color: var(--cyan);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+  }
+  .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+  .nav-links a {
+    color: var(--muted);
+    text-decoration: none;
+    font-size: 0.85rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    transition: color 0.3s;
+    font-family: 'Orbitron', sans-serif;
+  }
+  .nav-links a:hover { color: var(--cyan); }
+
+  /* Sections layout */
+  section { position: relative; z-index: 1; }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 6rem 2rem 4rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero-orbit {
+    position: absolute;
+    border: 1px solid rgba(0,212,255,0.08);
+    border-radius: 50%;
+    animation: spin linear infinite;
+  }
+  .hero-orbit:nth-child(1) { width: 600px; height: 600px; animation-duration: 40s; }
+  .hero-orbit:nth-child(2) { width: 850px; height: 850px; animation-duration: 65s; animation-direction: reverse; }
+  .hero-orbit:nth-child(3) { width: 1100px; height: 1100px; animation-duration: 90s; }
+
+  .orbit-dot {
+    position: absolute;
+    width: 6px; height: 6px;
+    background: var(--cyan);
+    border-radius: 50%;
+    top: 50%; left: 0;
+    transform: translateY(-50%);
+    box-shadow: 0 0 12px var(--cyan);
+  }
+
+  @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+
+  .hero-eyebrow {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.75rem;
+    letter-spacing: 0.3em;
+    color: var(--cyan);
+    text-transform: uppercase;
+    margin-bottom: 1.5rem;
+    opacity: 0;
+    animation: fadeUp 0.8s ease forwards 0.3s;
+  }
+
+  .hero-title {
+    font-family: 'Orbitron', sans-serif;
+    font-size: clamp(3.5rem, 9vw, 8rem);
+    font-weight: 900;
+    line-height: 1;
+    letter-spacing: -0.02em;
+    background: linear-gradient(135deg, #fff 0%, var(--cyan) 50%, #006dff 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    opacity: 0;
+    animation: fadeUp 1s ease forwards 0.5s;
+  }
+
+  .hero-sub {
+    font-size: 1.3rem;
+    font-weight: 300;
+    color: var(--muted);
+    max-width: 560px;
+    margin: 1.5rem auto 2.5rem;
+    line-height: 1.6;
+    opacity: 0;
+    animation: fadeUp 1s ease forwards 0.8s;
+  }
+
+  .hero-cta {
+    display: inline-block;
+    padding: 0.85rem 2.5rem;
+    border: 1px solid var(--cyan);
+    color: var(--cyan);
+    font-family: 'Orbitron', sans-serif;
+    font-size: 0.8rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    text-decoration: none;
+    position: relative;
+    overflow: hidden;
+    transition: color 0.4s;
+    opacity: 0;
+    animation: fadeUp 1s ease forwards 1.1s;
+  }
+  .hero-cta::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: var(--cyan);
+    transform: translateX(-100%);
+    transition: transform 0.4s ease;
+  }
+  .hero-cta:hover { color: var(--navy); }
+  .hero-cta:hover::before { transform: translateX(0); }
+  .hero-cta span { position: relative; z-index: 1; }
+
+  .snake-wrap {
+    margin-top: 4rem;
+    opacity: 0;
+    animation: fadeUp 1s ease forwards 1.4s;
+  }
+  .snake-svg { width: 60px; height: 60px; animation: float 3s ease-in-out infinite; }
+  @keyframes float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-10px)} }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* DIVIDER */
+  .divider {
+    width: 100%;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--cyan-dim), transparent);
+    margin: 0 auto;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* TIMELINE SECTION */
+  .timeline-section {
+    padding: 8rem 2rem;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+  .section-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.35em;
+    color: var(--cyan);
+    text-transform: uppercase;
+    margin-bottom: 0.5rem;
+  }
+  .section-title {
+    font-family: 'Orbitron', sans-serif;
+    font-size: clamp(1.8rem, 4vw, 3rem);
+    font-weight: 700;
+    line-height: 1.1;
+    margin-bottom: 4rem;
+    color: var(--white);
+  }
+  .section-title span { color: var(--cyan); }
+
+  .timeline {
+    position: relative;
+    padding-left: 2rem;
+  }
+  .timeline::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0; bottom: 0;
+    width: 1px;
+    background: linear-gradient(180deg, transparent, var(--cyan-dim) 15%, var(--cyan-dim) 85%, transparent);
+  }
+
+  .timeline-item {
+    position: relative;
+    padding: 0 0 4rem 3rem;
+    opacity: 0;
+    transform: translateX(-20px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+  .timeline-item.visible { opacity: 1; transform: translateX(0); }
+
+  .timeline-item::before {
+    content: '';
+    position: absolute;
+    left: -5px;
+    top: 6px;
+    width: 10px; height: 10px;
+    border-radius: 50%;
+    background: var(--cyan);
+    box-shadow: 0 0 16px var(--cyan);
+    transition: transform 0.3s;
+  }
+  .timeline-item:hover::before { transform: scale(1.5); }
+
+  .timeline-year {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 0.75rem;
+    letter-spacing: 0.2em;
+    color: var(--cyan);
+    margin-bottom: 0.4rem;
+  }
+  .timeline-heading {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--white);
+    margin-bottom: 0.6rem;
+  }
+  .timeline-body { color: var(--muted); line-height: 1.7; max-width: 660px; font-size: 1rem; }
+
+  /* USES SECTION */
+  .uses-section {
+    padding: 8rem 2rem;
+    background: linear-gradient(180deg, transparent, rgba(10,31,60,0.6), transparent);
+  }
+  .uses-inner { max-width: 1200px; margin: 0 auto; }
+
+  .cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5rem;
+    margin-top: 3rem;
+  }
+
+  .card {
+    background: rgba(10,31,60,0.5);
+    border: 1px solid rgba(0,212,255,0.1);
+    border-radius: 2px;
+    padding: 2rem;
+    position: relative;
+    overflow: hidden;
+    transition: border-color 0.3s, transform 0.3s, box-shadow 0.3s;
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  .card.visible { opacity: 1; transform: translateY(0); }
+  .card:hover {
+    border-color: var(--cyan);
+    transform: translateY(-6px);
+    box-shadow: 0 20px 60px rgba(0,212,255,0.12);
+  }
+  .card::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(0,212,255,0.05), transparent);
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+  .card:hover::after { opacity: 1; }
+
+  .card-icon {
+    font-size: 2.2rem;
+    margin-bottom: 1rem;
+    display: block;
+  }
+  .card-title {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 0.95rem;
+    letter-spacing: 0.05em;
+    color: var(--white);
+    margin-bottom: 0.8rem;
+  }
+  .card-body { color: var(--muted); font-size: 0.95rem; line-height: 1.65; }
+  .card-tag {
+    display: inline-block;
+    margin-top: 1rem;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.1em;
+    color: var(--cyan-dim);
+    border: 1px solid var(--cyan-dim);
+    padding: 0.2rem 0.6rem;
+  }
+
+  /* STAT STRIP */
+  .stat-strip {
+    background: rgba(0,212,255,0.04);
+    border-top: 1px solid rgba(0,212,255,0.12);
+    border-bottom: 1px solid rgba(0,212,255,0.12);
+    padding: 3rem 2rem;
+    position: relative; z-index: 1;
+  }
+  .stat-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    gap: 2rem;
+    text-align: center;
+  }
+  .stat-item {}
+  .stat-num {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 2.8rem;
+    font-weight: 900;
+    color: var(--cyan);
+    display: block;
+    line-height: 1;
+  }
+  .stat-label { font-size: 0.85rem; color: var(--muted); letter-spacing: 0.1em; margin-top: 0.4rem; }
+
+  /* EXAMPLES / LINKS SECTION */
+  .links-section {
+    padding: 8rem 2rem;
+    max-width: 1000px;
+    margin: 0 auto;
+  }
+  .links-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 1rem;
+    margin-top: 3rem;
+  }
+  .link-card {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1.2rem 1.5rem;
+    border: 1px solid rgba(0,212,255,0.12);
+    background: rgba(5,14,34,0.6);
+    text-decoration: none;
+    transition: all 0.3s;
+    position: relative;
+    overflow: hidden;
+  }
+  .link-card::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
+    width: 3px;
+    background: var(--cyan);
+    transform: scaleY(0);
+    transform-origin: bottom;
+    transition: transform 0.3s;
+  }
+  .link-card:hover { border-color: rgba(0,212,255,0.35); background: rgba(0,212,255,0.06); transform: translateX(6px); }
+  .link-card:hover::before { transform: scaleY(1); }
+  .link-num {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--cyan-dim);
+    min-width: 2rem;
+  }
+  .link-title { color: var(--white); font-size: 0.95rem; letter-spacing: 0.03em; }
+  .link-arrow { margin-left: auto; color: var(--cyan-dim); font-size: 1rem; transition: transform 0.3s; }
+  .link-card:hover .link-arrow { transform: translateX(4px); color: var(--cyan); }
+
+  /* FOOTER */
+  footer {
+    text-align: center;
+    padding: 3rem 2rem;
+    border-top: 1px solid rgba(0,212,255,0.08);
+    position: relative; z-index: 1;
+    color: var(--muted);
+    font-family: 'Space Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.1em;
+  }
+  footer a { color: var(--cyan-dim); text-decoration: none; }
+
+  /* Glitch effect on hover hero */
+  .glitch {
+    position: relative;
+  }
+  .glitch:hover::before, .glitch:hover::after {
+    content: attr(data-text);
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: linear-gradient(135deg, #fff 0%, var(--cyan) 50%, #006dff 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .glitch:hover::before {
+    animation: glitch1 0.3s infinite;
+    clip-path: polygon(0 0, 100% 0, 100% 33%, 0 33%);
+  }
+  .glitch:hover::after {
+    animation: glitch2 0.3s infinite;
+    clip-path: polygon(0 66%, 100% 66%, 100% 100%, 0 100%);
+  }
+  @keyframes glitch1 {
+    0%,100%{transform:translateX(0)} 25%{transform:translateX(-3px)} 75%{transform:translateX(3px)}
+  }
+  @keyframes glitch2 {
+    0%,100%{transform:translateX(0)} 25%{transform:translateX(3px)} 75%{transform:translateX(-3px)}
+  }
+
+  /* Scrollbar */
+  ::-webkit-scrollbar { width: 4px; }
+  ::-webkit-scrollbar-track { background: var(--navy); }
+  ::-webkit-scrollbar-thumb { background: var(--cyan-dim); }
+
+  /* Responsive */
+  @media (max-width: 768px) {
+    nav { padding: 1rem 1.5rem; }
+    .nav-links { display: none; }
+    .timeline { padding-left: 1rem; }
+    .timeline-item { padding-left: 2rem; }
+  }
+</style>
+</head>
+<body>
+
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+<canvas id="stars-canvas"></canvas>
+
+<nav>
+  <div class="nav-logo">Python.Universe</div>
+  <ul class="nav-links">
+    <li><a href="#history">History</a></li>
+    <li><a href="#uses">Uses</a></li>
+    <li><a href="#examples">Examples</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-orbit"><div class="orbit-dot"></div></div>
+  <div class="hero-orbit"><div class="orbit-dot"></div></div>
+  <div class="hero-orbit"><div class="orbit-dot"></div></div>
+
+  <p class="hero-eyebrow">// est. 1991 — beyond the horizon</p>
+  <h1 class="hero-title glitch" data-text="PYTHON">PYTHON</h1>
+  <p class="hero-sub">A programming language that has traveled from the Christmas of 1989 to the stars of modern AI — simple enough for beginners, powerful enough to run the world.</p>
+  <a href="#history" class="hero-cta"><span>Begin the Journey →</span></a>
+
+  <div class="snake-wrap">
+    <svg class="snake-svg" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M60 15 C35 15, 20 30, 20 50 C20 65, 30 75, 45 78 L45 90 C45 100, 52 108, 60 108 C68 108, 75 100, 75 90 L75 78 C90 75, 100 65, 100 50 C100 30, 85 15, 60 15Z" fill="#0a1f3c" stroke="#00d4ff" stroke-width="2"/>
+      <circle cx="48" cy="42" r="5" fill="#00d4ff"/>
+      <circle cx="72" cy="42" r="5" fill="#ffd166"/>
+      <path d="M20 50 C5 50, 5 80, 20 80 L45 78" stroke="#00d4ff" stroke-width="2.5" stroke-linecap="round"/>
+      <path d="M100 50 C115 50, 115 80, 100 80 L75 78" stroke="#ffd166" stroke-width="2.5" stroke-linecap="round"/>
+    </svg>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- HISTORY TIMELINE -->
+<section id="history">
+  <div class="timeline-section">
+    <p class="section-label">// mission log</p>
+    <h2 class="section-title">Tracing the <span>Orbit</span> of Python</h2>
+
+    <div class="timeline">
+      <div class="timeline-item">
+        <div class="timeline-year">1989 — IGNITION</div>
+        <div class="timeline-heading">Born in a Holiday Break</div>
+        <div class="timeline-body">During the Christmas holiday of 1989, Guido van Rossum — a Dutch programmer at Centrum Wiskunde & Informatica (CWI) in the Netherlands — began writing Python as a hobby project. He wanted a language that bridged the gap between C and shell scripting, something expressive and easy to read. He named it after Monty Python's Flying Circus.</div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-year">1991 — LAUNCH</div>
+        <div class="timeline-heading">Python 0.9.0 Released</div>
+        <div class="timeline-body">The first public version of Python was released to the alt.sources newsgroup. It already included classes with inheritance, exception handling, functions, and the core datatypes we still recognize today. The language was immediately distinctive for its use of indentation over curly braces.</div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-year">1994 — ORBIT STABILIZED</div>
+        <div class="timeline-heading">Python 1.0 — Lambda, Map, Filter</div>
+        <div class="timeline-body">Python 1.0 arrived with functional programming tools like lambda, map, filter, and reduce. A community was forming, drawn to the language's philosophy — nicknamed "the Zen of Python" — that beautiful, explicit code beats clever, implicit trickery.</div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-year">2000 — NEW TRAJECTORY</div>
+        <div class="timeline-heading">Python 2.0 & Open Development</div>
+        <div class="timeline-body">Python 2.0 introduced list comprehensions, garbage collection, and crucially, a shift to a more open, community-driven development model. The Python Software Foundation was formed, ensuring the language's future was guided by its global user base rather than any single company.</div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-year">2008 — DEEP SPACE</div>
+        <div class="timeline-heading">Python 3 — The Great Leap</div>
+        <div class="timeline-body">Python 3.0 was released, making intentional backward-incompatible changes to fix fundamental flaws. It cleaned up inconsistencies, improved Unicode support, and set the stage for Python's future dominance. The decade-long migration from Python 2 to 3 is one of open source's greatest transitions.</div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-year">2010s — SUPERNOVA</div>
+        <div class="timeline-heading">The Data Science & AI Revolution</div>
+        <div class="timeline-body">Libraries like NumPy, Pandas, Matplotlib, scikit-learn, TensorFlow, and PyTorch transformed Python into the undisputed language of data science, machine learning, and AI. Universities began teaching it as a first language. Tech giants adopted it as a primary development tool.</div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-year">TODAY — STELLAR DOMINANCE</div>
+        <div class="timeline-heading">The Most Popular Language on Earth</div>
+        <div class="timeline-body">Python consistently ranks as the #1 most popular programming language worldwide by multiple indices. It powers NASA, Instagram, YouTube, Spotify, and most of the world's AI research. With over 500,000 packages on PyPI and a global community of tens of millions, Python shows no signs of slowing its expansion.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- STATS -->
+<div class="stat-strip">
+  <div class="stat-inner">
+    <div class="stat-item">
+      <span class="stat-num" data-target="34">0</span>
+      <div class="stat-label">Years of Evolution</div>
+    </div>
+    <div class="stat-item">
+      <span class="stat-num" data-target="500">0</span>
+      <div class="stat-label">K+ PyPI Packages</div>
+    </div>
+    <div class="stat-item">
+      <span class="stat-num" data-target="1">0</span>
+      <div class="stat-label">Ranked #1 Globally</div>
+    </div>
+    <div class="stat-item">
+      <span class="stat-num" data-target="8">0</span>
+      <div class="stat-label">Million+ Developers</div>
+    </div>
+  </div>
+</div>
+
+<!-- USES SECTION -->
+<section id="uses">
+  <div class="uses-section">
+    <div class="uses-inner">
+      <p class="section-label">// applications</p>
+      <h2 class="section-title">Where Python <span>Commands</span> the Galaxy</h2>
+
+      <div class="cards-grid">
+        <div class="card">
+          <span class="card-icon">🤖</span>
+          <div class="card-title">Artificial Intelligence & ML</div>
+          <div class="card-body">TensorFlow, PyTorch, and Keras make Python the primary language for training neural networks. From image recognition to large language models, Python is the engine of the AI revolution.</div>
+          <span class="card-tag">tensorflow · pytorch · keras</span>
+        </div>
+
+        <div class="card">
+          <span class="card-icon">🌐</span>
+          <div class="card-title">Web Development</div>
+          <div class="card-body">Django and Flask power millions of web applications. Instagram, Pinterest, and Disqus were all built on Django. Python's simplicity makes rapid web development extraordinarily efficient.</div>
+          <span class="card-tag">django · flask · fastapi</span>
+        </div>
+
+        <div class="card">
+          <span class="card-icon">📊</span>
+          <div class="card-title">Data Science & Analytics</div>
+          <div class="card-body">Pandas, NumPy, and Jupyter notebooks are the standard toolkit for data exploration. Scientists, economists, and analysts worldwide use Python to turn raw data into meaningful insight.</div>
+          <span class="card-tag">pandas · numpy · matplotlib</span>
+        </div>
+
+        <div class="card">
+          <span class="card-icon">🔭</span>
+          <div class="card-title">Scientific Computing</div>
+          <div class="card-body">NASA uses Python to process telescope imagery. The first-ever photograph of a black hole was processed with Python scripts. SciPy and Astropy are essential tools in modern scientific research.</div>
+          <span class="card-tag">scipy · astropy · sympy</span>
+        </div>
+
+        <div class="card">
+          <span class="card-icon">🔐</span>
+          <div class="card-title">Cybersecurity</div>
+          <div class="card-body">Python's vast library ecosystem makes it the go-to language for pen testing, network scanning, and security automation. Tools like Scapy and Impacket are staples in security research.</div>
+          <span class="card-tag">scapy · requests · cryptography</span>
+        </div>
+
+        <div class="card">
+          <span class="card-icon">⚙️</span>
+          <div class="card-title">Automation & DevOps</div>
+          <div class="card-body">From Ansible playbooks to custom deployment scripts, Python automates the modern internet's infrastructure. It eliminates repetitive tasks and powers CI/CD pipelines across the industry.</div>
+          <span class="card-tag">ansible · boto3 · paramiko</span>
+        </div>
+
+        <div class="card">
+          <span class="card-icon">🎮</span>
+          <div class="card-title">Game Development</div>
+          <div class="card-body">Pygame enables 2D game creation while Python scripts power game logic in larger engines. Many game studios use Python for prototyping and tooling due to its rapid development speed.</div>
+          <span class="card-tag">pygame · panda3d · ursina</span>
+        </div>
+
+        <div class="card">
+          <span class="card-icon">🏦</span>
+          <div class="card-title">Finance & Quantitative Analysis</div>
+          <div class="card-body">Wall Street runs on Python. Quantitative analysts build trading algorithms, risk models, and financial data pipelines using Python's powerful numerical and statistical libraries.</div>
+          <span class="card-tag">quantlib · zipline · alphalens</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- EXAMPLES LINKS -->
+<section id="examples">
+  <div class="links-section">
+    <p class="section-label">// code examples</p>
+    <h2 class="section-title">Explore the <span>Archives</span></h2>
+    <p style="color:var(--muted); line-height:1.7; max-width:560px;">Dive into hands-on code examples organized by topic. Each module contains practical, runnable Python code with explanations.</p>
+
+    <div class="links-grid">
+      <a href="#" class="link-card">
+        <span class="link-num">01</span>
+        <span class="link-title">Getting Started with Python</span>
+        <span class="link-arrow">→</span>
+      </a>
+      <a href="#" class="link-card">
+        <span class="link-num">02</span>
+        <span class="link-title">Data Structures & Algorithms</span>
+        <span class="link-arrow">→</span>
+      </a>
+      <a href="#" class="link-card">
+        <span class="link-num">03</span>
+        <span class="link-title">Web Scraping with BeautifulSoup</span>
+        <span class="link-arrow">→</span>
+      </a>
+      <a href="#" class="link-card">
+        <span class="link-num">04</span>
+        <span class="link-title">Django Web App Tutorial</span>
+        <span class="link-arrow">→</span>
+      </a>
+      <a href="#" class="link-card">
+        <span class="link-num">05</span>
+        <span class="link-title">Machine Learning with scikit-learn</span>
+        <span class="link-arrow">→</span>
+      </a>
+      <a href="#" class="link-card">
+        <span class="link-num">06</span>
+        <span class="link-title">Neural Networks with PyTorch</span>
+        <span class="link-arrow">→</span>
+      </a>
+      <a href="#" class="link-card">
+        <span class="link-num">07</span>
+        <span class="link-title">Data Visualization with Matplotlib</span>
+        <span class="link-arrow">→</span>
+      </a>
+      <a href="#" class="link-card">
+        <span class="link-num">08</span>
+        <span class="link-title">Automation Scripts & Bots</span>
+        <span class="link-arrow">→</span>
+      </a>
+      <a href="#" class="link-card">
+        <span class="link-num">09</span>
+        <span class="link-title">Working with APIs & REST</span>
+        <span class="link-arrow">→</span>
+      </a>
+      <a href="#" class="link-card">
+        <span class="link-num">10</span>
+        <span class="link-title">File I/O & Data Processing</span>
+        <span class="link-arrow">→</span>
+      </a>
+      <a href="#" class="link-card">
+        <span class="link-num">11</span>
+        <span class="link-title">Cybersecurity & Networking</span>
+        <span class="link-arrow">→</span>
+      </a>
+      <a href="#" class="link-card">
+        <span class="link-num">12</span>
+        <span class="link-title">Game Development with Pygame</span>
+        <span class="link-arrow">→</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p>Built with Python spirit &nbsp;|&nbsp; <a href="#">python.org</a> &nbsp;|&nbsp; <a href="#">PSF</a> &nbsp;|&nbsp; &copy; 2025 Python.Universe</p>
+</footer>
+
+<script>
+  // --- Custom cursor ---
+  const cursor = document.getElementById('cursor');
+  const ring = document.getElementById('cursorRing');
+  let mx = 0, my = 0, rx = 0, ry = 0;
+  document.addEventListener('mousemove', e => {
+    mx = e.clientX; my = e.clientY;
+    cursor.style.left = mx + 'px';
+    cursor.style.top = my + 'px';
+  });
+  function animRing() {
+    rx += (mx - rx) * 0.12;
+    ry += (my - ry) * 0.12;
+    ring.style.left = rx + 'px';
+    ring.style.top = ry + 'px';
+    requestAnimationFrame(animRing);
+  }
+  animRing();
+
+  // --- Stars canvas ---
+  const canvas = document.getElementById('stars-canvas');
+  const ctx = canvas.getContext('2d');
+  let stars = [];
+
+  function resize() {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+  }
+  resize();
+  window.addEventListener('resize', () => { resize(); initStars(); });
+
+  function initStars() {
+    stars = [];
+    const count = Math.floor((canvas.width * canvas.height) / 3500);
+    for (let i = 0; i < count; i++) {
+      stars.push({
+        x: Math.random() * canvas.width,
+        y: Math.random() * canvas.height,
+        r: Math.random() * 1.4 + 0.2,
+        alpha: Math.random(),
+        speed: Math.random() * 0.003 + 0.001,
+        phase: Math.random() * Math.PI * 2,
+        color: Math.random() > 0.92 ? '#00d4ff' : Math.random() > 0.85 ? '#ffd166' : '#e8f4ff'
+      });
+    }
+  }
+  initStars();
+
+  function drawStars(t) {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    stars.forEach(s => {
+      const a = 0.3 + 0.6 * (0.5 + 0.5 * Math.sin(t * s.speed + s.phase));
+      ctx.beginPath();
+      ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
+      ctx.fillStyle = s.color;
+      ctx.globalAlpha = a;
+      ctx.fill();
+    });
+    ctx.globalAlpha = 1;
+  }
+
+  let t = 0;
+  function starLoop() {
+    t += 1;
+    drawStars(t);
+    requestAnimationFrame(starLoop);
+  }
+  starLoop();
+
+  // --- Scroll reveal ---
+  const reveals = document.querySelectorAll('.timeline-item, .card');
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach((e, i) => {
+      if (e.isIntersecting) {
+        setTimeout(() => e.target.classList.add('visible'), 80 * (Array.from(reveals).indexOf(e.target) % 6));
+        observer.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.1 });
+  reveals.forEach(el => observer.observe(el));
+
+  // --- Counter animation ---
+  const counters = document.querySelectorAll('.stat-num[data-target]');
+  const cObserver = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const el = entry.target;
+        const target = +el.dataset.target;
+        let current = 0;
+        const step = target / 50;
+        const timer = setInterval(() => {
+          current += step;
+          if (current >= target) { current = target; clearInterval(timer); }
+          el.textContent = target === 1 ? '#1' : Math.floor(current) + (target === 500 ? 'K' : target === 8 ? 'M' : '');
+        }, 30);
+        cObserver.unobserve(el);
+      }
+    });
+  }, { threshold: 0.5 });
+  counters.forEach(el => cObserver.observe(el));
+
+  // Parallax hero orbits on mouse
+  const orbits = document.querySelectorAll('.hero-orbit');
+  document.addEventListener('mousemove', e => {
+    const cx = window.innerWidth / 2, cy = window.innerHeight / 2;
+    const dx = (e.clientX - cx) / cx, dy = (e.clientY - cy) / cy;
+    orbits.forEach((o, i) => {
+      const factor = (i + 1) * 8;
+      o.style.transform = `translate(${dx * factor}px, ${dy * factor}px)`;
+    });
+  });
+</script>
+</body>
+</html>
