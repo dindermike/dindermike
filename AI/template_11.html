@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Python REPL</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;700&family=Syne:wght@400;700;800&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/pyodide/v0.25.0/full/pyodide.js"></script>
+
+<!-- Robots Meta Tag -->
+<meta name="robots" content="index, follow">
+
+<!-- Meta Description for SEO -->
+<meta name="description" content="A personal AI Project by Mike Dinder. This shows Template 11">
+
+<!-- Meta Keywords -->
+<meta name="keywords" content="mike dinder, michael dinder, AI, Artificial Intelligence, Claude-AI, Claude Code, Generative AI">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #0d0d0f;
+    --surface: #141416;
+    --border: #252528;
+    --accent: #7fff6e;
+    --accent2: #4fc3f7;
+    --text: #e8e8ec;
+    --muted: #666672;
+    --error: #ff6b6b;
+    --warn: #ffd166;
+  }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'JetBrains Mono', monospace;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+
+  header {
+    padding: 18px 28px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    background: var(--surface);
+    flex-shrink: 0;
+  }
+
+  .logo {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: 1.1rem;
+    letter-spacing: -0.02em;
+    color: var(--accent);
+  }
+
+  .logo span { color: var(--text); opacity: 0.4; }
+
+  .status {
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.72rem;
+    color: var(--muted);
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+
+  .dot {
+    width: 7px; height: 7px;
+    border-radius: 50%;
+    background: var(--muted);
+    transition: background 0.3s;
+  }
+  .dot.ready { background: var(--accent); box-shadow: 0 0 8px var(--accent); }
+  .dot.loading { background: var(--warn); animation: pulse 1s ease-in-out infinite; }
+
+  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.4} }
+
+  #output {
+    flex: 1;
+    overflow-y: auto;
+    padding: 20px 28px;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    scroll-behavior: smooth;
+  }
+
+  .entry {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    padding: 10px 0;
+    border-bottom: 1px solid #1a1a1e;
+    animation: fadeIn 0.15s ease;
+  }
+
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: none; } }
+
+  .input-line {
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+  }
+
+  .prompt { color: var(--accent); user-select: none; flex-shrink: 0; }
+  .prompt.cont { color: var(--muted); }
+
+  .code-display {
+    color: var(--accent2);
+    white-space: pre-wrap;
+    word-break: break-all;
+    flex: 1;
+    line-height: 1.6;
+  }
+
+  .result {
+    padding-left: 28px;
+    white-space: pre-wrap;
+    word-break: break-all;
+    line-height: 1.6;
+    font-size: 0.9rem;
+  }
+  .result.stdout { color: var(--text); opacity: 0.85; }
+  .result.value { color: var(--warn); }
+  .result.error { color: var(--error); }
+
+  .loading-indicator {
+    padding-left: 28px;
+    color: var(--muted);
+    font-size: 0.8rem;
+    animation: pulse 1s infinite;
+  }
+
+  #input-area {
+    border-top: 1px solid var(--border);
+    background: var(--surface);
+    padding: 16px 28px;
+    flex-shrink: 0;
+  }
+
+  .input-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  #code-input {
+    flex: 1;
+    background: transparent;
+    border: none;
+    outline: none;
+    color: var(--accent2);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.9rem;
+    resize: none;
+    line-height: 1.6;
+    min-height: 24px;
+    max-height: 200px;
+    overflow-y: auto;
+    caret-color: var(--accent);
+  }
+
+  #code-input::placeholder { color: var(--muted); }
+
+  .hint {
+    margin-top: 10px;
+    font-size: 0.7rem;
+    color: var(--muted);
+    display: flex;
+    gap: 20px;
+    letter-spacing: 0.03em;
+  }
+
+  .hint kbd {
+    background: var(--border);
+    padding: 1px 5px;
+    border-radius: 3px;
+    font-family: inherit;
+    color: var(--text);
+    font-size: 0.68rem;
+  }
+
+  #output::-webkit-scrollbar { width: 4px; }
+  #output::-webkit-scrollbar-track { background: transparent; }
+  #output::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+
+  .welcome {
+    color: var(--muted);
+    font-size: 0.8rem;
+    padding: 12px 0;
+    line-height: 1.8;
+    border-bottom: 1px solid #1a1a1e;
+  }
+  .welcome .hi { color: var(--accent); font-family: 'Syne', sans-serif; font-weight: 700; font-size: 1rem; }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">py<span>//</span>repl</div>
+  <div class="status">
+    <div class="dot loading" id="status-dot"></div>
+    <span id="status-text">Loading Pyodide...</span>
+  </div>
+</header>
+
+<div id="output">
+  <div class="welcome">
+    <div class="hi">Python in your browser</div>
+    Client-side execution via Pyodide · No server · Full stdlib · numpy, pandas, matplotlib available via micropip
+  </div>
+</div>
+
+<div id="input-area">
+  <div class="input-row">
+    <span class="prompt" id="main-prompt">&gt;&gt;&gt;</span>
+    <textarea id="code-input" rows="1" placeholder="Type Python code..." disabled spellcheck="false" autocomplete="off"></textarea>
+  </div>
+  <div class="hint">
+    <span><kbd>Enter</kbd> run</span>
+    <span><kbd>Shift+Enter</kbd> new line</span>
+    <span><kbd>↑↓</kbd> history</span>
+  </div>
+</div>
+
+<script>
+const output = document.getElementById('output');
+const input = document.getElementById('code-input');
+const dot = document.getElementById('status-dot');
+const statusText = document.getElementById('status-text');
+const mainPrompt = document.getElementById('main-prompt');
+
+let pyodide = null;
+let history = [];
+let histIdx = -1;
+let running = false;
+
+// Auto-resize textarea
+input.addEventListener('input', () => {
+  input.style.height = 'auto';
+  input.style.height = Math.min(input.scrollHeight, 200) + 'px';
+});
+
+async function initPyodide() {
+  pyodide = await loadPyodide();
+  // Redirect stdout/stderr
+  pyodide.runPython(`
+import sys, io
+class _Capture(io.StringIO):
+    pass
+sys.stdout = _Capture()
+sys.stderr = _Capture()
+  `);
+  dot.className = 'dot ready';
+  statusText.textContent = 'Python ' + pyodide.runPython('import sys; sys.version.split()[0]');
+  input.disabled = false;
+  input.focus();
+}
+
+function addEntry(code, stdout, value, error) {
+  const entry = document.createElement('div');
+  entry.className = 'entry';
+
+  const lines = code.split('\n');
+  lines.forEach((line, i) => {
+    const row = document.createElement('div');
+    row.className = 'input-line';
+    const p = document.createElement('span');
+    p.className = 'prompt' + (i > 0 ? ' cont' : '');
+    p.textContent = i === 0 ? '>>>' : '...';
+    const c = document.createElement('span');
+    c.className = 'code-display';
+    c.textContent = line;
+    row.appendChild(p);
+    row.appendChild(c);
+    entry.appendChild(row);
+  });
+
+  if (stdout) {
+    const r = document.createElement('div');
+    r.className = 'result stdout';
+    r.textContent = stdout;
+    entry.appendChild(r);
+  }
+  if (value !== undefined && value !== null && String(value) !== 'None' && value !== '') {
+    const r = document.createElement('div');
+    r.className = 'result value';
+    r.textContent = String(value);
+    entry.appendChild(r);
+  }
+  if (error) {
+    const r = document.createElement('div');
+    r.className = 'result error';
+    r.textContent = error;
+    entry.appendChild(r);
+  }
+
+  output.appendChild(entry);
+  output.scrollTop = output.scrollHeight;
+}
+
+async function runCode(code) {
+  if (!pyodide || running || !code.trim()) return;
+  running = true;
+  input.disabled = true;
+  mainPrompt.style.color = 'var(--muted)';
+
+  // Clear captured output
+  pyodide.runPython(`sys.stdout.truncate(0); sys.stdout.seek(0); sys.stderr.truncate(0); sys.stderr.seek(0)`);
+
+  let resultVal = undefined;
+  let errorMsg = null;
+
+  try {
+    const result = await pyodide.runPythonAsync(code);
+    resultVal = result;
+  } catch (err) {
+    // Clean up traceback
+    errorMsg = err.message.split('\n').slice(-3).join('\n').trim();
+  }
+
+  const stdout = pyodide.runPython(`sys.stdout.getvalue()`).trimEnd();
+  const stderr = pyodide.runPython(`sys.stderr.getvalue()`).trimEnd();
+
+  addEntry(code, stdout || (stderr && !errorMsg ? stderr : ''), resultVal, errorMsg || (stderr && errorMsg ? stderr : null));
+
+  running = false;
+  input.disabled = false;
+  input.style.height = 'auto';
+  mainPrompt.style.color = 'var(--accent)';
+  input.focus();
+}
+
+input.addEventListener('keydown', async (e) => {
+  if (e.key === 'Enter' && !e.shiftKey) {
+    e.preventDefault();
+    const code = input.value;
+    if (!code.trim()) return;
+    history.unshift(code);
+    histIdx = -1;
+    input.value = '';
+    await runCode(code);
+  } else if (e.key === 'ArrowUp' && !e.shiftKey) {
+    if (histIdx < history.length - 1) {
+      histIdx++;
+      input.value = history[histIdx];
+      input.dispatchEvent(new Event('input'));
+      setTimeout(() => input.setSelectionRange(input.value.length, input.value.length), 0);
+    }
+    e.preventDefault();
+  } else if (e.key === 'ArrowDown' && !e.shiftKey) {
+    if (histIdx > 0) {
+      histIdx--;
+      input.value = history[histIdx];
+    } else {
+      histIdx = -1;
+      input.value = '';
+    }
+    input.dispatchEvent(new Event('input'));
+    e.preventDefault();
+  }
+});
+
+initPyodide().catch(err => {
+  statusText.textContent = 'Failed to load';
+  dot.style.background = 'var(--error)';
+});
+</script>
+</body>
+</html>
