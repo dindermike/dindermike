@@ -366,31 +366,37 @@
                 transform: scale(1.1);
             }
 
+            /* Footer */
+            footer {
+                text-align: center;
+                padding: 50px 0;
+                border-top: 1px solid rgba(51, 102, 153, 0.1);
+            }
+
+            footer p {
+                color: #cbd5e0;
+            }
+
+            footer .container {
+                min-height: unset;
+            }
+
             .social-links {
-                margin-top: 40px;
                 display: flex;
-                gap: 20px;
+                justify-content: center;
+                gap: 30px;
+                margin-bottom: 20px;
             }
 
             .social-link {
-                width: 50px;
-                height: 50px;
-                border-radius: 50%;
-                background: rgba(255, 255, 255, 0.05);
-                border: 1px solid rgba(255, 255, 255, 0.1);
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                text-decoration: none;
-                color: #fff;
+                color: #666699;
+                font-size: 1.5em;
                 transition: all 0.3s ease;
-                font-size: 1.2rem;
             }
 
             .social-link:hover {
-                background: rgba(102, 126, 234, 0.3);
-                border-color: rgba(102, 126, 234, 0.5);
-                transform: translateY(-3px);
+                transform: translateY(-5px) scale(1.2);
+                text-shadow: 0 0 20px #666699;
             }
 
             /* Responsive Design */
@@ -742,14 +748,24 @@
                     </td>
                 </tr>
             </table>
-
-            <div class="social-links">
-                <a href="https://www.linkedin.com/in/mikedinder/" target="_blank" class="social-link" title="LinkedIn" aria-label="LinkedIn"><i class="fa-brands fa-linkedin"></i></a>
-                <a href="https://github.com/dindermike" target="_blank" class="social-link" title="GitHub" aria-label="GitHub"><i class="fa-brands fa-github"></i></a>
-                <a href="mailto:dindermike@hotmail.com" target="_blank" class="social-link" title="Primary Email" aria-label="Primary Email"><i class="fa-solid fa-envelope"></i></a>
-                <a href="mailto:mike@mikedinder.com" target="_blank" class="social-link" title="Secondary Email" aria-label="Secondary Email"><i class="fa-solid fa-envelope"></i></a>
-            </div>
         </div>
+
+        <!-- Footer -->
+        <footer id="contact">
+            <div class="container">
+                <div class="social-links">
+                    <a href="https://www.mikedinder.com" class="social-link" title="Mike Dinder Home Page/Resume" aria-label="Mike Dinder Home Page/Resume"><i class="fa-solid fa-house-chimney-window"></i></a>
+                    <a href="https://www.linkedin.com/in/mikedinder/" target="_blank" class="social-link" title="LinkedIn" aria-label="LinkedIn"><i class="fa-brands fa-linkedin"></i></a>
+                    <a href="https://github.com/dindermike" target="_blank" class="social-link" title="GitHub" aria-label="GitHub"><i class="fa-brands fa-github"></i></a>
+                    <a href="mailto:dindermike@hotmail.com" target="_blank" class="social-link" title="Primary Email" aria-label="Primary Email"><i class="fa-solid fa-envelope"></i></a>
+                    <a href="mailto:mike@mikedinder.com" target="_blank" class="social-link" title="Secondary Email" aria-label="Secondary Email"><i class="fa-solid fa-envelope"></i></a>
+                </div>
+                <p>
+                    &copy; 2026 MikeDinder.com
+                    <br />All Rights Reserved. Built with Python, HTML, CSS, JavaScript and Some Code Generated using Using <a href="https://claude.ai" target="_blank">Claude.AI</a>
+                </p>
+            </div>
+        </footer>
 
         <script type="text/javascript">
             // Create starfield
