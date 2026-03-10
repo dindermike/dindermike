@@ -242,7 +242,7 @@
                 }
             }
 
-            .architect-btn {
+            .back-btn {
                 position: absolute;
                 top: 1.5em;
                 right: 30%;
@@ -309,11 +309,11 @@
             }
 
             .ai-table .column1 {
-                width: 25%;
+                width: 60%;
             }
 
             .ai-table .column2 {
-                width: 75%;
+                width: 40%;
             }
 
             .ai-table th {
@@ -469,9 +469,9 @@
                     color: #0a0e27;
                 }
 
-                .architect-btn {
+                .back-btn {
                     top: 0.8em;
-                    right: calc(50% - 60px);
+                    right: calc(50% - 30px);
                 }
             }
 
@@ -509,188 +509,107 @@
         </div>
 
         <div class="container">
-            <h1 class="logo">AI<br />Generated<br />Templates</h1>
-            <p class="tagline">A Collection of Templates Generated Using Claude-AI</p>
-            <a class="btn architect-btn" href="Architectural_Prompts.html" title="Architectural Code" aria-label="Architectural Code">Architect Code</a>
+            <h1 class="logo">AI<br />Prompts</h1>
+            <p class="tagline">A Collection of Architectural AI Prompts</p>
+            <a class="btn back-btn" href="AI-Project.html" title="Back to AI Generated Templates Page" aria-label="Back to AI Generated Templates Page">Back</a>
 
             <p class="message">
-                These are various templates that I generated using <a href="https://claude.ai/" target="_blank" title="Claude AI Tool" aria-label="Claude AI Tool">Claude-AI</a> and the prompts that I used to generate them. Click on each template to view exactly how they were generated with <a href="https://claude.ai/" target="_blank" title="Claude AI Tool" aria-label="Claude AI Tool">Claude-AI</a> without me modifying them in any way. In a real-world scenario, many of these templates would be used as a framework for building a real web page. Real work such as branding, fine tuning, bug fixing for animations and browser compatibility and adding custom tailored content would be necessary for using these templates. Use these prompts to give you ideas of how to custom tailor your own prompts for your own needs and start generating your own templates today using <a href="https://claude.ai/" target="_blank" title="Claude AI Tool" aria-label="Claude AI Tool">Claude-AI</a>.
+                These are various prompts that I executed using <a href="https://claude.ai/" target="_blank" title="Claude AI Tool" aria-label="Claude AI Tool">Claude-AI</a>. Unlike the previous page, the output of these prompts is not something I can display easily on the web. These are mostly architectural code that is generated as a set of files in a project or server configuration files or step-by-step instructions on how to configure something. Feel free to run these commands yourself using <a href="https://claude.ai/" target="_blank" title="Claude AI Tool" aria-label="Claude AI Tool">Claude-AI</a>. Keep in mind, that running these prompts two times back-to-back will not produce the exact same results. I have found that running them again often produces slightly more details or steps than the previous execution, without rewording it or changing the prompt in any way.
             </p>
 
             <table class="ai-table">
                 <tr>
-                    <th class="column1 center">Template</th>
-                    <th class="column2">Prompt</th>
+                    <th class="column1 center">Prompt</th>
+                    <th class="column2">Description</th>
                 </tr>
 
                 <tr>
-                    <td class="column1 center">
-                        <a class="btn" href="template_15.html" title="Template 15" aria-label="Template 15"><span class="hide-mobile">Template </span>15</a>
+                    <td class="column1">
+                        <p>
+                            Please guide me through the steps to configure NGINX and GUNICORN for an Ubuntu 24 server that has multiple Django projects with PostgreSQL databases. The PostgreSQL databases are already configured and installed and the Django projects already exist. Each Django project lives in a separate folder in the /var/www/ directory. Each Django project is a sub domain of www.example-site.com where the main site www. is a non Django project with an index.html file. Also, each main site and sub domain will be https but I will get the certs for those on my own.
+                        </p>
                     </td>
                     <td class="column2">
                         <p>
-                            Generate a slick landing page that discusses the history of Python and what it is commonly used for throughout history and today. At the bottom of the page include a list of links to pages of examples that I will provide, just have placeholder links for now. Make it a dark blue color scheme and a space theme. Include animations to make it look modern and keeps the visitor engaged and interactive.
+                            Realizing my server needed more complex configuration steps, I needed to request new parameters stating that each sub-domain would be a separate Django project or other framework, that would then need it's own configuration files that I could add to later as I work on each project.
                         </p>
                     </td>
                 </tr>
 
                 <tr>
-                    <td class="column1 center">
-                        <a class="btn" href="template_14.html" title="Template 14" aria-label="Template 14"><span class="hide-mobile">Template </span>14</a>
+                    <td class="column1">
+                        <p>
+                            Please guide me through the steps to configure NGINX and GUNICORN for an Ubuntu 24 server that has multiple Django projects with PostgreSQL databases. The PostgreSQL databases are already configured and installed and the Django projects already exist. Each Django project lives in a separate folder in the /var/www/ directory. Each Django project is a sub domain of www.example-site.com where the main site www. is a non Django project with an index.html file. Also, each main site and sub domain will be https but I will get the certs for those on my own. The manage.py file and the wsgi.py file live in the root of the project in /var/www/app1/ directory.
+                        </p>
                     </td>
                     <td class="column2">
                         <p>
-                            Run interactive python directly in a webpage on the client side, not the server side. Without special formatting Python code. Also, allow input() commands to function properly. Previous attempts keep failing in the browser with errors like...
-
-                            File "<exec>", line 1, in <module> OSError: [Errno 29] I/O error
-                            AttributeError: __js_input__
-                            TypeError: int() argument must be a string, a bytes-like object or a real number, not 'coroutine'
-                            <exec>:6: RuntimeWarning: coroutine '_custom_input' was never awaitedRuntimeWarning: Enable tracemalloc to get the object allocation traceback
-
-                            Please ensure these errors do not persist.
+                            Attempting to configure an Ubuntu Server to host a Django Project.
                         </p>
                     </td>
                 </tr>
 
                 <tr>
-                    <td class="column1 center">
-                        <a class="btn" href="template_13.html" title="Template 13" aria-label="Template 13"><span class="hide-mobile">Template </span>13</a>
+                    <td class="column1">
+                        <p>
+                            Create a docker file for running in docker desktop on windows 3 containers/services for Ubuntu 24.04.3 LTS with Python 3.12.3 and postgresql 16.11 installed and sudo and nano packages installed. Use the bare minimum package dependencies required to build these containers as quickly as possible. Assume this will be a Django project and include command to runserver and expose all necessary ports for running on localhost. When building for the first time install requirements.txt file that lives in the app folder. Make postgres, web and migrations the three separate service containers. On migrations container run makemigrations and migrate commands. Configure postgresql to run on port 5433 and also configure it to easily let me connect pgadmin on windows to my docker containers postgresql database.
+                        </p>
                     </td>
                     <td class="column2">
                         <p>
-                            Run interactive python directly in a webpage on the client side, not the server side. Without special formatting Python code. Also, allow input() commands to function properly. Previous attempts keep failing in the browser.
+                            I was having issues connecting to pgAdmin, as I sometimes do even in a work setting. I needed to request instructions to help me quickly resolve these issues. This one also introduces the use of a requirements.txt file.
                         </p>
                     </td>
                 </tr>
 
                 <tr>
-                    <td class="column1 center">
-                        <a class="btn" href="template_12.html" title="Template 12" aria-label="Template 12"><span class="hide-mobile">Template </span>12</a>
+                    <td class="column1">
+                        <p>
+                            Create a docker file for running in docker desktop on windows a container(s) for Ubuntu 24.04.3 LTS with Python 3.12.3 and postgresql 16.11 installed and sudo, nano, django and djangorestframework packages installed. Use the bare minimum package dependencies required to build these containers as quickly as possible. Make postgres, web and migrations a separate service. Configure postgresql to run on port 5433 and also configure it to easily let me connect pgadmin on windows to my docker containers postgresql database.
+                        </p>
                     </td>
                     <td class="column2">
                         <p>
-                            Run interactive python directly in a webpage on the client side, not the server side. Without special formatting Python code. Also, allow input() commands to function properly.
+                            I had already been using port 5432 on WSL for my current stuff on Windows. Without disrupting my other projects, I needed to build the containers in a way where I could work with an alternative port on Windows.
                         </p>
                     </td>
                 </tr>
 
                 <tr>
-                    <td class="column1 center">
-                        <a class="btn" href="template_11.html" title="Template 11" aria-label="Template 11"><span class="hide-mobile">Template </span>11</a>
+                    <td class="column1">
+                        <p>
+                            Create a docker file for running in docker desktop on windows a container(s) for Ubuntu 24.04.3 LTS with Python 3.12.3 and postgresql 16.11 installed and sudo, nano, django and djangorestframework packages installed. Use the bare minimum package dependencies required to build these containers as quickly as possible. Make postgres, web and migrations a separate service.
+                        </p>
                     </td>
                     <td class="column2">
                         <p>
-                            Run interactive python directly in a webpage on the client side, not the server side. Without special formatting Python code.
+                            Realizing that everything was jammed into one single container. In a practical real-world scenario, I would need to break down components into separate services that could then be siphoned off into AWS services or whatnot.
                         </p>
                     </td>
                 </tr>
 
                 <tr>
-                    <td class="column1 center">
-                        <a class="btn" href="template_10.html" title="Template 10" aria-label="Template 10"><span class="hide-mobile">Template </span>10</a>
+                    <td class="column1">
+                        <p>
+                            Create a docker file for running in docker desktop on windows a container(s) for Ubuntu 24.04.3 LTS with Python 3.12.3 and postgresql 16.11 installed. Use the bare minimum package dependencies required to build these containers as quickly as possible.
+                        </p>
                     </td>
                     <td class="column2">
                         <p>
-                            Generate a basic loading animation.
+                            Realizing that the first execution stuffed a lot of garbage into the container that made building for the first time take a tremendously long time and would not be practical for a large team of developers. I needed it to trim the fat.
                         </p>
                     </td>
                 </tr>
 
                 <tr>
-                    <td class="column1 center">
-                        <a class="btn" href="template_9.html" title="Template 9" aria-label="Template 9"><span class="hide-mobile">Template </span>9</a>
-                    </td>
-                    <td class="column2">
+                    <td class="column1">
                         <p>
-                            Generate a basic landing page in HTML with the appropriate JavaScript to display an IT resume geared towards software engineering with sections like a place to put an image of myself, professional summary, technical skills, tools and platforms, work experience, education, certifications, clients and notable work, publications, and a projects. Include fun features like parallax scrolling, responsive design with CSS break-point placeholders at (320px, 480px, 640px, 768px, 1024px and 1200px), Floating particles that animate across the hero section, Cursor trail effect with smooth following circles, Fade-in animations triggered as you scroll down the page, 3D tilt effect on skill cards when you hover over them, Hover transformations on all interactive cards, Ripple click effect on project cards, Typing animation for the hero title, Smooth transitions throughout and any other features that I haven't thought of that might help the content pop out and engage with the visitor of the page. Use a color scheme of dark blues and a theme of space, include stars and galaxy's in the background. Make it fully ADA and WCAG Compliant. Include a very small rocket ship flying around in the background.
+                            Create a docker file for running in docker desktop on windows a container(s) for Ubuntu 24.04.3 LTS with Python 3.12.3 and postgresql 16.11 installed.
                         </p>
                     </td>
-                </tr>
-
-                <tr>
-                    <td class="column1 center">
-                        <a class="btn" href="template_8.html" title="Template 8" aria-label="Template 8"><span class="hide-mobile">Template </span>8</a>
-                    </td>
                     <td class="column2">
                         <p>
-                            Generate a fun space themed coming soon page for a parked website. Make the graphics look futuristic and slick, don't make it look like a cartoon. Please include some of our solar systems planets and please use real images of planets. Don't include any form objects and input fields. Include a countdown as well.
-                        </p>
-                    </td>
-                </tr>
-
-                <tr>
-                    <td class="column1 center">
-                        <a class="btn" href="template_7.html" title="Template 7" aria-label="Template 7"><span class="hide-mobile">Template </span>7</a>
-                    </td>
-                    <td class="column2">
-                        <p>
-                            Generate a fun space themed coming soon page for a parked website. Make the graphics look futuristic and slick, don't make it look like a cartoon. Please include some of our solar systems planets and make them look real. Don't include any form objects and input fields. Include a countdown as well.
-                        </p>
-                    </td>
-                </tr>
-
-                <tr>
-                    <td class="column1 center">
-                        <a class="btn" href="template_6.html" title="Template 6" aria-label="Template 6"><span class="hide-mobile">Template </span>6</a>
-                    </td>
-                    <td class="column2">
-                        <p>
-                            Generate a basic landing page in HTML with the appropriate JavaScript to display an IT resume geared towards software engineering with sections like a place to put an image of myself, technical skills, work experience, education and a projects list. Include fun features like parallax scrolling, responsive design with CSS break-point placeholders at (320px, 480px, 640px, 768px, 1024px and 1200px), Floating particles that animate across the hero section, Cursor trail effect with smooth following circles, Fade-in animations triggered as you scroll down the page, 3D tilt effect on skill cards when you hover over them, Hover transformations on all interactive cards, Ripple click effect on project cards, Typing animation for the hero title, Smooth transitions throughout and any other features that I haven't thought of that might help the content pop out and engage with the visitor of the page. Use a color scheme of dark blues and a theme of space, include stars and galaxy's in the background.
-                        </p>
-                    </td>
-                </tr>
-
-                <tr>
-                    <td class="column1 center">
-                        <a class="btn" href="template_5.html" title="Template 5" aria-label="Template 5"><span class="hide-mobile">Template </span>5</a>
-                    </td>
-                    <td class="column2">
-                        <p>
-                            Generate a very basic parking page for a website. That does not have form input field objects. That does include a cool image implying it is under construction. Include a brief description of how this site will include Python snippets and what Python is and some history. Use a Blue Color Scheme and make the images relate to space.
-                        </p>
-                    </td>
-                </tr>
-
-                <tr>
-                    <td class="column1 center">
-                        <a class="btn" href="template_4.html" title="Template 4" aria-label="Template 4"><span class="hide-mobile">Template </span>4</a>
-                    </td>
-                    <td class="column2">
-                        <p>
-                            Generate a very basic parking page for a website.
-                        </p>
-                    </td>
-                </tr>
-
-                <tr>
-                    <td class="column1 center">
-                        <a class="btn" href="template_3.html" title="Template 3" aria-label="Template 3"><span class="hide-mobile">Template </span>3</a>
-                    </td>
-                    <td class="column2">
-                        <p>
-                            Generate a very basic parking page for a website.
-                        </p>
-                    </td>
-                </tr>
-
-                <tr>
-                    <td class="column1 center">
-                        <a class="btn" href="template_2.html" title="Template 2" aria-label="Template 2"><span class="hide-mobile">Template </span>2</a>
-                    </td>
-                    <td class="column2">
-                        <p>
-                            Generate a basic landing page in HTML with the appropriate JavaScript to display an IT resume geared towards software engineering with sections like a place to put an image of myself, technical skills, work experience, education and a projects list. Include fun features like parallax scrolling, responsive design with CSS break-point placeholders at (320px, 480px, 640px, 768px, 1024px and 1200px), Floating particles that animate across the hero section, Cursor trail effect with smooth following circles, Fade-in animations triggered as you scroll down the page, 3D tilt effect on skill cards when you hover over them, Hover transformations on all interactive cards, Ripple click effect on project cards, Typing animation for the hero title, Smooth transitions throughout and any other features that I haven't thought of that might help the content pop out and engage with the visitor of the page. Use a color scheme of Blues and a theme of space.
-                        </p>
-                    </td>
-                </tr>
-
-                <tr>
-                    <td class="column1 center">
-                        <a class="btn" href="template_1.html" title="Template 1" aria-label="Template 1"><span class="hide-mobile">Template </span>1</a>
-                    </td>
-                    <td class="column2">
-                        <p>
-                            Generate a basic landing page in html with the appropriate Javascript to display an IT resume geared towards software engineering with fun features like parallax scrolling and any other features that I haven't thought of that might help the content pop out and engage with the visitor of the page.
+                            First attempt to generate a Docker configuration script for a Django project.
                         </p>
                     </td>
                 </tr>
