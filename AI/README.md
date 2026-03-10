@@ -52,5 +52,40 @@
       <td align="left">Template 10</td>
       <td align="left">Generate a basic loading animation</td>
     </tr>
+    <tr>
+      <td align="left">Template 11</td>
+      <td align="left">Run interactive python directly in a webpage on the client side, not the server side. Without special formatting Python code.</td>
+    </tr>
+    <tr>
+      <td align="left">Template 12</td>
+      <td align="left">Run interactive python directly in a webpage on the client side, not the server side. Without special formatting Python code. Also, allow input() commands to function properly.</td>
+    </tr>
+    <tr>
+      <td align="left">Template 13</td>
+      <td align="left">Run interactive python directly in a webpage on the client side, not the server side. Without special formatting Python code. Also, allow input() commands to function properly. Previous attempts keep failing in the browser.</td>
+    </tr>
+    <tr>
+      <td align="left">Template 14</td>
+      <td align="left">Run interactive python directly in a webpage on the client side, not the server side. Without special formatting Python code. Also, allow input() commands to function properly. Previous attempts keep failing in the browser with errors like...
+      File "<exec>", line 1, in <module> OSError: [Errno 29] I/O error
+      AttributeError: __js_input__
+      TypeError: int() argument must be a string, a bytes-like object or a real number, not 'coroutine'
+      <exec>:6: RuntimeWarning: coroutine '_custom_input' was never awaitedRuntimeWarning: Enable tracemalloc to get the object allocation traceback
+      Please ensure these errors do not persist.</td>
+    </tr>
+    <tr>
+      <td align="left">Template 15</td>
+      <td align="left">Generate a slick landing page that discusses the history of Python and what it is commonly used for throughout history and today. At the bottom of the page include a list of links to pages of examples that I will provide, just have placeholder links for now. Make it a dark blue color scheme and a space theme. Include animations to make it look modern and keeps the visitor engaged and interactive.</td>
+    </tr>
+    <tr>
+      <td align="left">Template 16</td>
+      <td align="left">Generate a slick, futuristic themed project landing page that includes several sections... 
+      1.  A history of the Django Framework, including why it was developed, who created it, major developments in each major version that was released and when they were released.
+      2.  What companies commonly use Django today and what they use it for.
+      3.  The different ways Django can be used, and a detailed description of what they are and how they are used... such as the Django REST Framework, The Browsable API, Less common GraphQL with (graphene-django), SOAP API with Django, The Django CMS, The Debug Toolbar, Django Channels, Django Signals, Django Forms, Django Templates, Django URLs, Reverse URLs and Namespaces, Django Views, Django Models, The Django Admin Panel, Building PDF's with Django Templates, Security in Django, The Django CTE Package (django-cte), The Django Extensions Package (django-extensions), The Django Pillow Package (Pillow), The Django Filter Package (django-filter), The Django Environ Package (django-environ), Standard uses with PostgreSQL and the (psycopg2 or psycopg3) packages, less common uses such as MySQL, MSSQL, Oracle, MongoDB and other NoSQL Databases, Uses with Redis for Caching, Uses with Celery for Async Tasks, Uses with Gunicorn for Delployment/Hosting on Production Servers. Various Frontend Frameworks used in conjunction with Django such as React.js, Angular.js and Vue.js.
+      4. Include statistics on how many developers use Windows, Mac and Linux/Ubuntu for development machines with Django projects and additional statistics of how many host on the same kind of servers for Django projects. Include additional statistics of how many developers use Docker Containers for development vs non-containerized projects.
+      5.  A section that provides a link to various sub-pages of my website with a "lorum ipsum" text placeholder for the description of each of those pages that I will add to later.
+      Make it a dark blue color scheme and a space theme. Include animations to make it look modern and keeps the visitor engaged and interactive. Include a basic loading animation that will disappear when the page is fully loaded. Include fun features like parallax scrolling, parallax layered background with a space theme and include stars and galaxy's in the background, responsive design with CSS break-point placeholders at (320px, 480px, 640px, 768px, 1024px and 1200px), Floating particles that animate across the hero section, Cursor trail effect with smooth following circles, Fade-in animations triggered as you scroll down the page and Ripple click effect. Smooth transitions throughout and any other features that I haven't thought of that might help the content pop out and engage with the visitor of the page. Make it fully ADA and WCAG Compliant.</td>
+    </tr>
   </tbody>
 </table>

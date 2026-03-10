@@ -1,0 +1,2664 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Django Framework — A comprehensive guide to the history, ecosystem, and usage of the Django web framework." />
+  <meta name="theme-color" content="#030918" />
+  <title>Django: The Framework for Perfectionists with Deadlines</title>
+
+  <!-- Skip to main content for screen readers -->
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700;900&family=Exo+2:ital,wght@0,300;0,400;0,600;1,300&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet" />
+
+  <style>
+    /* =============================================
+       CSS CUSTOM PROPERTIES
+    ============================================= */
+    :root {
+      --space-black:    #030918;
+      --deep-navy:      #060e24;
+      --navy:           #091533;
+      --blue-dark:      #0d1f42;
+      --blue-mid:       #0a2a6e;
+      --blue-bright:    #1a4fc4;
+      --cyan:           #00d4ff;
+      --cyan-dim:       #0095b3;
+      --cyan-glow:      rgba(0, 212, 255, 0.25);
+      --teal:           #00ffe0;
+      --teal-dim:       rgba(0, 255, 224, 0.15);
+      --star-white:     #e8f4ff;
+      --text-primary:   #cde4ff;
+      --text-secondary: #7ea8d4;
+      --text-muted:     #3d6491;
+      --accent-gold:    #f0a500;
+      --accent-purple:  #7c3aed;
+      --glass-bg:       rgba(9, 21, 51, 0.65);
+      --glass-border:   rgba(0, 212, 255, 0.18);
+      --card-bg:        rgba(6, 18, 48, 0.8);
+      --font-display:   'Orbitron', sans-serif;
+      --font-body:      'Exo 2', sans-serif;
+      --font-mono:      'JetBrains Mono', monospace;
+      --section-gap:    8rem;
+      --radius:         12px;
+      --radius-lg:      20px;
+      --transition:     0.35s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    /* =============================================
+       RESET & BASE
+    ============================================= */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html {
+      scroll-behavior: smooth;
+      font-size: 16px;
+    }
+
+    body {
+      font-family: var(--font-body);
+      background: var(--space-black);
+      color: var(--text-primary);
+      overflow-x: hidden;
+      line-height: 1.7;
+      cursor: none;
+    }
+
+    /* =============================================
+       ACCESSIBILITY
+    ============================================= */
+    .skip-link {
+      position: fixed;
+      top: -100px;
+      left: 1rem;
+      background: var(--cyan);
+      color: var(--space-black);
+      padding: 0.6rem 1.2rem;
+      border-radius: var(--radius);
+      font-weight: 700;
+      font-family: var(--font-body);
+      z-index: 99999;
+      text-decoration: none;
+      transition: top 0.3s;
+    }
+    .skip-link:focus { top: 1rem; }
+
+    :focus-visible {
+      outline: 2px solid var(--cyan);
+      outline-offset: 3px;
+      border-radius: 4px;
+    }
+
+    /* Reduced motion */
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
+
+    /* =============================================
+       LOADING SCREEN
+    ============================================= */
+    #loader {
+      position: fixed;
+      inset: 0;
+      z-index: 99998;
+      background: var(--space-black);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 2rem;
+      transition: opacity 0.8s ease, visibility 0.8s ease;
+    }
+    #loader.loaded { opacity: 0; visibility: hidden; }
+
+    .loader-logo {
+      font-family: var(--font-display);
+      font-size: 3rem;
+      font-weight: 900;
+      color: var(--cyan);
+      letter-spacing: 0.15em;
+      animation: pulseGlow 1.5s ease-in-out infinite;
+    }
+
+    .loader-bar-wrap {
+      width: 280px;
+      height: 4px;
+      background: var(--blue-dark);
+      border-radius: 99px;
+      overflow: hidden;
+    }
+    .loader-bar {
+      height: 100%;
+      background: linear-gradient(90deg, var(--cyan), var(--teal));
+      border-radius: 99px;
+      animation: loadBar 2.2s ease-in-out forwards;
+      box-shadow: 0 0 12px var(--cyan);
+    }
+    @keyframes loadBar {
+      0% { width: 0%; }
+      60% { width: 75%; }
+      100% { width: 100%; }
+    }
+
+    .loader-text {
+      font-family: var(--font-mono);
+      font-size: 0.78rem;
+      color: var(--cyan-dim);
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      animation: blink 1s step-start infinite;
+    }
+    @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.3} }
+
+    /* =============================================
+       CUSTOM CURSOR
+    ============================================= */
+    #cursor-dot {
+      width: 8px; height: 8px;
+      background: var(--cyan);
+      border-radius: 50%;
+      position: fixed;
+      pointer-events: none;
+      z-index: 99990;
+      transform: translate(-50%, -50%);
+      transition: transform 0.05s, background 0.2s;
+      box-shadow: 0 0 10px var(--cyan);
+    }
+    #cursor-ring {
+      width: 34px; height: 34px;
+      border: 1.5px solid rgba(0, 212, 255, 0.5);
+      border-radius: 50%;
+      position: fixed;
+      pointer-events: none;
+      z-index: 99989;
+      transform: translate(-50%, -50%);
+      transition: width 0.3s, height 0.3s, border-color 0.3s;
+    }
+    body:has(a:hover) #cursor-dot,
+    body:has(button:hover) #cursor-dot { transform: translate(-50%,-50%) scale(2); background: var(--teal); }
+
+    /* =============================================
+       SPACE BACKGROUND
+    ============================================= */
+    #space-bg {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+      overflow: hidden;
+    }
+
+    #canvas-stars {
+      position: absolute;
+      inset: 0;
+      width: 100%; height: 100%;
+    }
+
+    .nebula-1, .nebula-2, .nebula-3 {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(80px);
+      opacity: 0.12;
+      animation: nebulaDrift 25s ease-in-out infinite alternate;
+    }
+    .nebula-1 {
+      width: 600px; height: 600px;
+      background: radial-gradient(circle, #1a4fc4 0%, transparent 70%);
+      top: -200px; right: -100px;
+    }
+    .nebula-2 {
+      width: 500px; height: 500px;
+      background: radial-gradient(circle, #7c3aed 0%, transparent 70%);
+      bottom: 20%; left: -150px;
+      animation-delay: -8s;
+    }
+    .nebula-3 {
+      width: 400px; height: 400px;
+      background: radial-gradient(circle, #00d4ff 0%, transparent 70%);
+      top: 50%; right: 10%;
+      animation-delay: -15s;
+    }
+    @keyframes nebulaDrift {
+      0% { transform: translate(0, 0) scale(1); }
+      100% { transform: translate(40px, 30px) scale(1.1); }
+    }
+
+    /* =============================================
+       LAYOUT & SECTIONS
+    ============================================= */
+    #main-content { position: relative; z-index: 1; }
+
+    section {
+      position: relative;
+      padding: var(--section-gap) 0;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 2rem;
+    }
+
+    /* =============================================
+       TYPOGRAPHY SYSTEM
+    ============================================= */
+    h1, h2, h3, h4 { font-family: var(--font-display); line-height: 1.2; }
+
+    .section-eyebrow {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      color: var(--cyan);
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      display: block;
+      margin-bottom: 0.8rem;
+    }
+
+    .section-title {
+      font-size: clamp(1.8rem, 4vw, 3rem);
+      font-weight: 700;
+      color: var(--star-white);
+      margin-bottom: 1rem;
+    }
+    .section-title .accent { color: var(--cyan); }
+
+    .section-subtitle {
+      font-size: 1.05rem;
+      color: var(--text-secondary);
+      max-width: 680px;
+      line-height: 1.8;
+    }
+
+    .section-header {
+      margin-bottom: 4rem;
+      text-align: center;
+    }
+    .section-header .section-subtitle { margin: 0 auto; }
+
+    /* =============================================
+       NAVIGATION
+    ============================================= */
+    #navbar {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 1000;
+      padding: 1rem 0;
+      transition: background var(--transition), backdrop-filter var(--transition), padding var(--transition);
+    }
+    #navbar.scrolled {
+      background: rgba(3, 9, 24, 0.92);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      padding: 0.6rem 0;
+      border-bottom: 1px solid var(--glass-border);
+    }
+
+    .nav-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 2rem;
+    }
+
+    .nav-logo {
+      font-family: var(--font-display);
+      font-size: 1.2rem;
+      font-weight: 900;
+      color: var(--cyan);
+      text-decoration: none;
+      letter-spacing: 0.1em;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .nav-logo .logo-bracket { color: var(--text-muted); }
+
+    nav[role="navigation"] ul {
+      list-style: none;
+      display: flex;
+      gap: 2rem;
+      align-items: center;
+    }
+
+    nav[role="navigation"] a {
+      font-family: var(--font-mono);
+      font-size: 0.78rem;
+      color: var(--text-secondary);
+      text-decoration: none;
+      letter-spacing: 0.1em;
+      transition: color var(--transition);
+      position: relative;
+    }
+    nav[role="navigation"] a::after {
+      content: '';
+      position: absolute;
+      bottom: -4px; left: 0;
+      width: 0; height: 1px;
+      background: var(--cyan);
+      transition: width var(--transition);
+    }
+    nav[role="navigation"] a:hover { color: var(--cyan); }
+    nav[role="navigation"] a:hover::after { width: 100%; }
+
+    .nav-cta {
+      background: transparent;
+      border: 1px solid var(--cyan);
+      color: var(--cyan) !important;
+      padding: 0.45rem 1.1rem;
+      border-radius: 6px;
+      transition: background var(--transition), color var(--transition) !important;
+    }
+    .nav-cta:hover { background: var(--cyan) !important; color: var(--space-black) !important; }
+
+    /* Mobile hamburger */
+    .nav-toggle {
+      display: none;
+      background: none;
+      border: none;
+      cursor: none;
+      flex-direction: column;
+      gap: 5px;
+      padding: 4px;
+    }
+    .nav-toggle span {
+      display: block;
+      width: 22px; height: 2px;
+      background: var(--cyan);
+      border-radius: 2px;
+      transition: transform var(--transition), opacity var(--transition);
+    }
+    .nav-toggle[aria-expanded="true"] span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .nav-toggle[aria-expanded="true"] span:nth-child(2) { opacity: 0; }
+    .nav-toggle[aria-expanded="true"] span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+    /* =============================================
+       HERO SECTION
+    ============================================= */
+    #hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      padding: 0;
+      overflow: hidden;
+      position: relative;
+    }
+
+    #particles-canvas {
+      position: absolute;
+      inset: 0;
+      width: 100%; height: 100%;
+      pointer-events: none;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 8rem 2rem 6rem;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: rgba(0, 212, 255, 0.1);
+      border: 1px solid var(--glass-border);
+      border-radius: 99px;
+      padding: 0.35rem 1rem;
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      color: var(--cyan);
+      letter-spacing: 0.15em;
+      margin-bottom: 2rem;
+      animation: fadeInUp 0.8s ease both;
+    }
+    .hero-badge .dot {
+      width: 7px; height: 7px;
+      background: var(--teal);
+      border-radius: 50%;
+      animation: pulseGlow 2s ease-in-out infinite;
+    }
+
+    .hero-title {
+      font-size: clamp(2.5rem, 7vw, 5.5rem);
+      font-weight: 900;
+      line-height: 1.05;
+      margin-bottom: 1.5rem;
+      animation: fadeInUp 0.8s 0.15s ease both;
+    }
+    .hero-title .line1 { display: block; color: var(--star-white); }
+    .hero-title .line2 {
+      display: block;
+      background: linear-gradient(135deg, var(--cyan) 0%, var(--teal) 50%, var(--blue-bright) 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .hero-title .line3 { display: block; color: var(--text-secondary); font-size: 0.55em; font-weight: 300; letter-spacing: 0.1em; margin-top: 0.3em; }
+
+    .hero-desc {
+      font-size: 1.15rem;
+      color: var(--text-secondary);
+      max-width: 580px;
+      line-height: 1.8;
+      margin-bottom: 2.5rem;
+      animation: fadeInUp 0.8s 0.3s ease both;
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      animation: fadeInUp 0.8s 0.45s ease both;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--cyan), var(--blue-bright));
+      color: var(--space-black);
+      font-family: var(--font-display);
+      font-size: 0.8rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      padding: 0.85rem 2rem;
+      border-radius: 8px;
+      border: none;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      cursor: none;
+      transition: transform var(--transition), box-shadow var(--transition);
+      box-shadow: 0 0 30px rgba(0, 212, 255, 0.3);
+    }
+    .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 0 50px rgba(0, 212, 255, 0.5); }
+
+    .btn-ghost {
+      background: transparent;
+      color: var(--text-secondary);
+      font-family: var(--font-display);
+      font-size: 0.8rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      padding: 0.85rem 2rem;
+      border-radius: 8px;
+      border: 1px solid var(--glass-border);
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      cursor: none;
+      transition: border-color var(--transition), color var(--transition);
+    }
+    .btn-ghost:hover { border-color: var(--cyan); color: var(--cyan); }
+
+    .hero-stats {
+      display: flex;
+      gap: 3rem;
+      margin-top: 4rem;
+      flex-wrap: wrap;
+      animation: fadeInUp 0.8s 0.6s ease both;
+    }
+    .hero-stat-item { text-align: left; }
+    .hero-stat-num {
+      font-family: var(--font-display);
+      font-size: 2rem;
+      font-weight: 900;
+      color: var(--cyan);
+      display: block;
+      line-height: 1;
+      margin-bottom: 0.3rem;
+    }
+    .hero-stat-label {
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      color: var(--text-muted);
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+    }
+
+    /* Scroll indicator */
+    .scroll-indicator {
+      position: absolute;
+      bottom: 2.5rem;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.5rem;
+      animation: fadeInUp 1s 1.2s ease both;
+    }
+    .scroll-mouse {
+      width: 24px; height: 38px;
+      border: 1.5px solid var(--text-muted);
+      border-radius: 12px;
+      position: relative;
+    }
+    .scroll-mouse::after {
+      content: '';
+      width: 4px; height: 7px;
+      background: var(--cyan);
+      border-radius: 2px;
+      position: absolute;
+      top: 6px; left: 50%;
+      transform: translateX(-50%);
+      animation: scrollBounce 2s ease-in-out infinite;
+    }
+    @keyframes scrollBounce {
+      0%,100% { transform: translateX(-50%) translateY(0); opacity: 1; }
+      80% { transform: translateX(-50%) translateY(12px); opacity: 0; }
+    }
+    .scroll-label {
+      font-family: var(--font-mono);
+      font-size: 0.65rem;
+      color: var(--text-muted);
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+    }
+
+    /* =============================================
+       SECTION DIVIDERS
+    ============================================= */
+    .section-divider {
+      position: relative;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--glass-border), transparent);
+      margin: 0 auto;
+      max-width: 800px;
+    }
+    .section-divider::after {
+      content: '◆';
+      position: absolute;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      color: var(--cyan);
+      font-size: 0.6rem;
+      background: var(--space-black);
+      padding: 0 0.5rem;
+    }
+
+    /* =============================================
+       GLASS CARDS
+    ============================================= */
+    .glass-card {
+      background: var(--glass-bg);
+      border: 1px solid var(--glass-border);
+      border-radius: var(--radius-lg);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      padding: 2rem;
+      transition: border-color var(--transition), transform var(--transition), box-shadow var(--transition);
+    }
+    .glass-card:hover {
+      border-color: rgba(0, 212, 255, 0.4);
+      transform: translateY(-4px);
+      box-shadow: 0 20px 60px rgba(0, 212, 255, 0.08);
+    }
+
+    /* =============================================
+       SECTION 1: HISTORY / TIMELINE
+    ============================================= */
+    #history { background: linear-gradient(180deg, transparent 0%, rgba(9, 21, 51, 0.3) 50%, transparent 100%); }
+
+    .timeline {
+      position: relative;
+      padding-left: 2.5rem;
+    }
+    .timeline::before {
+      content: '';
+      position: absolute;
+      left: 0; top: 0; bottom: 0;
+      width: 2px;
+      background: linear-gradient(180deg, var(--cyan), var(--blue-bright), transparent);
+    }
+
+    .timeline-item {
+      position: relative;
+      margin-bottom: 3.5rem;
+      opacity: 0;
+      transform: translateX(-20px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+    .timeline-item.visible { opacity: 1; transform: translateX(0); }
+
+    .timeline-dot {
+      position: absolute;
+      left: -2.9rem;
+      top: 0.3rem;
+      width: 14px; height: 14px;
+      border-radius: 50%;
+      background: var(--cyan);
+      border: 3px solid var(--space-black);
+      box-shadow: 0 0 15px var(--cyan);
+    }
+    .timeline-dot.major { background: var(--teal); width: 18px; height: 18px; left: -3.1rem; }
+
+    .timeline-meta {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 0.7rem;
+    }
+    .timeline-version {
+      font-family: var(--font-display);
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: var(--cyan);
+      letter-spacing: 0.1em;
+      background: rgba(0, 212, 255, 0.1);
+      border: 1px solid var(--glass-border);
+      padding: 0.2rem 0.7rem;
+      border-radius: 4px;
+    }
+    .timeline-date {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      letter-spacing: 0.1em;
+    }
+
+    .timeline-item h3 {
+      font-size: 1.15rem;
+      color: var(--star-white);
+      margin-bottom: 0.5rem;
+    }
+    .timeline-item p {
+      color: var(--text-secondary);
+      font-size: 0.95rem;
+      line-height: 1.75;
+    }
+    .timeline-item ul {
+      list-style: none;
+      margin-top: 0.7rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.35rem;
+    }
+    .timeline-item ul li {
+      font-size: 0.9rem;
+      color: var(--text-secondary);
+      padding-left: 1.2rem;
+      position: relative;
+    }
+    .timeline-item ul li::before {
+      content: '▸';
+      position: absolute;
+      left: 0;
+      color: var(--cyan);
+      font-size: 0.7rem;
+    }
+
+    /* =============================================
+       SECTION 2: COMPANIES
+    ============================================= */
+    #companies { }
+
+    .companies-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .company-card {
+      background: var(--card-bg);
+      border: 1px solid var(--glass-border);
+      border-radius: var(--radius);
+      padding: 1.8rem;
+      transition: border-color var(--transition), transform var(--transition);
+      position: relative;
+      overflow: hidden;
+    }
+    .company-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--cyan), var(--teal));
+      opacity: 0;
+      transition: opacity var(--transition);
+    }
+    .company-card:hover { border-color: rgba(0, 212, 255, 0.35); transform: translateY(-5px); }
+    .company-card:hover::before { opacity: 1; }
+
+    .company-logo-area {
+      width: 52px; height: 52px;
+      border-radius: 10px;
+      background: rgba(0, 212, 255, 0.1);
+      border: 1px solid var(--glass-border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 1.2rem;
+      font-size: 1.4rem;
+    }
+    .company-card h3 {
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--star-white);
+      margin-bottom: 0.4rem;
+    }
+    .company-card .company-industry {
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      color: var(--cyan);
+      letter-spacing: 0.1em;
+      margin-bottom: 0.8rem;
+    }
+    .company-card p {
+      font-size: 0.88rem;
+      color: var(--text-secondary);
+      line-height: 1.7;
+    }
+
+    /* =============================================
+       SECTION 3: ECOSYSTEM / USES
+    ============================================= */
+    #ecosystem { }
+
+    .eco-nav {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+      margin-bottom: 3rem;
+      justify-content: center;
+    }
+    .eco-nav button {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      letter-spacing: 0.08em;
+      color: var(--text-muted);
+      background: var(--card-bg);
+      border: 1px solid var(--glass-border);
+      border-radius: 6px;
+      padding: 0.45rem 1rem;
+      cursor: none;
+      transition: all var(--transition);
+    }
+    .eco-nav button:hover,
+    .eco-nav button.active { color: var(--cyan); border-color: var(--cyan); background: rgba(0, 212, 255, 0.08); }
+
+    .eco-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .eco-card {
+      background: var(--card-bg);
+      border: 1px solid var(--glass-border);
+      border-radius: var(--radius);
+      padding: 1.8rem;
+      transition: border-color var(--transition), transform var(--transition), box-shadow var(--transition);
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    .eco-card.visible {
+      opacity: 1;
+      transform: translateY(0);
+      transition: opacity 0.5s ease, transform 0.5s ease, border-color var(--transition), box-shadow var(--transition);
+    }
+    .eco-card:hover { border-color: rgba(0, 212, 255, 0.4); box-shadow: 0 10px 40px rgba(0, 212, 255, 0.06); }
+
+    .eco-card-header {
+      display: flex;
+      align-items: flex-start;
+      gap: 1rem;
+      margin-bottom: 1rem;
+    }
+    .eco-icon {
+      width: 44px; height: 44px;
+      border-radius: 10px;
+      background: rgba(0, 212, 255, 0.1);
+      border: 1px solid var(--glass-border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+      flex-shrink: 0;
+    }
+    .eco-card h3 {
+      font-size: 0.95rem;
+      color: var(--star-white);
+      margin-bottom: 0.2rem;
+    }
+    .eco-card .eco-tag {
+      font-family: var(--font-mono);
+      font-size: 0.65rem;
+      color: var(--cyan);
+      letter-spacing: 0.1em;
+    }
+    .eco-card p {
+      font-size: 0.875rem;
+      color: var(--text-secondary);
+      line-height: 1.75;
+    }
+
+    /* =============================================
+       SECTION 4: STATISTICS
+    ============================================= */
+    #statistics { }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 2rem;
+      margin-bottom: 3rem;
+    }
+
+    .stat-panel {
+      background: var(--card-bg);
+      border: 1px solid var(--glass-border);
+      border-radius: var(--radius-lg);
+      padding: 2rem;
+    }
+    .stat-panel h3 {
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+      margin-bottom: 1.5rem;
+      font-family: var(--font-mono);
+      letter-spacing: 0.1em;
+    }
+
+    .stat-bar-group { display: flex; flex-direction: column; gap: 1.1rem; }
+    .stat-bar-item { }
+    .stat-bar-label {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 0.4rem;
+    }
+    .stat-bar-label span:first-child {
+      font-size: 0.88rem;
+      color: var(--text-primary);
+    }
+    .stat-bar-label span:last-child {
+      font-family: var(--font-mono);
+      font-size: 0.78rem;
+      color: var(--cyan);
+    }
+    .stat-bar-track {
+      height: 6px;
+      background: var(--blue-dark);
+      border-radius: 99px;
+      overflow: hidden;
+    }
+    .stat-bar-fill {
+      height: 100%;
+      border-radius: 99px;
+      width: 0%;
+      transition: width 1.4s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .stat-bar-fill.cyan { background: linear-gradient(90deg, var(--cyan), var(--teal)); box-shadow: 0 0 8px var(--cyan-dim); }
+    .stat-bar-fill.blue { background: linear-gradient(90deg, var(--blue-bright), #5a9fd4); }
+    .stat-bar-fill.purple { background: linear-gradient(90deg, var(--accent-purple), #a855f7); }
+    .stat-bar-fill.gold { background: linear-gradient(90deg, var(--accent-gold), #fbbf24); }
+
+    .stat-donut-wrap {
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+    }
+    .stat-donut {
+      width: 100px; height: 100px;
+      flex-shrink: 0;
+    }
+    .donut-legend { flex: 1; display: flex; flex-direction: column; gap: 0.6rem; }
+    .donut-legend-item { display: flex; align-items: center; gap: 0.6rem; font-size: 0.85rem; color: var(--text-secondary); }
+    .donut-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+
+    /* =============================================
+       SECTION 5: PAGES / LINKS
+    ============================================= */
+    #pages { }
+
+    .pages-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .page-card {
+      background: var(--card-bg);
+      border: 1px solid var(--glass-border);
+      border-radius: var(--radius);
+      padding: 1.8rem;
+      text-decoration: none;
+      display: block;
+      transition: border-color var(--transition), transform var(--transition), box-shadow var(--transition);
+      position: relative;
+      overflow: hidden;
+      group: true;
+    }
+    .page-card::after {
+      content: '→';
+      position: absolute;
+      bottom: 1.5rem;
+      right: 1.5rem;
+      color: var(--text-muted);
+      font-size: 1.1rem;
+      transition: transform var(--transition), color var(--transition);
+    }
+    .page-card:hover {
+      border-color: rgba(0, 212, 255, 0.4);
+      transform: translateY(-5px);
+      box-shadow: 0 15px 50px rgba(0, 212, 255, 0.07);
+    }
+    .page-card:hover::after { transform: translateX(4px); color: var(--cyan); }
+
+    .page-card-icon {
+      width: 48px; height: 48px;
+      border-radius: 10px;
+      background: rgba(0, 212, 255, 0.08);
+      border: 1px solid var(--glass-border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.3rem;
+      margin-bottom: 1.1rem;
+    }
+    .page-card h3 {
+      font-size: 0.95rem;
+      color: var(--star-white);
+      margin-bottom: 0.6rem;
+    }
+    .page-card .page-lorem {
+      font-size: 0.84rem;
+      color: var(--text-muted);
+      line-height: 1.7;
+    }
+    .page-card .page-url {
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      color: var(--cyan-dim);
+      margin-top: 1rem;
+      display: block;
+    }
+
+    /* =============================================
+       FOOTER
+    ============================================= */
+    footer {
+      border-top: 1px solid var(--glass-border);
+      padding: 3rem 0;
+      text-align: center;
+      position: relative;
+      z-index: 1;
+    }
+    .footer-logo {
+      font-family: var(--font-display);
+      font-size: 1.4rem;
+      font-weight: 900;
+      color: var(--cyan);
+      margin-bottom: 1rem;
+    }
+    footer p {
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      letter-spacing: 0.1em;
+    }
+
+    /* =============================================
+       SCROLL ANIMATIONS
+    ============================================= */
+    .fade-in {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+    .fade-in.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .fade-in-left {
+      opacity: 0;
+      transform: translateX(-40px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+    .fade-in-left.visible {
+      opacity: 1;
+      transform: translateX(0);
+    }
+
+    /* Staggered children */
+    .stagger-children > * { transition-delay: calc(var(--i, 0) * 0.08s); }
+
+    /* =============================================
+       RIPPLE EFFECT
+    ============================================= */
+    .ripple-container { position: relative; overflow: hidden; }
+    .ripple {
+      position: absolute;
+      border-radius: 50%;
+      background: rgba(0, 212, 255, 0.25);
+      transform: scale(0);
+      animation: rippleAnim 0.7s linear forwards;
+      pointer-events: none;
+    }
+    @keyframes rippleAnim {
+      to { transform: scale(4); opacity: 0; }
+    }
+
+    /* =============================================
+       CURSOR TRAIL
+    ============================================= */
+    .cursor-trail {
+      position: fixed;
+      width: 6px; height: 6px;
+      background: var(--cyan);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 9998;
+      opacity: 0;
+      transform: translate(-50%, -50%);
+      transition: opacity 0.3s;
+    }
+
+    /* =============================================
+       UTILITY / ANIMATION KEYFRAMES
+    ============================================= */
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(25px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes pulseGlow {
+      0%,100% { box-shadow: 0 0 8px var(--cyan); }
+      50% { box-shadow: 0 0 20px var(--cyan), 0 0 40px rgba(0, 212, 255, 0.3); }
+    }
+    @keyframes float {
+      0%,100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+    @keyframes rotate360 {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+
+    /* Glowing horizontal rule */
+    .glow-rule {
+      border: none;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--cyan), transparent);
+      margin: 2rem 0;
+      opacity: 0.4;
+    }
+
+    /* Tag badges */
+    .tag {
+      display: inline-block;
+      font-family: var(--font-mono);
+      font-size: 0.68rem;
+      color: var(--cyan);
+      background: rgba(0, 212, 255, 0.08);
+      border: 1px solid var(--glass-border);
+      border-radius: 4px;
+      padding: 0.15rem 0.5rem;
+      letter-spacing: 0.05em;
+      margin: 0.2rem;
+    }
+    .tag.green { color: var(--teal); background: rgba(0, 255, 224, 0.06); }
+    .tag.purple { color: #a78bfa; background: rgba(124, 58, 237, 0.08); }
+    .tag.gold { color: var(--accent-gold); background: rgba(240, 165, 0, 0.08); }
+
+    /* Section background tint alternation */
+    #history   { background: linear-gradient(180deg, transparent 0%, rgba(6,18,48,0.4) 50%, transparent 100%); }
+    #companies { background: linear-gradient(180deg, transparent 0%, rgba(13,31,66,0.3) 50%, transparent 100%); }
+    #ecosystem { background: linear-gradient(180deg, transparent 0%, rgba(6,18,48,0.4) 50%, transparent 100%); }
+    #statistics{ background: linear-gradient(180deg, transparent 0%, rgba(13,31,66,0.35) 50%, transparent 100%); }
+    #pages     { background: linear-gradient(180deg, transparent 0%, rgba(6,18,48,0.4) 50%, transparent 100%); }
+
+    /* =============================================
+       RESPONSIVE BREAKPOINTS
+    ============================================= */
+
+    /* 1200px — large desktop cap */
+    @media (max-width: 1200px) {
+      .eco-grid { grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); }
+    }
+
+    /* 1024px — standard laptop */
+    @media (max-width: 1024px) {
+      :root { --section-gap: 6rem; }
+      nav[role="navigation"] ul { gap: 1.2rem; }
+      .hero-stats { gap: 2rem; }
+    }
+
+    /* 768px — tablet */
+    @media (max-width: 768px) {
+      :root { --section-gap: 5rem; }
+      .nav-toggle { display: flex; }
+      nav[role="navigation"] {
+        position: fixed;
+        top: 0; right: -100%;
+        width: 260px; height: 100vh;
+        background: rgba(3, 9, 24, 0.97);
+        backdrop-filter: blur(20px);
+        padding: 5rem 2rem 2rem;
+        border-left: 1px solid var(--glass-border);
+        transition: right 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        z-index: 999;
+      }
+      nav[role="navigation"].open { right: 0; }
+      nav[role="navigation"] ul { flex-direction: column; gap: 1.5rem; }
+      nav[role="navigation"] a { font-size: 1rem; }
+      .hero-title { font-size: clamp(2rem, 6vw, 3.5rem); }
+      .companies-grid { grid-template-columns: 1fr; }
+      .stats-grid { grid-template-columns: 1fr; }
+    }
+
+    /* 640px — large phone */
+    @media (max-width: 640px) {
+      .eco-grid { grid-template-columns: 1fr; }
+      .pages-grid { grid-template-columns: 1fr; }
+      .hero-actions { flex-direction: column; }
+      .hero-stats { gap: 1.5rem; }
+    }
+
+    /* 480px — phone */
+    @media (max-width: 480px) {
+      :root { --section-gap: 4rem; }
+      .hero-content { padding: 7rem 1.2rem 5rem; }
+      .container { padding: 0 1.2rem; }
+      .section-title { font-size: 1.6rem; }
+      .hero-title { font-size: 2rem; }
+    }
+
+    /* 320px — small phone */
+    @media (max-width: 320px) {
+      .hero-title { font-size: 1.7rem; }
+      .nav-logo { font-size: 1rem; }
+      .hero-badge { font-size: 0.65rem; }
+    }
+
+    /* High contrast mode */
+    @media (forced-colors: active) {
+      .glass-card, .company-card, .eco-card, .page-card {
+        border: 2px solid ButtonText;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <!-- SKIP LINK is in <head> already via CSS -->
+
+  <!-- LOADER -->
+  <div id="loader" role="status" aria-live="polite" aria-label="Loading page content">
+    <div class="loader-logo" aria-hidden="true">DJANGO</div>
+    <div class="loader-bar-wrap" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-label="Loading progress">
+      <div class="loader-bar"></div>
+    </div>
+    <div class="loader-text" aria-hidden="true">INITIALIZING FRAMEWORK_</div>
+  </div>
+
+  <!-- CURSOR -->
+  <div id="cursor-dot" aria-hidden="true"></div>
+  <div id="cursor-ring" aria-hidden="true"></div>
+
+  <!-- SPACE BACKGROUND -->
+  <div id="space-bg" aria-hidden="true">
+    <canvas id="canvas-stars"></canvas>
+    <div class="nebula-1"></div>
+    <div class="nebula-2"></div>
+    <div class="nebula-3"></div>
+  </div>
+
+  <!-- NAVIGATION -->
+  <header>
+    <div id="navbar" role="banner">
+      <div class="nav-inner">
+        <a href="#hero" class="nav-logo" aria-label="Django Framework — Home">
+          <span class="logo-bracket">{</span>DJANGO<span class="logo-bracket">}</span>
+        </a>
+        <button class="nav-toggle" aria-expanded="false" aria-controls="main-nav" aria-label="Toggle navigation menu">
+          <span></span><span></span><span></span>
+        </button>
+        <nav id="main-nav" role="navigation" aria-label="Main navigation">
+          <ul>
+            <li><a href="#history">History</a></li>
+            <li><a href="#companies">Companies</a></li>
+            <li><a href="#ecosystem">Ecosystem</a></li>
+            <li><a href="#statistics">Stats</a></li>
+            <li><a href="#pages" class="nav-cta">Explore</a></li>
+          </ul>
+        </nav>
+      </div>
+    </div>
+  </header>
+
+  <!-- MAIN CONTENT -->
+  <main id="main-content">
+
+    <!-- ==================== HERO ==================== -->
+    <section id="hero" aria-labelledby="hero-heading">
+      <canvas id="particles-canvas" aria-hidden="true"></canvas>
+      <div class="hero-content">
+        <div class="hero-badge" aria-label="Status: actively maintained">
+          <span class="dot" aria-hidden="true"></span>
+          ACTIVELY MAINTAINED · EST. 2005
+        </div>
+        <h1 class="hero-title" id="hero-heading">
+          <span class="line1">THE WEB FRAMEWORK</span>
+          <span class="line2">FOR PERFECTIONISTS</span>
+          <span class="line3">with deadlines — Django Framework Deep Dive</span>
+        </h1>
+        <p class="hero-desc">
+          From newsroom tool to powering Instagram, NASA, and Spotify — explore the complete story of Django: its history, ecosystem, companies, and technologies that make it the backbone of the modern web.
+        </p>
+        <div class="hero-actions">
+          <a href="#history" class="btn-primary ripple-container" aria-label="Explore Django's history">
+            ⬡ Explore History
+          </a>
+          <a href="#ecosystem" class="btn-ghost ripple-container" aria-label="Browse the Django ecosystem">
+            ◈ Browse Ecosystem
+          </a>
+        </div>
+        <div class="hero-stats" role="list" aria-label="Django key statistics">
+          <div class="hero-stat-item" role="listitem">
+            <span class="hero-stat-num" aria-label="Over 75,000 packages">75K+</span>
+            <span class="hero-stat-label">PyPI Packages</span>
+          </div>
+          <div class="hero-stat-item" role="listitem">
+            <span class="hero-stat-num" aria-label="Over 1 million developers">1M+</span>
+            <span class="hero-stat-label">Developers</span>
+          </div>
+          <div class="hero-stat-item" role="listitem">
+            <span class="hero-stat-num" aria-label="Version 5 point 2">5.2</span>
+            <span class="hero-stat-label">Latest Version</span>
+          </div>
+          <div class="hero-stat-item" role="listitem">
+            <span class="hero-stat-num" aria-label="20 years">20 Yrs</span>
+            <span class="hero-stat-label">Battle Tested</span>
+          </div>
+        </div>
+      </div>
+      <div class="scroll-indicator" aria-hidden="true">
+        <div class="scroll-mouse"></div>
+        <span class="scroll-label">Scroll</span>
+      </div>
+    </section>
+
+    <div class="section-divider" aria-hidden="true"></div>
+
+    <!-- ==================== SECTION 1: HISTORY ==================== -->
+    <section id="history" aria-labelledby="history-heading">
+      <div class="container">
+        <div class="section-header fade-in">
+          <span class="section-eyebrow" aria-hidden="true">// SECTION 01</span>
+          <h2 class="section-title" id="history-heading">The <span class="accent">History</span> of Django</h2>
+          <p class="section-subtitle">Born in a Kansas newspaper, shaped by necessity, and evolved into one of the world's most trusted web frameworks.</p>
+        </div>
+
+        <!-- Origin Story -->
+        <div class="glass-card fade-in" style="margin-bottom:3rem;" aria-label="Django origin story">
+          <h3 style="font-size:1.15rem;color:var(--star-white);margin-bottom:0.8rem;">🌌 Origin Story — The Lawrence Journal-World</h3>
+          <p style="color:var(--text-secondary);line-height:1.8;">
+            Django was created in the summer of 2003 by <strong style="color:var(--star-white);">Adrian Holovaty</strong> and <strong style="color:var(--star-white);">Simon Willison</strong> while working at the <em>Lawrence Journal-World</em> newspaper in Lawrence, Kansas. Faced with the brutal deadlines of a daily newsroom and the need to rapidly build and iterate on web applications, they needed a framework that could move as fast as journalism demanded. Tired of repetitive boilerplate, they extracted a powerful, reusable toolkit from their internal codebase. In July 2005, Django was released publicly as open-source software — named after jazz guitarist <strong style="color:var(--star-white);">Django Reinhardt</strong>.
+          </p>
+          <div class="glow-rule" aria-hidden="true"></div>
+          <p style="color:var(--text-secondary);line-height:1.8;">
+            The core philosophy — <em>"batteries included"</em> — meant shipping with everything a developer needs: an ORM, admin interface, authentication, form handling, URL routing, and templating out of the box. Jacob Kaplan-Moss joined as a core contributor and co-lead shortly after. Django's DNA of speed-without-sacrifice remains unchanged to this day.
+          </p>
+        </div>
+
+        <!-- Timeline -->
+        <div class="timeline" aria-label="Django version timeline">
+
+          <div class="timeline-item fade-in-left" aria-label="Django version 0.90, November 2005">
+            <div class="timeline-dot" aria-hidden="true"></div>
+            <div class="timeline-meta">
+              <span class="timeline-version">v0.90</span>
+              <span class="timeline-date">November 2005</span>
+            </div>
+            <h3>First Public Release</h3>
+            <p>The initial public release after extraction from the Journal-World codebase. Introduced the foundational architecture: MVC pattern (called MTV in Django), the ORM, URL dispatcher, template engine, and the iconic auto-generated admin.</p>
+            <ul>
+              <li>Model-Template-View (MTV) architectural pattern</li>
+              <li>Automatic admin interface generation</li>
+              <li>Database-driven development with ORM</li>
+              <li>URL configuration via regex patterns</li>
+            </ul>
+          </div>
+
+          <div class="timeline-item fade-in-left" aria-label="Django version 1.0, September 2008">
+            <div class="timeline-dot major" aria-hidden="true"></div>
+            <div class="timeline-meta">
+              <span class="timeline-version">v1.0</span>
+              <span class="timeline-date">September 2008</span>
+            </div>
+            <h3>Stable API Commitment</h3>
+            <p>The landmark 1.0 release signified Django's first stable, production-ready API with a compatibility promise. This was a watershed moment establishing Django as enterprise-grade software.</p>
+            <ul>
+              <li>Stable API guarantee — no more breaking changes without deprecation</li>
+              <li>Signals framework introduced</li>
+              <li>Transaction management improvements</li>
+              <li>Unicode support throughout the stack</li>
+              <li>Geo-spatial extensions (GeoDjango) included</li>
+            </ul>
+          </div>
+
+          <div class="timeline-item fade-in-left" aria-label="Django version 1.2 to 1.4, 2010 to 2012">
+            <div class="timeline-dot" aria-hidden="true"></div>
+            <div class="timeline-meta">
+              <span class="timeline-version">v1.2–1.4</span>
+              <span class="timeline-date">2010–2012</span>
+            </div>
+            <h3>Multiple Database & Class-Based Views</h3>
+            <p>A pivotal era introducing multi-database support, class-based views, timezone awareness, and the foundation for modern Django patterns.</p>
+            <ul>
+              <li>Multiple database routing support (v1.2)</li>
+              <li>CSRF protection enabled by default (v1.2)</li>
+              <li>Class-Based Views — reusable, composable view logic (v1.3)</li>
+              <li>Built-in logging framework (v1.3)</li>
+              <li>Timezone-aware datetimes (v1.4)</li>
+              <li>In-browser testing client improvements</li>
+            </ul>
+          </div>
+
+          <div class="timeline-item fade-in-left" aria-label="Django version 1.5 to 1.8, 2013 to 2015">
+            <div class="timeline-dot" aria-hidden="true"></div>
+            <div class="timeline-meta">
+              <span class="timeline-version">v1.5–1.8</span>
+              <span class="timeline-date">2013–2015</span>
+            </div>
+            <h3>Python 3, Migrations & Custom User Models</h3>
+            <p>This generation brought native Python 3 support, the revolutionary Migrations framework, custom user model support, and a pluggable template engine system.</p>
+            <ul>
+              <li>Python 3 support added (v1.5)</li>
+              <li>Configurable custom User model (v1.5)</li>
+              <li>Built-in database Migrations framework — goodbye South! (v1.7)</li>
+              <li>App Registry for app configuration (v1.7)</li>
+              <li>Multiple template engine support (v1.8)</li>
+              <li>Expression-based query annotations with F() and Func() (v1.8)</li>
+            </ul>
+          </div>
+
+          <div class="timeline-item fade-in-left" aria-label="Django version 2.0 to 2.2, 2018 to 2019">
+            <div class="timeline-dot major" aria-hidden="true"></div>
+            <div class="timeline-meta">
+              <span class="timeline-version">v2.0–2.2</span>
+              <span class="timeline-date">2018–2019</span>
+            </div>
+            <h3>Python 3-Only & Simplified URLs</h3>
+            <p>Django 2.0 dropped Python 2 support entirely, cleaned up years of legacy code, and introduced a dramatically simpler URL routing syntax with path() converters.</p>
+            <ul>
+              <li>Python 3 only — legacy Python 2 support dropped (v2.0)</li>
+              <li>Simplified URL routing with <code>path()</code> and type converters (v2.0)</li>
+              <li>Mobile-friendly admin with responsive design (v2.0)</li>
+              <li>Window functions support in ORM queries (v2.0)</li>
+              <li>Major performance improvements in query compilation (v2.1)</li>
+              <li>Long-term support (LTS) release — v2.2</li>
+            </ul>
+          </div>
+
+          <div class="timeline-item fade-in-left" aria-label="Django version 3.0 to 3.2, 2019 to 2021">
+            <div class="timeline-dot" aria-hidden="true"></div>
+            <div class="timeline-meta">
+              <span class="timeline-version">v3.0–3.2</span>
+              <span class="timeline-date">2019–2021</span>
+            </div>
+            <h3>ASGI & Async Support Arrives</h3>
+            <p>A transformative era: Django gained ASGI support enabling asynchronous Python, MariaDB support, JSONField for all backends, and crossed into the modern async web paradigm.</p>
+            <ul>
+              <li>ASGI (Async Server Gateway Interface) support — hello async Django! (v3.0)</li>
+              <li>MariaDB officially supported (v3.0)</li>
+              <li>Enumerations for choices (TextChoices, IntegerChoices) (v3.0)</li>
+              <li>Cross-database JSONField (v3.1)</li>
+              <li>Async views and middleware support (v3.1)</li>
+              <li>Functional indexes and inline foreign key constraints (v3.2 LTS)</li>
+            </ul>
+          </div>
+
+          <div class="timeline-item fade-in-left" aria-label="Django version 4.0 to 4.2, 2022 to 2023">
+            <div class="timeline-dot major" aria-hidden="true"></div>
+            <div class="timeline-meta">
+              <span class="timeline-version">v4.0–4.2</span>
+              <span class="timeline-date">2022–2023</span>
+            </div>
+            <h3>Async ORM & CSRF Modernization</h3>
+            <p>Django deepened its async story with async ORM operations, improved form rendering, Redis cache backend out of the box, and powerful database constraint improvements.</p>
+            <ul>
+              <li>Async ORM interface — async queryset iteration (v4.1)</li>
+              <li>Built-in Redis cache backend (v4.0)</li>
+              <li>zoneinfo-based timezone support (v4.0)</li>
+              <li>Form rendering using the template engine (v4.1)</li>
+              <li>Async handlers for class-based views (v4.1)</li>
+              <li>Constraint validation in model.full_clean() (v4.2 LTS)</li>
+              <li>Psycopg 3 (psycopg) support (v4.2)</li>
+            </ul>
+          </div>
+
+          <div class="timeline-item fade-in-left" aria-label="Django version 5.0 to 5.2, 2024 to 2025">
+            <div class="timeline-dot major" aria-hidden="true"></div>
+            <div class="timeline-meta">
+              <span class="timeline-version">v5.0–5.2</span>
+              <span class="timeline-date">2024–2025</span>
+            </div>
+            <h3>Facets, Generated Columns & Python 3.12+</h3>
+            <p>The current generation embraces modern Python features, database-generated columns, improved admin facets, and enhanced HTMX-friendly patterns for modern frontend workflows.</p>
+            <ul>
+              <li>Database-generated model fields (v5.0)</li>
+              <li>Simplified template rendering for forms with field groups (v5.0)</li>
+              <li>Facet filters in the Django admin (v5.0)</li>
+              <li>Python 3.12 and 3.13 support (v5.1–5.2)</li>
+              <li>QuerySet.aiterator() — true async streaming (v5.1)</li>
+              <li>Async storages support (v5.1)</li>
+              <li>Long-term support release — v5.2 LTS</li>
+            </ul>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <div class="section-divider" aria-hidden="true"></div>
+
+    <!-- ==================== SECTION 2: COMPANIES ==================== -->
+    <section id="companies" aria-labelledby="companies-heading">
+      <div class="container">
+        <div class="section-header fade-in">
+          <span class="section-eyebrow" aria-hidden="true">// SECTION 02</span>
+          <h2 class="section-title" id="companies-heading">Who Uses <span class="accent">Django</span> Today</h2>
+          <p class="section-subtitle">From Silicon Valley unicorns to government agencies, Django powers applications serving billions of users worldwide.</p>
+        </div>
+
+        <div class="companies-grid stagger-children">
+
+          <div class="company-card fade-in" style="--i:0" aria-label="Instagram uses Django">
+            <div class="company-logo-area" aria-hidden="true">📸</div>
+            <h3>Instagram</h3>
+            <div class="company-industry">Social Media · Meta</div>
+            <p>One of Django's most famous adopters. Instagram runs its core backend on Django, serving over 2 billion monthly active users. They use Django for feed generation, user profiles, media handling, and API endpoints — demonstrating Django's extreme scalability when properly architected.</p>
+            <div style="margin-top:0.8rem;">
+              <span class="tag">Feed API</span><span class="tag">Media Storage</span><span class="tag green">Scale</span>
+            </div>
+          </div>
+
+          <div class="company-card fade-in" style="--i:1" aria-label="Disqus uses Django">
+            <div class="company-logo-area" aria-hidden="true">💬</div>
+            <h3>Disqus</h3>
+            <div class="company-industry">Comments & Community Platform</div>
+            <p>Disqus powers comments for millions of websites. They famously scaled Django to handle 8 billion page views per month, leveraging Django's ORM, caching layers, and custom middleware for real-time comment delivery and moderation systems.</p>
+            <div style="margin-top:0.8rem;">
+              <span class="tag">Real-Time</span><span class="tag">Moderation</span><span class="tag green">8B PV/mo</span>
+            </div>
+          </div>
+
+          <div class="company-card fade-in" style="--i:2" aria-label="Mozilla uses Django">
+            <div class="company-logo-area" aria-hidden="true">🦊</div>
+            <h3>Mozilla</h3>
+            <div class="company-industry">Open Source · Browser Technology</div>
+            <p>Mozilla uses Django extensively across its web properties including addons.mozilla.org (AMO), support.mozilla.org, and various developer tools. Django's security framework and admin interface align well with Mozilla's open-source ethos and security requirements.</p>
+            <div style="margin-top:0.8rem;">
+              <span class="tag">AMO</span><span class="tag">Developer Tools</span><span class="tag purple">Open Source</span>
+            </div>
+          </div>
+
+          <div class="company-card fade-in" style="--i:3" aria-label="NASA uses Django">
+            <div class="company-logo-area" aria-hidden="true">🚀</div>
+            <h3>NASA</h3>
+            <div class="company-industry">Government · Space Exploration</div>
+            <p>NASA's official website nasa.gov runs on Django. Beyond the public-facing site, NASA uses Django for internal data management systems, scientific data visualization platforms, and mission support tools where reliability and security are paramount.</p>
+            <div style="margin-top:0.8rem;">
+              <span class="tag">nasa.gov</span><span class="tag">Data Visualization</span><span class="tag gold">Mission Critical</span>
+            </div>
+          </div>
+
+          <div class="company-card fade-in" style="--i:4" aria-label="Spotify uses Django">
+            <div class="company-logo-area" aria-hidden="true">🎵</div>
+            <h3>Spotify</h3>
+            <div class="company-industry">Music Streaming</div>
+            <p>Spotify uses Django for several backend services, particularly data management, artist dashboards, and internal tooling. Django's admin panel is especially leveraged for content management and internal operations at massive scale.</p>
+            <div style="margin-top:0.8rem;">
+              <span class="tag">Artist Tools</span><span class="tag">Content Mgmt</span><span class="tag green">Internal</span>
+            </div>
+          </div>
+
+          <div class="company-card fade-in" style="--i:5" aria-label="Pinterest uses Django">
+            <div class="company-logo-area" aria-hidden="true">📌</div>
+            <h3>Pinterest</h3>
+            <div class="company-industry">Visual Discovery Platform</div>
+            <p>Pinterest's early infrastructure was built heavily on Django, serving tens of millions of users. They chose Django for its rapid development capabilities, the ORM's flexibility with complex relational data, and the admin panel for content moderation at scale.</p>
+            <div style="margin-top:0.8rem;">
+              <span class="tag">Pin Service</span><span class="tag">Discovery</span><span class="tag green">Early Adopter</span>
+            </div>
+          </div>
+
+          <div class="company-card fade-in" style="--i:6" aria-label="Eventbrite uses Django">
+            <div class="company-logo-area" aria-hidden="true">🎟️</div>
+            <h3>Eventbrite</h3>
+            <div class="company-industry">Event Management & Ticketing</div>
+            <p>Eventbrite's core platform is built on Django, handling event creation, ticketing workflows, payment processing integration, and attendee management. Django's form system and ORM are particularly well-suited to their complex event data models and checkout flows.</p>
+            <div style="margin-top:0.8rem;">
+              <span class="tag">Ticketing</span><span class="tag">Payments</span><span class="tag purple">Workflows</span>
+            </div>
+          </div>
+
+          <div class="company-card fade-in" style="--i:7" aria-label="The Washington Post uses Django">
+            <div class="company-logo-area" aria-hidden="true">📰</div>
+            <h3>The Washington Post</h3>
+            <div class="company-industry">News & Media</div>
+            <p>Fitting for Django's newsroom origins, The Washington Post uses Django for its web presence and editorial tooling. Django's rapid development cycle, admin panel for content management, and robust templating system make it a natural fit for digital publishing.</p>
+            <div style="margin-top:0.8rem;">
+              <span class="tag">CMS</span><span class="tag">Editorial Tools</span><span class="tag gold">Publishing</span>
+            </div>
+          </div>
+
+          <div class="company-card fade-in" style="--i:8" aria-label="Dropbox uses Django">
+            <div class="company-logo-area" aria-hidden="true">☁️</div>
+            <h3>Dropbox</h3>
+            <div class="company-industry">Cloud Storage · File Sync</div>
+            <p>Dropbox uses Django for parts of its web interface and administrative systems. As a primarily Python-based company, Django fits naturally into their technology stack for building internal tools, marketing pages, and account management interfaces.</p>
+            <div style="margin-top:0.8rem;">
+              <span class="tag">Web UI</span><span class="tag">Account Mgmt</span><span class="tag green">Internal Tools</span>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <div class="section-divider" aria-hidden="true"></div>
+
+    <!-- ==================== SECTION 3: ECOSYSTEM ==================== -->
+    <section id="ecosystem" aria-labelledby="ecosystem-heading">
+      <div class="container">
+        <div class="section-header fade-in">
+          <span class="section-eyebrow" aria-hidden="true">// SECTION 03</span>
+          <h2 class="section-title" id="ecosystem-heading">The Django <span class="accent">Ecosystem</span></h2>
+          <p class="section-subtitle">Django is more than a framework — it's a universe of patterns, packages, and practices for building every kind of web application imaginable.</p>
+        </div>
+
+        <div class="eco-nav" role="tablist" aria-label="Filter ecosystem categories">
+          <button class="active" data-filter="all" role="tab" aria-selected="true">All</button>
+          <button data-filter="core" role="tab" aria-selected="false">Core</button>
+          <button data-filter="api" role="tab" aria-selected="false">APIs</button>
+          <button data-filter="packages" role="tab" aria-selected="false">Packages</button>
+          <button data-filter="databases" role="tab" aria-selected="false">Databases</button>
+          <button data-filter="infra" role="tab" aria-selected="false">Infrastructure</button>
+          <button data-filter="frontend" role="tab" aria-selected="false">Frontend</button>
+        </div>
+
+        <div class="eco-grid" id="eco-grid" role="list">
+
+          <!-- CORE -->
+          <div class="eco-card" data-category="core" role="listitem">
+            <div class="eco-card-header">
+              <div class="eco-icon" aria-hidden="true">🗂️</div>
+              <div>
+                <h3>Django Models & ORM</h3>
+                <span class="eco-tag">CORE · DATABASE LAYER</span>
+              </div>
+            </div>
+            <p>The Django Object-Relational Mapper (ORM) allows you to define your database schema as Python classes — called Models. Each model maps to a database table. You interact with the database using Python instead of raw SQL: <code>User.objects.filter(age__gte=18)</code>. The ORM supports complex queries, annotations, aggregations, select_related/prefetch_related for performance, F() expressions, Q() objects for OR logic, and raw SQL escape hatches. Migrations track schema changes over time, allowing collaborative team development without manual SQL migrations.</p>
+            <div style="margin-top:0.8rem;"><span class="tag">QuerySets</span><span class="tag">Migrations</span><span class="tag">Relationships</span></div>
+          </div>
+
+          <div class="eco-card" data-category="core" role="listitem">
+            <div class="eco-card-header">
+              <div class="eco-icon" aria-hidden="true">🔗</div>
+              <div>
+                <h3>Django URLs, Reverse URLs & Namespaces</h3>
+                <span class="eco-tag">CORE · ROUTING</span>
+              </div>
+            </div>
+            <p>Django's URL dispatcher maps URL patterns to Python view functions or class-based views. Modern Django uses <code>path()</code> with typed converters (<code>&lt;int:pk&gt;</code>, <code>&lt;slug:slug&gt;</code>) and <code>re_path()</code> for regex. Reverse URLs (<code>reverse('blog:post-detail', args=[pk])</code>) let you generate URLs dynamically — your templates never hardcode paths. URL namespaces (<code>app_name</code>) prevent naming collisions in large applications with multiple apps, enabling clean URL organization and modularity.</p>
+            <div style="margin-top:0.8rem;"><span class="tag">path()</span><span class="tag">reverse()</span><span class="tag">Namespaces</span></div>
+          </div>
+
+          <div class="eco-card" data-category="core" role="listitem">
+            <div class="eco-card-header">
+              <div class="eco-icon" aria-hidden="true">👁️</div>
+              <div>
+                <h3>Django Views (FBVs & CBVs)</h3>
+                <span class="eco-tag">CORE · LOGIC LAYER</span>
+              </div>
+            </div>
+            <p>Views are the business logic layer. Function-Based Views (FBVs) are simple Python functions that receive an HttpRequest and return an HttpResponse — perfect for straightforward logic. Class-Based Views (CBVs) provide reusable, mixins-powered views: <code>ListView</code>, <code>DetailView</code>, <code>CreateView</code>, <code>UpdateView</code>, <code>DeleteView</code>, and more. CBVs eliminate boilerplate via inheritance and composition. Decorators (<code>@login_required</code>, <code>@permission_required</code>) and CBV mixins provide elegant access control at the view level.</p>
+            <div style="margin-top:0.8rem;"><span class="tag">FBV</span><span class="tag">CBV</span><span class="tag">Mixins</span><span class="tag">Decorators</span></div>
+          </div>
+
+          <div class="eco-card" data-category="core" role="listitem">
+            <div class="eco-card-header">
+              <div class="eco-icon" aria-hidden="true">📄</div>
+              <div>
+                <h3>Django Templates</h3>
+                <span class="eco-tag">CORE · PRESENTATION LAYER</span>
+              </div>
+            </div>
+            <p>Django's built-in template language (DTL) provides a powerful yet intentionally logic-light syntax for rendering HTML. Template tags (<code>{% for %}</code>, <code>{% if %}</code>, <code>{% block %}</code>), filters (<code>{{ value|date:"Y-m-d" }}</code>), and template inheritance (<code>{% extends "base.html" %}</code>) enable DRY layout design. Jinja2 can be plugged in as an alternative engine. Django's template system enforces separation of concerns — keeping business logic in views, not templates — while still providing enough power for dynamic HTML generation, static file handling, and i18n support.</p>
+            <div style="margin-top:0.8rem;"><span class="tag">DTL</span><span class="tag">Inheritance</span><span class="tag">Filters</span><span class="tag">Jinja2</span></div>
+          </div>
+
+          <div class="eco-card" data-category="core" role="listitem">
+            <div class="eco-card-header">
+              <div class="eco-icon" aria-hidden="true">📝</div>
+              <div>
+                <h3>Django Forms</h3>
+                <span class="eco-tag">CORE · INPUT HANDLING</span>
+              </div>
+            </div>
+            <p>Django's Forms library handles the full lifecycle of user input: rendering HTML form fields, validating submitted data, and converting to Python types. <code>ModelForm</code> automatically generates a form from a model, reducing code dramatically. Custom validators, widget customization, formsets for multiple-object editing, and form wizards for multi-step workflows are all built-in. Form rendering in Django 4.1+ uses the template engine, enabling fully customized form layouts via template overrides — a major improvement in design flexibility.</p>
+            <div style="margin-top:0.8rem;"><span class="tag">ModelForm</span><span class="tag">Validation</span><span class="tag">Formsets</span><span class="tag">Widgets</span></div>
+          </div>
+
+          <div class="eco-card" data-category="core" role="listitem">
+            <div class="eco-card-header">
+              <div class="eco-icon" aria-hidden="true">⚡</div>
+              <div>
+                <h3>Django Signals</h3>
+                <span class="eco-tag">CORE · EVENT SYSTEM</span>
+              </div>
+            </div>
+            <p>Django's signals framework implements a publisher-subscriber pattern for decoupled intra-application communication. Built-in signals include <code>pre_save</code>, <code>post_save</code>, <code>pre_delete</code>, <code>post_delete</code>, <code>m2m_changed</code>, and <code>request_started/finished</code>. You can define custom signals for domain events. Common use cases include: sending emails after user registration, invalidating caches on model save, creating related objects automatically, and logging audit trails — all without tight coupling between components. Signal handlers are registered with <code>@receiver</code> decorators.</p>
+            <div style="margin-top:0.8rem;"><span class="tag">post_save</span><span class="tag">@receiver</span><span class="tag">Decoupling</span></div>
+          </div>
+
+          <div class="eco-card" data-category="core" role="listitem">
+            <div class="eco-card-header">
+              <div class="eco-icon" aria-hidden="true">🛡️</div>
+              <div>
+                <h3>The Django Admin Panel</h3>
+                <span class="eco-tag">CORE · MANAGEMENT UI</span>
+              </div>
+            </div>
+            <p>Django's automatic admin interface is one of its most celebrated features — a complete, production-ready CRUD management UI generated from your models with zero additional code. Register models with <code>admin.site.register()</code> or extend <code>ModelAdmin</code> for custom list displays, filters, search, inline editing, and actions. The admin supports custom views, dashboard widgets, and third-party themes like Jazzmin, Unfold, or Django Suit. It's used by content teams, data analysts, and operations staff who need database access without developer intervention.</p>
+            <div style="margin-top:0.8rem;"><span class="tag">ModelAdmin</span><span class="tag">Inline Editing</span><span class="tag green">Auto-Generated</span></div>
+          </div>
+
+          <div class="eco-card" data-category="core" role="listitem">
+            <div class="eco-card-header">
+              <div class="eco-icon" aria-hidden="true">🔒</div>
+              <div>
+                <h3>Security in Django</h3>
+                <span class="eco-tag">CORE · SECURITY LAYER</span>
+              </div>
+            </div>
+            <p>Django ships with robust security by default. CSRF protection via <code>{% csrf_token %}</code> and middleware prevents cross-site request forgery. SQL injection is prevented by the ORM's parameterized queries. XSS protection via automatic HTML escaping in templates. Clickjacking protection with <code>X-Frame-Options</code>. Content Security Policy support. Secure password hashing (PBKDF2, bcrypt, Argon2). The <code>SECRET_KEY</code> for session signing. HTTPS enforcement with <code>SECURE_SSL_REDIRECT</code>. <code>django.middleware.security.SecurityMiddleware</code> provides HSTS headers, X-Content-Type-Options, and Referrer-Policy out of the box.</p>
+            <div style="margin-top:0.8rem;"><span class="tag">CSRF</span><span class="tag">XSS</span><span class="tag">HSTS</span><span class="tag gold">SQL Injection</span></div>
+          </div>
+
+          <!-- API -->
+          <div class="eco-card" data-category="api" role="listitem">
+            <div class="eco-card-header">
+              <div class="eco-icon" aria-hidden="true">🔌</div>
+              <div>
+                <h3>Django REST Framework (DRF)</h3>
+                <span class="eco-tag">API · REST</span>
+              </div>
+            </div>
+            <p>The de-facto standard for building RESTful APIs with Django. DRF provides Serializers (model-to-JSON conversion with validation), ViewSets (CRUD endpoints with minimal code), Routers (automatic URL generation), Authentication backends (Token, Session, JWT via simplejwt), Permission classes, Pagination, Filtering, and Throttling. With <code>ModelSerializer</code> and a <code>ModelViewSet</code>, a full REST API for a model can be created in under 20 lines of code. DRF powers APIs for mobile apps, SPAs, and third-party integrations at massive scale.</p>
+            <div style="margin-top:0.8rem;"><span class="tag">Serializers</span><span class="tag">ViewSets</span><span class="tag">JWT</span><span class="tag green">REST</span></div>
+          </div>
+
+          <div class="eco-card" data-category="api" role="listitem">
+            <div class="eco-card-header">
+              <div class="eco-icon" aria-hidden="true">🌐</div>
+              <div>
+                <h3>DRF Browsable API</h3>
+                <span class="eco-tag">API · DEVELOPER TOOLS</span>
+              </div>
+            </div>
+            <p>One of DRF's most delightful features — a fully interactive, human-readable web interface for your API endpoints, generated automatically. When you navigate to an API endpoint in a browser, DRF renders an HTML page showing the endpoint's documentation, accepted methods, serializer schema, and forms for POST/PUT/PATCH operations. It uses content negotiation (<code>Accept: text/html</code> vs <code>application/json</code>) to serve either the browsable UI or raw JSON. Invaluable for development and testing without external tools like Postman.</p>
+            <div style="margin-top:0.8rem;"><span class="tag">Content Negotiation</span><span class="tag">Interactive</span><span class="tag green">Zero Config</span></div>
+          </div>
+
+          <div class="eco-card" data-category="api" role="listitem">
+            <div class="eco-card-header">
+              <div class="eco-icon" aria-hidden="true">◈</div>
+              <div>
+                <h3>GraphQL with graphene-django</h3>
+                <span class="eco-tag">API · GRAPHQL</span>
+              </div>
+            </div>
+            <p>For applications needing flexible, client-driven data fetching, <code>graphene-django</code> integrates the Graphene library to expose a GraphQL API from your Django models. You define GraphQL Types mapped to Django models, Queries for reading data, Mutations for writes, and Subscriptions for real-time updates. The <code>/graphql</code> endpoint serves GraphiQL — an interactive query editor. Strawberry-django is a modern alternative using Python type annotations. GraphQL excels for mobile APIs, highly complex relational data fetching, and BFF (Backend for Frontend) architectures.</p>
+            <div style="margin-top:0.8rem;"><span class="tag">graphene-django</span><span class="tag">Strawberry</span><span class="tag purple">GraphiQL</span></div>
+          </div>
+
+          <div class="eco-card" data-category="api" role="listitem">
+            <div class="eco-card-header">
+              <div class="eco-icon" aria-hidden="true">📡</div>
+              <div>
+                <h3>SOAP APIs with Django</h3>
+                <span class="eco-tag">API · ENTERPRISE INTEGRATION</span>
+              </div>
+            </div>
+            <p>While less common in modern greenfield projects, SOAP (Simple Object Access Protocol) APIs are still prevalent in enterprise environments — banking, healthcare, government, and legacy ERP systems. The <code>spyne</code> library integrates with Django to build SOAP web services, auto-generating WSDL definitions. <code>zeep</code> is used as a SOAP client when consuming external SOAP services. Django handles the HTTP transport layer while spyne manages XML serialization, service definitions, and protocol negotiation for WSDL-compliant enterprise integrations.</p>
+            <div style="margin-top:0.8rem;"><span class="tag">spyne</span><span class="tag">WSDL</span><span class="tag gold">Enterprise</span></div>
+          </div>
+
+          <!-- PACKAGES -->
+          <div class="eco-card" data-category="packages" role="listitem">
+            <div class="eco-card-header">
+              <div class="eco-icon" aria-hidden="true">🐛</div>
+              <div>
+                <h3>Django Debug Toolbar</h3>
+                <span class="eco-tag">PACKAGES · DEVELOPER TOOLS</span>
+              </div>
+            </div>
+            <p>The <code>django-debug-toolbar</code> injects a collapsible side panel into your HTML responses during development, providing real-time profiling data: SQL queries executed (with execution times and EXPLAIN output), template context variables and render times, cache hits/misses, signal connections fired, session data, request/response headers, static files, and a complete settings dump. It's indispensable for identifying N+1 query problems, slow templates, and cache effectiveness. Entirely disabled in production via the <code>DEBUG</code> flag.</p>
+            <div style="margin-top:0.8rem;"><span class="tag">SQL Profiling</span><span class="tag">N+1 Detection</span><span class="tag green">Dev Only</span></div>
+          </div>
+
+          <div class="eco-card" data-category="packages" role="listitem">
+            <div class="eco-card-header">
+              <div class="eco-icon" aria-hidden="true">🔄</div>
+              <div>
+                <h3>Django Channels</h3>
+                <span class="eco-tag">PACKAGES · ASYNC / WEBSOCKETS</span>
+              </div>
+            </div>
+            <p>Django Channels extends Django to handle WebSockets, long-polling, and other asynchronous protocols — things traditional Django's synchronous HTTP couldn't handle. Channels introduces Consumers (analogous to views for async connections), Channel Layers (backed by Redis for multi-process message passing), and a routing system for protocol types. Use cases include live chat applications, real-time notifications, collaborative document editing, live sports scores, multiplayer games, and dashboard streaming. Channels uses ASGI and is fully compatible with Django's authentication system.</p>
+            <div style="margin-top:0.8rem;"><span class="tag">WebSockets</span><span class="tag">Channel Layers</span><span class="tag purple">ASGI</span><span class="tag">Real-Time</span></div>
+          </div>
+
+          <div class="eco-card" data-category="packages" role="listitem">
+            <div class="eco-card-header">
+              <div class="eco-icon" aria-hidden="true">📰</div>
+              <div>
+                <h3>Django CMS</h3>
+                <span class="eco-tag">PACKAGES · CONTENT MANAGEMENT</span>
+              </div>
+            </div>
+            <p>Django CMS is a mature, enterprise-grade content management system built on Django. It provides an inline editing interface (edit content directly on the page), a hierarchical page tree, plugin system for reusable content blocks, multi-language support, versioning, and a rich permissions system. Unlike WordPress, Django CMS gives developers full Python/Django control over the codebase while providing content editors a polished UI. Used by large organizations for multilingual corporate websites, educational platforms, and publishing systems.</p>
+            <div style="margin-top:0.8rem;"><span class="tag">Inline Editing</span><span class="tag">Plugins</span><span class="tag">i18n</span><span class="tag gold">Enterprise</span></div>
+          </div>
+
+          <div class="eco-card" data-category="packages" role="listitem">
+            <div class="eco-card-header">
+              <div class="eco-icon" aria-hidden="true">📜</div>
+              <div>
+                <h3>Building PDFs with Django</h3>
+                <span class="eco-tag">PACKAGES · DOCUMENT GENERATION</span>
+              </div>
+            </div>
+            <p>Django integrates seamlessly with PDF generation libraries. <code>WeasyPrint</code> converts HTML/CSS templates into pixel-perfect PDFs — you design your invoice or report in HTML, then render it as PDF using the same Django template engine. <code>ReportLab</code> provides programmatic PDF creation for complex layouts. <code>xhtml2pdf</code> is another popular option. Common use cases: invoice generation, legal documents, certificates, payslips, reports, and receipts. The pattern: render a Django template to HTML string → pass to WeasyPrint → return as <code>HttpResponse</code> with <code>application/pdf</code> content type.</p>
+            <div style="margin-top:0.8rem;"><span class="tag">WeasyPrint</span><span class="tag">ReportLab</span><span class="tag">Invoices</span><span class="tag green">Template-Driven</span></div>
+          </div>
+
+          <div class="eco-card" data-category="packages" role="listitem">
+            <div class="eco-card-header">
+              <div class="eco-icon" aria-hidden="true">🌿</div>
+              <div>
+                <h3>django-cte (Common Table Expressions)</h3>
+                <span class="eco-tag">PACKAGES · ADVANCED SQL</span>
+              </div>
+            </div>
+            <p>The <code>django-cte</code> package (<code>django-cte</code> by dimagi) adds support for PostgreSQL Common Table Expressions (CTEs) — also known as <code>WITH</code> queries — to Django's ORM. CTEs enable recursive queries (ideal for hierarchical/tree data like org charts, threaded comments, category trees), complex query factoring, and query optimization through materialization hints. Without this package, recursive CTEs require raw SQL. <code>django-cte</code> provides <code>With</code> and <code>CTEQuerySet</code> that integrate cleanly with Django's existing queryset API, preserving chainability and compatibility with DRF.</p>
+            <div style="margin-top:0.8rem;"><span class="tag">Recursive SQL</span><span class="tag">WITH Queries</span><span class="tag purple">PostgreSQL</span><span class="tag">Tree Data</span></div>
+          </div>
+
+          <div class="eco-card" data-category="packages" role="listitem">
+            <div class="eco-card-header">
+              <div class="eco-icon" aria-hidden="true">🔧</div>
+              <div>
+                <h3>Django Extensions (django-extensions)</h3>
+                <span class="eco-tag">PACKAGES · DEVELOPER TOOLS</span>
+              </div>
+            </div>
+            <p><code>django-extensions</code> is a power-user toolkit adding over 60 management commands and model mixins. Highlights include: <code>shell_plus</code> (auto-imports all models), <code>runserver_plus</code> (Werkzeug debugger integration), <code>graph_models</code> (generates ER diagrams from models), <code>show_urls</code> (lists all URL patterns), <code>sqldiff</code> (detects schema drift), <code>reset_db</code> (drops and recreates the database), <code>TimeStampedModel</code> and <code>UUIDModel</code> abstract mixins, and <code>export_emails</code>. Nearly every serious Django project installs django-extensions in development.</p>
+            <div style="margin-top:0.8rem;"><span class="tag">shell_plus</span><span class="tag">graph_models</span><span class="tag green">Management Cmds</span></div>
+          </div>
+
+          <div class="eco-card" data-category="packages" role="listitem">
+            <div class="eco-card-header">
+              <div class="eco-icon" aria-hidden="true">🖼️</div>
+              <div>
+                <h3>Pillow (Django Image Processing)</h3>
+                <span class="eco-tag">PACKAGES · MEDIA HANDLING</span>
+              </div>
+            </div>
+            <p>Pillow is the Python Imaging Library fork that Django's <code>ImageField</code> depends on for image validation and processing. Beyond just storing uploads, Pillow enables: resizing and thumbnailing (<code>image.thumbnail((300,300))</code>), format conversion (PNG → WebP), cropping and watermarking, color manipulation, EXIF data reading, and image optimization. Common patterns include generating thumbnails on upload via signals, creating social media preview images, processing user avatars, and building image transformation pipelines. Django Storages + Pillow + S3 is the standard production media stack.</p>
+            <div style="margin-top:0.8rem;"><span class="tag">ImageField</span><span class="tag">Thumbnails</span><span class="tag">WebP</span><span class="tag gold">EXIF</span></div>
+          </div>
+
+          <div class="eco-card" data-category="packages" role="listitem">
+            <div class="eco-card-header">
+              <div class="eco-icon" aria-hidden="true">🔍</div>
+              <div>
+                <h3>django-filter</h3>
+                <span class="eco-tag">PACKAGES · QUERYING</span>
+              </div>
+            </div>
+            <p><code>django-filter</code> provides a declarative filtering system for Django views and DRF APIs. Define a <code>FilterSet</code> class with filter fields mapping to model fields and lookup types (<code>exact</code>, <code>icontains</code>, <code>gte</code>, <code>range</code>), then connect it to a view. DRF integration via <code>DjangoFilterBackend</code> enables URL-based filtering (<code>/api/products/?category=electronics&price__gte=100</code>) automatically. Supports custom filter methods, combined filters, and form rendering for browsable API filtering. Essential for any API with searchable, sortable, filterable resources.</p>
+            <div style="margin-top:0.8rem;"><span class="tag">FilterSet</span><span class="tag">DRF Integration</span><span class="tag">URL Params</span></div>
+          </div>
+
+          <div class="eco-card" data-category="packages" role="listitem">
+            <div class="eco-card-header">
+              <div class="eco-icon" aria-hidden="true">🌿</div>
+              <div>
+                <h3>django-environ</h3>
+                <span class="eco-tag">PACKAGES · CONFIGURATION</span>
+              </div>
+            </div>
+            <p><code>django-environ</code> implements the Twelve-Factor App methodology for Django configuration, loading settings from environment variables and <code>.env</code> files. <code>env('DATABASE_URL')</code> automatically parses <code>postgres://user:pass@host/db</code> into Django's <code>DATABASES</code> dictionary. Type casting handles booleans, integers, lists, and tuples. It keeps secrets out of source code (no committed passwords), enables environment-specific configurations (dev/staging/production), and simplifies Docker/Kubernetes deployments where config is injected via environment variables. The standard for 12-factor Django applications.</p>
+            <div style="margin-top:0.8rem;"><span class="tag">12-Factor</span><span class="tag">.env Files</span><span class="tag">DATABASE_URL</span><span class="tag green">Secrets</span></div>
+          </div>
+
+          <!-- DATABASES -->
+          <div class="eco-card" data-category="databases" role="listitem">
+            <div class="eco-card-header">
+              <div class="eco-icon" aria-hidden="true">🐘</div>
+              <div>
+                <h3>PostgreSQL + psycopg2 / psycopg3</h3>
+                <span class="eco-tag">DATABASES · PRIMARY</span>
+              </div>
+            </div>
+            <p>PostgreSQL is Django's recommended production database, and the combination is arguably the most popular stack in the Python web ecosystem. <code>psycopg2</code> is the mature, battle-tested adapter; <code>psycopg3</code> (simply <code>psycopg</code>) is the modern async-capable rewrite supported since Django 4.2. PostgreSQL unlocks Django features unavailable on other backends: <code>ArrayField</code>, <code>JSONField</code>, <code>HStoreField</code>, <code>RangeField</code>, full-text search with <code>SearchVector</code>, <code>trigram_similar</code> lookups, <code>UNLOGGED</code> tables, advisory locks, and the <code>django-cte</code> package for WITH queries.</p>
+            <div style="margin-top:0.8rem;"><span class="tag">psycopg2</span><span class="tag">psycopg3</span><span class="tag purple">JSONField</span><span class="tag">Full-Text Search</span></div>
+          </div>
+
+          <div class="eco-card" data-category="databases" role="listitem">
+            <div class="eco-card-header">
+              <div class="eco-icon" aria-hidden="true">🐬</div>
+              <div>
+                <h3>MySQL & MariaDB</h3>
+                <span class="eco-tag">DATABASES · RELATIONAL</span>
+              </div>
+            </div>
+            <p>MySQL and MariaDB (the community fork, officially supported since Django 3.0) are widely used with Django in shared hosting environments, LAMP stacks, and organizations with existing MySQL infrastructure. The <code>mysqlclient</code> adapter (recommended) or <code>PyMySQL</code> connect Django to MySQL. Considerations: MySQL has historically had stricter limitations on transaction support and lacks some PostgreSQL-specific field types. MariaDB adds columnar storage, temporal tables, and window functions. Django's ORM handles the differences transparently for standard operations.</p>
+            <div style="margin-top:0.8rem;"><span class="tag">mysqlclient</span><span class="tag">MariaDB</span><span class="tag gold">LAMP Stack</span></div>
+          </div>
+
+          <div class="eco-card" data-category="databases" role="listitem">
+            <div class="eco-card-header">
+              <div class="eco-icon" aria-hidden="true">🪟</div>
+              <div>
+                <h3>Microsoft SQL Server (MSSQL)</h3>
+                <span class="eco-tag">DATABASES · ENTERPRISE</span>
+              </div>
+            </div>
+            <p>Microsoft SQL Server is used with Django primarily in enterprise Windows environments and organizations with existing MSSQL infrastructure. <code>mssql-django</code> (maintained by Microsoft) is the official backend. <code>django-mssql-backend</code> and <code>pyodbc</code> with <code>django-pyodbc-azure</code> are alternatives. MSSQL integration enables access to Azure SQL Database, stored procedures, and enterprise features like row-level security. Limitations: some Django ORM features require workarounds, and schema migrations can be less predictable than on PostgreSQL.</p>
+            <div style="margin-top:0.8rem;"><span class="tag">mssql-django</span><span class="tag">Azure SQL</span><span class="tag gold">Enterprise</span></div>
+          </div>
+
+          <div class="eco-card" data-category="databases" role="listitem">
+            <div class="eco-card-header">
+              <div class="eco-icon" aria-hidden="true">🔶</div>
+              <div>
+                <h3>Oracle Database</h3>
+                <span class="eco-tag">DATABASES · ENTERPRISE</span>
+              </div>
+            </div>
+            <p>Oracle Database integration uses the <code>cx_Oracle</code> (or newer <code>python-oracledb</code>) adapter with Django's built-in Oracle backend. Used predominantly in large enterprises, banks, and government systems with existing Oracle investments. Django supports Oracle-specific features like sequences, autonomous transactions, and LOB handling. However, Oracle support lags behind PostgreSQL in terms of Django ORM feature coverage, and the setup complexity is considerably higher. Oracle Database is a pragmatic choice when Django must integrate with existing enterprise data warehouses or existing Oracle-dependent applications.</p>
+            <div style="margin-top:0.8rem;"><span class="tag">cx_Oracle</span><span class="tag">python-oracledb</span><span class="tag gold">Enterprise DB</span></div>
+          </div>
+
+          <div class="eco-card" data-category="databases" role="listitem">
+            <div class="eco-card-header">
+              <div class="eco-icon" aria-hidden="true">🍃</div>
+              <div>
+                <h3>MongoDB & NoSQL Databases</h3>
+                <span class="eco-tag">DATABASES · NOSQL</span>
+              </div>
+            </div>
+            <p>Django's ORM is designed for relational databases, but MongoDB integration is possible via <code>Djongo</code> (translates ORM queries to MongoDB operations) or <code>mongoengine</code> (an ODM replacing Django's ORM). For other NoSQL databases: <code>django-cassandra-engine</code> for Cassandra, and CouchDB or Elasticsearch can be used as secondary stores alongside a primary relational database. The more common pattern is using PostgreSQL's <code>JSONField</code> for document-like flexibility within the relational model, rather than a full NoSQL switch. Elasticsearch with <code>django-elasticsearch-dsl</code> is popular for full-text search alongside PostgreSQL.</p>
+            <div style="margin-top:0.8rem;"><span class="tag">Djongo</span><span class="tag">mongoengine</span><span class="tag">Elasticsearch</span><span class="tag purple">NoSQL</span></div>
+          </div>
+
+          <!-- INFRASTRUCTURE -->
+          <div class="eco-card" data-category="infra" role="listitem">
+            <div class="eco-card-header">
+              <div class="eco-icon" aria-hidden="true">⚡</div>
+              <div>
+                <h3>Redis for Caching</h3>
+                <span class="eco-tag">INFRASTRUCTURE · CACHING</span>
+              </div>
+            </div>
+            <p>Redis is the standard caching backend for Django in production. Since Django 4.0, a built-in Redis cache backend (<code>django.core.cache.backends.redis.RedisCache</code>) is included. Configure with a Redis URL and use the cache API: <code>cache.set(key, value, timeout)</code>, <code>cache.get(key)</code>. Django supports per-view caching (<code>@cache_page</code>), per-site caching via middleware, template fragment caching (<code>{% cache %}</code>), and low-level cache API calls. Redis also powers Django Channels' channel layers, Celery's message broker, and session storage — making it a triple-duty component in the typical Django production stack.</p>
+            <div style="margin-top:0.8rem;"><span class="tag">RedisCache</span><span class="tag">@cache_page</span><span class="tag green">Sessions</span><span class="tag">Channel Layers</span></div>
+          </div>
+
+          <div class="eco-card" data-category="infra" role="listitem">
+            <div class="eco-card-header">
+              <div class="eco-icon" aria-hidden="true">🌿</div>
+              <div>
+                <h3>Celery for Async Tasks</h3>
+                <span class="eco-tag">INFRASTRUCTURE · TASK QUEUE</span>
+              </div>
+            </div>
+            <p>Celery is the industry-standard distributed task queue for Django. Offload time-consuming work from HTTP request/response cycles: sending emails, generating PDFs, processing images, calling external APIs, running ML models, sending push notifications, and scheduled cron-like tasks. Django integrates via the <code>celery</code> package with <code>shared_task</code> decorator. Redis or RabbitMQ serve as the message broker. Celery Beat handles periodic tasks. <code>django-celery-results</code> stores task results in your database. <code>flower</code> provides a real-time monitoring dashboard. The Django + Celery + Redis trinity is foundational to scalable Django architecture.</p>
+            <div style="margin-top:0.8rem;"><span class="tag">@shared_task</span><span class="tag">Celery Beat</span><span class="tag">Flower</span><span class="tag purple">Background Jobs</span></div>
+          </div>
+
+          <div class="eco-card" data-category="infra" role="listitem">
+            <div class="eco-card-header">
+              <div class="eco-icon" aria-hidden="true">🦄</div>
+              <div>
+                <h3>Gunicorn for Production</h3>
+                <span class="eco-tag">INFRASTRUCTURE · WSGI SERVER</span>
+              </div>
+            </div>
+            <p>Gunicorn (Green Unicorn) is the most widely used WSGI HTTP server for serving Django in production. It manages a pool of worker processes (typically <code>2 * CPU_CORES + 1</code> workers), handles concurrent requests, and interfaces with Nginx as a reverse proxy. Worker types include sync (default), <code>gevent</code> (async via greenlets), <code>gthread</code> (threaded), and <code>tornado</code>. For async Django (ASGI), <code>uvicorn</code> (with <code>uvicorn[standard]</code>) or <code>daphne</code> replace Gunicorn. The typical production stack: Nginx → Gunicorn (or Uvicorn) → Django → PostgreSQL, all orchestrated by systemd or Docker Compose.</p>
+            <div style="margin-top:0.8rem;"><span class="tag">WSGI</span><span class="tag">Nginx Proxy</span><span class="tag">uvicorn</span><span class="tag gold">Production</span></div>
+          </div>
+
+          <!-- FRONTEND -->
+          <div class="eco-card" data-category="frontend" role="listitem">
+            <div class="eco-card-header">
+              <div class="eco-icon" aria-hidden="true">⚛️</div>
+              <div>
+                <h3>Django + React.js</h3>
+                <span class="eco-tag">FRONTEND · SPA / HYBRID</span>
+              </div>
+            </div>
+            <p>The most popular frontend pairing. Django serves as a pure backend API (via DRF) while React handles the entire frontend as a Single Page Application. Communication via REST or GraphQL. Deployment options: separate services (Django API + React CDN), or Django serving the built React bundle via <code>whitenoise</code>. <code>django-webpack-loader</code> or Vite-based setups integrate the build pipeline. React Query or SWR manages server state. Authentication via JWT tokens (simplejwt) or cookie-based sessions. For hybrid approaches, HTMX + Django Templates is gaining popularity as a simpler alternative that avoids SPA complexity.</p>
+            <div style="margin-top:0.8rem;"><span class="tag">DRF + React</span><span class="tag">JWT Auth</span><span class="tag">HTMX</span><span class="tag green">SPA</span></div>
+          </div>
+
+          <div class="eco-card" data-category="frontend" role="listitem">
+            <div class="eco-card-header">
+              <div class="eco-icon" aria-hidden="true">🅰️</div>
+              <div>
+                <h3>Django + Angular</h3>
+                <span class="eco-tag">FRONTEND · ENTERPRISE SPA</span>
+              </div>
+            </div>
+            <p>Angular's opinionated, TypeScript-first framework pairs well with Django's opinionated backend in enterprise contexts. Django provides a DRF REST API; Angular consumes it with its built-in HttpClient and RxJS observables. Angular's strong typing complements DRF's serializer schemas — tools like <code>openapi-generator</code> can auto-generate typed Angular services from DRF's OpenAPI schema (via <code>drf-spectacular</code>). Angular's built-in routing, forms, and dependency injection mirror Django's own structured approach. Common in enterprise applications, government portals, and large-team projects where consistency and tooling matter.</p>
+            <div style="margin-top:0.8rem;"><span class="tag">DRF + Angular</span><span class="tag">TypeScript</span><span class="tag">OpenAPI</span><span class="tag gold">Enterprise</span></div>
+          </div>
+
+          <div class="eco-card" data-category="frontend" role="listitem">
+            <div class="eco-card-header">
+              <div class="eco-icon" aria-hidden="true">💚</div>
+              <div>
+                <h3>Django + Vue.js</h3>
+                <span class="eco-tag">FRONTEND · PROGRESSIVE SPA</span>
+              </div>
+            </div>
+            <p>Vue.js is frequently chosen as the middle-ground between React's ecosystem complexity and Angular's enterprise overhead. Django + Vue is popular for startups and medium-sized applications. Vue 3's Composition API and Pinia state management pair cleanly with Django REST APIs. <code>django-vite</code> integrates Vite's build pipeline with Django's template and static file systems, enabling Vue components embedded within Django templates — a progressive enhancement approach. Nuxt.js (Vue's meta-framework) can serve SSR frontend applications with Django as the headless API backend.</p>
+            <div style="margin-top:0.8rem;"><span class="tag">django-vite</span><span class="tag">Nuxt.js</span><span class="tag">Composition API</span><span class="tag purple">Progressive</span></div>
+          </div>
+
+        </div><!-- /eco-grid -->
+      </div>
+    </section>
+
+    <div class="section-divider" aria-hidden="true"></div>
+
+    <!-- ==================== SECTION 4: STATISTICS ==================== -->
+    <section id="statistics" aria-labelledby="statistics-heading">
+      <div class="container">
+        <div class="section-header fade-in">
+          <span class="section-eyebrow" aria-hidden="true">// SECTION 04</span>
+          <h2 class="section-title" id="statistics-heading">Django Developer <span class="accent">Statistics</span></h2>
+          <p class="section-subtitle">Developer survey data, platform statistics, and infrastructure trends from the Django and broader Python communities.</p>
+        </div>
+
+        <div class="stats-grid">
+
+          <!-- OS for Development -->
+          <div class="stat-panel fade-in" aria-label="Development operating system statistics">
+            <h3>🖥️ Development OS — Django Developers</h3>
+            <p style="font-size:0.8rem;color:var(--text-muted);margin-bottom:1.2rem;font-family:var(--font-mono);">Source: JetBrains Python Developer Survey 2023 / Stack Overflow 2023</p>
+            <div class="stat-bar-group">
+              <div class="stat-bar-item">
+                <div class="stat-bar-label"><span>macOS</span><span>45%</span></div>
+                <div class="stat-bar-track"><div class="stat-bar-fill cyan" data-width="45"></div></div>
+              </div>
+              <div class="stat-bar-item">
+                <div class="stat-bar-label"><span>Linux / Ubuntu</span><span>31%</span></div>
+                <div class="stat-bar-track"><div class="stat-bar-fill blue" data-width="31"></div></div>
+              </div>
+              <div class="stat-bar-item">
+                <div class="stat-bar-label"><span>Windows</span><span>20%</span></div>
+                <div class="stat-bar-track"><div class="stat-bar-fill purple" data-width="20"></div></div>
+              </div>
+              <div class="stat-bar-item">
+                <div class="stat-bar-label"><span>Windows + WSL2</span><span>4%</span></div>
+                <div class="stat-bar-track"><div class="stat-bar-fill gold" data-width="4"></div></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Hosting / Production Servers -->
+          <div class="stat-panel fade-in" aria-label="Production server statistics">
+            <h3>☁️ Production Hosting Platforms</h3>
+            <p style="font-size:0.8rem;color:var(--text-muted);margin-bottom:1.2rem;font-family:var(--font-mono);">Source: JetBrains Python Developer Survey 2023</p>
+            <div class="stat-bar-group">
+              <div class="stat-bar-item">
+                <div class="stat-bar-label"><span>AWS (EC2, ECS, Lambda)</span><span>52%</span></div>
+                <div class="stat-bar-track"><div class="stat-bar-fill cyan" data-width="52"></div></div>
+              </div>
+              <div class="stat-bar-item">
+                <div class="stat-bar-label"><span>Google Cloud Platform</span><span>19%</span></div>
+                <div class="stat-bar-track"><div class="stat-bar-fill blue" data-width="19"></div></div>
+              </div>
+              <div class="stat-bar-item">
+                <div class="stat-bar-label"><span>Microsoft Azure</span><span>14%</span></div>
+                <div class="stat-bar-track"><div class="stat-bar-fill purple" data-width="14"></div></div>
+              </div>
+              <div class="stat-bar-item">
+                <div class="stat-bar-label"><span>DigitalOcean / Heroku / Fly.io</span><span>10%</span></div>
+                <div class="stat-bar-track"><div class="stat-bar-fill gold" data-width="10"></div></div>
+              </div>
+              <div class="stat-bar-item">
+                <div class="stat-bar-label"><span>Bare Metal / On-Premise</span><span>5%</span></div>
+                <div class="stat-bar-track"><div class="stat-bar-fill cyan" data-width="5"></div></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Docker Usage -->
+          <div class="stat-panel fade-in" aria-label="Docker container usage statistics">
+            <h3>🐳 Docker Containerization</h3>
+            <p style="font-size:0.8rem;color:var(--text-muted);margin-bottom:1.2rem;font-family:var(--font-mono);">Source: Stack Overflow Survey 2023 / JetBrains 2023</p>
+            <div class="stat-bar-group">
+              <div class="stat-bar-item">
+                <div class="stat-bar-label"><span>Use Docker in Development</span><span>71%</span></div>
+                <div class="stat-bar-track"><div class="stat-bar-fill cyan" data-width="71"></div></div>
+              </div>
+              <div class="stat-bar-item">
+                <div class="stat-bar-label"><span>Docker in Production (containers)</span><span>64%</span></div>
+                <div class="stat-bar-track"><div class="stat-bar-fill blue" data-width="64"></div></div>
+              </div>
+              <div class="stat-bar-item">
+                <div class="stat-bar-label"><span>Kubernetes Orchestration</span><span>28%</span></div>
+                <div class="stat-bar-track"><div class="stat-bar-fill purple" data-width="28"></div></div>
+              </div>
+              <div class="stat-bar-item">
+                <div class="stat-bar-label"><span>Non-Containerized (venv only)</span><span>29%</span></div>
+                <div class="stat-bar-track"><div class="stat-bar-fill gold" data-width="29"></div></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Server OS for Production -->
+          <div class="stat-panel fade-in" aria-label="Production server operating system statistics">
+            <h3>🐧 Production Server OS</h3>
+            <p style="font-size:0.8rem;color:var(--text-muted);margin-bottom:1.2rem;font-family:var(--font-mono);">Source: JetBrains Python Developer Survey 2023</p>
+            <div class="stat-bar-group">
+              <div class="stat-bar-item">
+                <div class="stat-bar-label"><span>Ubuntu / Debian (Linux)</span><span>78%</span></div>
+                <div class="stat-bar-track"><div class="stat-bar-fill cyan" data-width="78"></div></div>
+              </div>
+              <div class="stat-bar-item">
+                <div class="stat-bar-label"><span>Amazon Linux / Alpine (containers)</span><span>14%</span></div>
+                <div class="stat-bar-track"><div class="stat-bar-fill blue" data-width="14"></div></div>
+              </div>
+              <div class="stat-bar-item">
+                <div class="stat-bar-label"><span>CentOS / RHEL / Fedora</span><span>6%</span></div>
+                <div class="stat-bar-track"><div class="stat-bar-fill purple" data-width="6"></div></div>
+              </div>
+              <div class="stat-bar-item">
+                <div class="stat-bar-label"><span>Windows Server</span><span>2%</span></div>
+                <div class="stat-bar-track"><div class="stat-bar-fill gold" data-width="2"></div></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Database Usage -->
+          <div class="stat-panel fade-in" aria-label="Database usage statistics">
+            <h3>🗄️ Primary Database — Django Projects</h3>
+            <p style="font-size:0.8rem;color:var(--text-muted);margin-bottom:1.2rem;font-family:var(--font-mono);">Source: JetBrains Python Developer Survey 2023</p>
+            <div class="stat-bar-group">
+              <div class="stat-bar-item">
+                <div class="stat-bar-label"><span>PostgreSQL</span><span>63%</span></div>
+                <div class="stat-bar-track"><div class="stat-bar-fill cyan" data-width="63"></div></div>
+              </div>
+              <div class="stat-bar-item">
+                <div class="stat-bar-label"><span>MySQL / MariaDB</span><span>18%</span></div>
+                <div class="stat-bar-track"><div class="stat-bar-fill blue" data-width="18"></div></div>
+              </div>
+              <div class="stat-bar-item">
+                <div class="stat-bar-label"><span>SQLite (dev/testing)</span><span>12%</span></div>
+                <div class="stat-bar-track"><div class="stat-bar-fill gold" data-width="12"></div></div>
+              </div>
+              <div class="stat-bar-item">
+                <div class="stat-bar-label"><span>MongoDB / NoSQL</span><span>5%</span></div>
+                <div class="stat-bar-track"><div class="stat-bar-fill purple" data-width="5"></div></div>
+              </div>
+              <div class="stat-bar-item">
+                <div class="stat-bar-label"><span>MSSQL / Oracle</span><span>2%</span></div>
+                <div class="stat-bar-track"><div class="stat-bar-fill gold" data-width="2"></div></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- IDE Usage -->
+          <div class="stat-panel fade-in" aria-label="Development IDE statistics">
+            <h3>💻 IDE / Editor — Python/Django Developers</h3>
+            <p style="font-size:0.8rem;color:var(--text-muted);margin-bottom:1.2rem;font-family:var(--font-mono);">Source: JetBrains Python Developer Survey 2023</p>
+            <div class="stat-bar-group">
+              <div class="stat-bar-item">
+                <div class="stat-bar-label"><span>VS Code</span><span>55%</span></div>
+                <div class="stat-bar-track"><div class="stat-bar-fill cyan" data-width="55"></div></div>
+              </div>
+              <div class="stat-bar-item">
+                <div class="stat-bar-label"><span>PyCharm (Professional)</span><span>29%</span></div>
+                <div class="stat-bar-track"><div class="stat-bar-fill blue" data-width="29"></div></div>
+              </div>
+              <div class="stat-bar-item">
+                <div class="stat-bar-label"><span>Vim / Neovim</span><span>9%</span></div>
+                <div class="stat-bar-track"><div class="stat-bar-fill gold" data-width="9"></div></div>
+              </div>
+              <div class="stat-bar-item">
+                <div class="stat-bar-label"><span>Other (Sublime, Emacs, etc.)</span><span>7%</span></div>
+                <div class="stat-bar-track"><div class="stat-bar-fill purple" data-width="7"></div></div>
+              </div>
+            </div>
+            <p style="font-size:0.75rem;color:var(--text-muted);margin-top:1rem;font-style:italic;">* Survey data reflects approximate figures from publicly available developer surveys. Individual project distributions vary.</p>
+          </div>
+
+        </div><!-- /stats-grid -->
+      </div>
+    </section>
+
+    <div class="section-divider" aria-hidden="true"></div>
+
+    <!-- ==================== SECTION 5: PAGES ==================== -->
+    <section id="pages" aria-labelledby="pages-heading">
+      <div class="container">
+        <div class="section-header fade-in">
+          <span class="section-eyebrow" aria-hidden="true">// SECTION 05</span>
+          <h2 class="section-title" id="pages-heading">Explore the <span class="accent">Site</span></h2>
+          <p class="section-subtitle">Deep-dive documentation, tutorials, and resources for every corner of the Django ecosystem.</p>
+        </div>
+
+        <div class="pages-grid">
+
+          <a href="/tutorials/getting-started" class="page-card fade-in" aria-label="Getting Started with Django tutorial">
+            <div class="page-card-icon" aria-hidden="true">🚀</div>
+            <h3>Getting Started with Django</h3>
+            <p class="page-lorem">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.</p>
+            <span class="page-url">/tutorials/getting-started</span>
+          </a>
+
+          <a href="/guides/rest-api" class="page-card fade-in" aria-label="Building REST APIs with Django REST Framework">
+            <div class="page-card-icon" aria-hidden="true">🔌</div>
+            <h3>Building REST APIs with DRF</h3>
+            <p class="page-lorem">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam.</p>
+            <span class="page-url">/guides/rest-api</span>
+          </a>
+
+          <a href="/guides/deployment" class="page-card fade-in" aria-label="Django deployment guide">
+            <div class="page-card-icon" aria-hidden="true">🌐</div>
+            <h3>Production Deployment Guide</h3>
+            <p class="page-lorem">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.</p>
+            <span class="page-url">/guides/deployment</span>
+          </a>
+
+          <a href="/tutorials/django-channels" class="page-card fade-in" aria-label="Real-time apps with Django Channels tutorial">
+            <div class="page-card-icon" aria-hidden="true">⚡</div>
+            <h3>Real-Time Apps with Channels</h3>
+            <p class="page-lorem">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras mattis consectetur purus sit amet fermentum. Cras justo odio, dapibus ac facilisis in, egestas eget quam.</p>
+            <span class="page-url">/tutorials/django-channels</span>
+          </a>
+
+          <a href="/guides/celery" class="page-card fade-in" aria-label="Async task queues with Celery guide">
+            <div class="page-card-icon" aria-hidden="true">🌿</div>
+            <h3>Async Tasks with Celery + Redis</h3>
+            <p class="page-lorem">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam id dolor id nibh ultricies vehicula ut id elit. Donec sed odio dui, nec porta massa pretium non.</p>
+            <span class="page-url">/guides/celery</span>
+          </a>
+
+          <a href="/guides/security" class="page-card fade-in" aria-label="Django security best practices guide">
+            <div class="page-card-icon" aria-hidden="true">🔒</div>
+            <h3>Security Best Practices</h3>
+            <p class="page-lorem">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean lacinia bibendum nulla sed consectetur. Praesent commodo cursus magna vel scelerisque nisl consectetur.</p>
+            <span class="page-url">/guides/security</span>
+          </a>
+
+          <a href="/tutorials/graphql" class="page-card fade-in" aria-label="GraphQL with Django tutorial">
+            <div class="page-card-icon" aria-hidden="true">◈</div>
+            <h3>GraphQL APIs with graphene-django</h3>
+            <p class="page-lorem">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Cum sociis natoque penatibus et magnis dis parturient.</p>
+            <span class="page-url">/tutorials/graphql</span>
+          </a>
+
+          <a href="/guides/docker" class="page-card fade-in" aria-label="Django with Docker guide">
+            <div class="page-card-icon" aria-hidden="true">🐳</div>
+            <h3>Dockerizing Your Django App</h3>
+            <p class="page-lorem">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante venenatis dapibus posuere velit aliquet. Cras justo odio dapibus ac facilisis.</p>
+            <span class="page-url">/guides/docker</span>
+          </a>
+
+          <a href="/reference/orm" class="page-card fade-in" aria-label="Django ORM reference">
+            <div class="page-card-icon" aria-hidden="true">🗂️</div>
+            <h3>Django ORM Deep Reference</h3>
+            <p class="page-lorem">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed posuere consectetur est at lobortis. Donec sed odio dui, nec porta massa pretium non eget purus.</p>
+            <span class="page-url">/reference/orm</span>
+          </a>
+
+          <a href="/guides/frontend" class="page-card fade-in" aria-label="Django with modern frontend guide">
+            <div class="page-card-icon" aria-hidden="true">⚛️</div>
+            <h3>Django + Modern Frontend</h3>
+            <p class="page-lorem">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum id ligula porta felis euismod semper. Sed commodo posuere pede. Mauris ut est. Ut quis purus.</p>
+            <span class="page-url">/guides/frontend</span>
+          </a>
+
+          <a href="/tutorials/pdf-generation" class="page-card fade-in" aria-label="PDF generation with Django tutorial">
+            <div class="page-card-icon" aria-hidden="true">📜</div>
+            <h3>PDF Generation with WeasyPrint</h3>
+            <p class="page-lorem">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras mattis consectetur purus sit amet fermentum. Fusce dapibus, tellus ac cursus commodo tortor mauris.</p>
+            <span class="page-url">/tutorials/pdf-generation</span>
+          </a>
+
+          <a href="/community" class="page-card fade-in" aria-label="Django community and resources">
+            <div class="page-card-icon" aria-hidden="true">🌌</div>
+            <h3>Community & Resources</h3>
+            <p class="page-lorem">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam quis risus eget urna mollis ornare vel eu leo. Cum sociis natoque penatibus et magnis ridiculus mus.</p>
+            <span class="page-url">/community</span>
+          </a>
+
+        </div>
+      </div>
+    </section>
+
+  </main><!-- /main-content -->
+
+  <!-- FOOTER -->
+  <footer role="contentinfo">
+    <div class="container">
+      <div class="footer-logo" aria-label="Django Framework">{ DJANGO }</div>
+      <p>Built with ❤️ and Python · <time datetime="2005">Est. 2005</time> · The framework for perfectionists with deadlines.</p>
+      <p style="margin-top:0.5rem;">Django is a registered trademark of the Django Software Foundation.</p>
+    </div>
+  </footer>
+
+  <!-- =============================================
+       JAVASCRIPT
+  ============================================= -->
+  <script>
+  (function() {
+    'use strict';
+
+    // ——————————————————————————————————
+    // LOADER
+    // ——————————————————————————————————
+    window.addEventListener('load', () => {
+      setTimeout(() => {
+        const loader = document.getElementById('loader');
+        if (loader) loader.classList.add('loaded');
+      }, 2400);
+    });
+
+    // ——————————————————————————————————
+    // CUSTOM CURSOR
+    // ——————————————————————————————————
+    const cursorDot  = document.getElementById('cursor-dot');
+    const cursorRing = document.getElementById('cursor-ring');
+    let mouseX = 0, mouseY = 0, ringX = 0, ringY = 0;
+
+    document.addEventListener('mousemove', e => {
+      mouseX = e.clientX; mouseY = e.clientY;
+      cursorDot.style.left = mouseX + 'px';
+      cursorDot.style.top  = mouseY + 'px';
+    });
+
+    // Cursor trail
+    const TRAIL_COUNT = 8;
+    const trails = [];
+    for (let i = 0; i < TRAIL_COUNT; i++) {
+      const el = document.createElement('div');
+      el.className = 'cursor-trail';
+      el.style.opacity = (1 - i / TRAIL_COUNT) * 0.5;
+      el.style.width = el.style.height = (4 - i * 0.3) + 'px';
+      document.body.appendChild(el);
+      trails.push({ el, x: 0, y: 0 });
+    }
+
+    function animateCursor() {
+      ringX += (mouseX - ringX) * 0.14;
+      ringY += (mouseY - ringY) * 0.14;
+      cursorRing.style.left = ringX + 'px';
+      cursorRing.style.top  = ringY + 'px';
+
+      let prevX = mouseX, prevY = mouseY;
+      trails.forEach((t, i) => {
+        t.x += (prevX - t.x) * (0.25 - i * 0.02);
+        t.y += (prevY - t.y) * (0.25 - i * 0.02);
+        t.el.style.left = t.x + 'px';
+        t.el.style.top  = t.y + 'px';
+        t.el.style.opacity = mouseX ? (0.35 - i * 0.04) : 0;
+        prevX = t.x; prevY = t.y;
+      });
+      requestAnimationFrame(animateCursor);
+    }
+    animateCursor();
+
+    // ——————————————————————————————————
+    // STAR CANVAS
+    // ——————————————————————————————————
+    const starCanvas = document.getElementById('canvas-stars');
+    const starCtx = starCanvas.getContext('2d');
+
+    function resizeStars() {
+      starCanvas.width  = window.innerWidth;
+      starCanvas.height = window.innerHeight;
+    }
+    resizeStars();
+    window.addEventListener('resize', resizeStars);
+
+    const STAR_COUNT = 320;
+    const stars = Array.from({ length: STAR_COUNT }, () => ({
+      x: Math.random(), y: Math.random(),
+      r: Math.random() * 1.6 + 0.2,
+      a: Math.random(),
+      s: Math.random() * 0.4 + 0.1,
+      twinkleOffset: Math.random() * Math.PI * 2
+    }));
+
+    // Galaxy blobs
+    const galaxies = [
+      { x: 0.78, y: 0.12, r: 110, color: 'rgba(26,79,196,0.09)' },
+      { x: 0.12, y: 0.65, r: 80,  color: 'rgba(124,58,237,0.07)' },
+      { x: 0.55, y: 0.82, r: 95,  color: 'rgba(0,212,255,0.06)'  }
+    ];
+
+    let starT = 0;
+    function drawStars() {
+      const W = starCanvas.width, H = starCanvas.height;
+      starCtx.clearRect(0, 0, W, H);
+
+      // Galaxy blobs
+      galaxies.forEach(g => {
+        const grd = starCtx.createRadialGradient(g.x*W, g.y*H, 0, g.x*W, g.y*H, g.r);
+        grd.addColorStop(0, g.color);
+        grd.addColorStop(1, 'transparent');
+        starCtx.fillStyle = grd;
+        starCtx.beginPath();
+        starCtx.arc(g.x*W, g.y*H, g.r, 0, Math.PI*2);
+        starCtx.fill();
+      });
+
+      // Stars
+      stars.forEach(s => {
+        const twinkle = 0.4 + 0.6 * Math.sin(starT * s.s + s.twinkleOffset);
+        starCtx.globalAlpha = s.a * twinkle;
+        starCtx.fillStyle = '#e8f4ff';
+        starCtx.beginPath();
+        starCtx.arc(s.x * W, s.y * H, s.r, 0, Math.PI * 2);
+        starCtx.fill();
+      });
+      starCtx.globalAlpha = 1;
+      starT += 0.02;
+      requestAnimationFrame(drawStars);
+    }
+    drawStars();
+
+    // ——————————————————————————————————
+    // HERO PARTICLES
+    // ——————————————————————————————————
+    const pCanvas = document.getElementById('particles-canvas');
+    const pCtx = pCanvas.getContext('2d');
+
+    function resizeParticles() {
+      pCanvas.width  = pCanvas.offsetWidth;
+      pCanvas.height = pCanvas.offsetHeight;
+    }
+    resizeParticles();
+    window.addEventListener('resize', resizeParticles);
+
+    const PARTICLE_COUNT = 60;
+    const particles = Array.from({ length: PARTICLE_COUNT }, () => ({
+      x: Math.random(),
+      y: Math.random(),
+      vx: (Math.random() - 0.5) * 0.0003,
+      vy: (Math.random() - 0.5) * 0.0003,
+      r: Math.random() * 2 + 0.5,
+      a: Math.random() * 0.5 + 0.1,
+      color: Math.random() > 0.6 ? '#00d4ff' : Math.random() > 0.5 ? '#00ffe0' : '#1a4fc4'
+    }));
+
+    let pT = 0;
+    function animateParticles() {
+      const W = pCanvas.width, H = pCanvas.height;
+      pCtx.clearRect(0, 0, W, H);
+
+      particles.forEach(p => {
+        p.x += p.vx;
+        p.y += p.vy;
+        if (p.x < 0) p.x = 1;
+        if (p.x > 1) p.x = 0;
+        if (p.y < 0) p.y = 1;
+        if (p.y > 1) p.y = 0;
+
+        const pulse = 0.5 + 0.5 * Math.sin(pT * 0.5 + p.x * 10);
+        pCtx.globalAlpha = p.a * pulse;
+        pCtx.fillStyle = p.color;
+        pCtx.shadowBlur = 6;
+        pCtx.shadowColor = p.color;
+        pCtx.beginPath();
+        pCtx.arc(p.x * W, p.y * H, p.r, 0, Math.PI * 2);
+        pCtx.fill();
+
+        // Connect nearby particles
+        particles.forEach(p2 => {
+          const dx = (p.x - p2.x) * W, dy = (p.y - p2.y) * H;
+          const dist = Math.sqrt(dx*dx + dy*dy);
+          if (dist < 80 && dist > 0) {
+            pCtx.globalAlpha = (1 - dist / 80) * 0.12;
+            pCtx.strokeStyle = '#00d4ff';
+            pCtx.shadowBlur = 0;
+            pCtx.lineWidth = 0.5;
+            pCtx.beginPath();
+            pCtx.moveTo(p.x * W, p.y * H);
+            pCtx.lineTo(p2.x * W, p2.y * H);
+            pCtx.stroke();
+          }
+        });
+      });
+      pCtx.globalAlpha = 1;
+      pCtx.shadowBlur = 0;
+      pT += 0.016;
+      requestAnimationFrame(animateParticles);
+    }
+    animateParticles();
+
+    // ——————————————————————————————————
+    // NAVBAR SCROLL
+    // ——————————————————————————————————
+    const navbar = document.getElementById('navbar');
+    window.addEventListener('scroll', () => {
+      navbar.classList.toggle('scrolled', window.scrollY > 60);
+    }, { passive: true });
+
+    // ——————————————————————————————————
+    // MOBILE NAV TOGGLE
+    // ——————————————————————————————————
+    const navToggle = document.querySelector('.nav-toggle');
+    const mainNav   = document.getElementById('main-nav');
+    navToggle?.addEventListener('click', () => {
+      const expanded = navToggle.getAttribute('aria-expanded') === 'true';
+      navToggle.setAttribute('aria-expanded', !expanded);
+      mainNav.classList.toggle('open');
+    });
+    // Close on link click
+    mainNav?.querySelectorAll('a').forEach(a => {
+      a.addEventListener('click', () => {
+        navToggle.setAttribute('aria-expanded', 'false');
+        mainNav.classList.remove('open');
+      });
+    });
+
+    // ——————————————————————————————————
+    // SCROLL ANIMATIONS (Intersection Observer)
+    // ——————————————————————————————————
+    const fadeEls = document.querySelectorAll('.fade-in, .fade-in-left, .timeline-item, .eco-card');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.classList.add('visible');
+          observer.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+    fadeEls.forEach(el => observer.observe(el));
+
+    // ——————————————————————————————————
+    // STAT BARS (animate on visibility)
+    // ——————————————————————————————————
+    const statBars = document.querySelectorAll('.stat-bar-fill');
+    const barObserver = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          const w = e.target.dataset.width;
+          setTimeout(() => { e.target.style.width = w + '%'; }, 200);
+          barObserver.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.5 });
+    statBars.forEach(b => barObserver.observe(b));
+
+    // ——————————————————————————————————
+    // ECOSYSTEM FILTER
+    // ——————————————————————————————————
+    const ecoButtons = document.querySelectorAll('.eco-nav button');
+    const ecoCards   = document.querySelectorAll('.eco-card');
+    ecoButtons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        ecoButtons.forEach(b => { b.classList.remove('active'); b.setAttribute('aria-selected', 'false'); });
+        btn.classList.add('active');
+        btn.setAttribute('aria-selected', 'true');
+        const filter = btn.dataset.filter;
+        ecoCards.forEach(card => {
+          const match = filter === 'all' || card.dataset.category === filter;
+          card.style.display = match ? '' : 'none';
+        });
+      });
+    });
+
+    // ——————————————————————————————————
+    // RIPPLE EFFECT
+    // ——————————————————————————————————
+    document.querySelectorAll('.ripple-container').forEach(el => {
+      el.addEventListener('click', function(e) {
+        const rect = this.getBoundingClientRect();
+        const ripple = document.createElement('span');
+        ripple.className = 'ripple';
+        const size = Math.max(rect.width, rect.height);
+        ripple.style.cssText = `
+          width: ${size}px; height: ${size}px;
+          left: ${e.clientX - rect.left - size/2}px;
+          top:  ${e.clientY - rect.top  - size/2}px;
+        `;
+        this.appendChild(ripple);
+        ripple.addEventListener('animationend', () => ripple.remove());
+      });
+    });
+
+    // Add ripple to all cards
+    document.querySelectorAll('.company-card, .eco-card, .page-card').forEach(el => {
+      el.classList.add('ripple-container');
+      el.addEventListener('click', function(e) {
+        const rect = this.getBoundingClientRect();
+        const ripple = document.createElement('span');
+        ripple.className = 'ripple';
+        const size = Math.max(rect.width, rect.height);
+        ripple.style.cssText = `
+          width: ${size}px; height: ${size}px;
+          left: ${e.clientX - rect.left - size/2}px;
+          top:  ${e.clientY - rect.top  - size/2}px;
+        `;
+        this.appendChild(ripple);
+        ripple.addEventListener('animationend', () => ripple.remove());
+      });
+    });
+
+    // ——————————————————————————————————
+    // PARALLAX ON MOUSE MOVE
+    // ——————————————————————————————————
+    document.addEventListener('mousemove', e => {
+      const x = (e.clientX / window.innerWidth  - 0.5);
+      const y = (e.clientY / window.innerHeight - 0.5);
+      document.querySelector('.nebula-1').style.transform = `translate(${x*18}px, ${y*12}px)`;
+      document.querySelector('.nebula-2').style.transform = `translate(${x*-12}px, ${y*18}px)`;
+      document.querySelector('.nebula-3').style.transform = `translate(${x*20}px, ${y*-14}px)`;
+    });
+
+    // ——————————————————————————————————
+    // PARALLAX SCROLL
+    // ——————————————————————————————————
+    let ticking = false;
+    window.addEventListener('scroll', () => {
+      if (!ticking) {
+        requestAnimationFrame(() => {
+          const scrollY = window.scrollY;
+          const heroContent = document.querySelector('.hero-content');
+          if (heroContent) {
+            heroContent.style.transform = `translateY(${scrollY * 0.35}px)`;
+            heroContent.style.opacity = Math.max(0, 1 - scrollY / 700);
+          }
+          ticking = false;
+        });
+        ticking = true;
+      }
+    }, { passive: true });
+
+    // ——————————————————————————————————
+    // HERO COUNTER ANIMATION
+    // ——————————————————————————————————
+    function animateCounter(el, target, suffix, duration) {
+      let start = 0;
+      const step = target / (duration / 16);
+      const timer = setInterval(() => {
+        start = Math.min(start + step, target);
+        el.textContent = Math.floor(start) + suffix;
+        if (start >= target) clearInterval(timer);
+      }, 16);
+    }
+
+    // Animate hero stats on load
+    const heroObserver = new IntersectionObserver(entries => {
+      if (entries[0].isIntersecting) {
+        document.querySelectorAll('.hero-stat-num').forEach(el => {
+          const text = el.textContent;
+          if (text.includes('75K+')) animateCounter(el, 75, 'K+', 1500);
+          else if (text.includes('1M+')) animateCounter(el, 1, 'M+', 1200);
+        });
+        heroObserver.disconnect();
+      }
+    }, { threshold: 0.5 });
+    const heroStats = document.querySelector('.hero-stats');
+    if (heroStats) heroObserver.observe(heroStats);
+
+    // ——————————————————————————————————
+    // STAGGER DELAYS
+    // ——————————————————————————————————
+    document.querySelectorAll('.stagger-children > *').forEach((el, i) => {
+      el.style.setProperty('--i', i);
+    });
+
+    // ——————————————————————————————————
+    // KEYBOARD NAVIGATION (eco filter)
+    // ——————————————————————————————————
+    document.querySelector('.eco-nav')?.addEventListener('keydown', e => {
+      const btns = [...document.querySelectorAll('.eco-nav button')];
+      const idx  = btns.indexOf(document.activeElement);
+      if (e.key === 'ArrowRight' && idx < btns.length - 1) { btns[idx + 1].focus(); btns[idx + 1].click(); }
+      if (e.key === 'ArrowLeft'  && idx > 0)               { btns[idx - 1].focus(); btns[idx - 1].click(); }
+    });
+
+    // ——————————————————————————————————
+    // SMOOTH ACTIVE NAV INDICATOR
+    // ——————————————————————————————————
+    const sections = document.querySelectorAll('section[id]');
+    const navLinks = document.querySelectorAll('nav a[href^="#"]');
+    window.addEventListener('scroll', () => {
+      let current = '';
+      sections.forEach(s => {
+        if (window.scrollY >= s.offsetTop - 200) current = s.id;
+      });
+      navLinks.forEach(a => {
+        a.style.color = a.getAttribute('href') === '#' + current
+          ? 'var(--cyan)' : '';
+      });
+    }, { passive: true });
+
+  })();
+  </script>
+</body>
+</html>
