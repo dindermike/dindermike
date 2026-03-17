@@ -1,0 +1,280 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Email Template</title>
+  <!--[if mso]>
+  <style type="text/css">
+    table { border-collapse: collapse; }
+    .rounded { border-radius: 0 !important; }
+  </style>
+  <![endif]-->
+  <style type="text/css">
+    /* Reset */
+    body, table, td, a { -webkit-text-size-adjust: 100%; -ms-text-size-adjust: 100%; }
+    table, td { mso-table-lspace: 0pt; mso-table-rspace: 0pt; }
+    img { -ms-interpolation-mode: bicubic; border: 0; outline: none; text-decoration: none; }
+
+    /* General */
+    body {
+      margin: 0 !important;
+      padding: 0 !important;
+      background-color: #000000;
+      color: #ffffff;
+      font-family: Georgia, 'Times New Roman', Times, serif;
+      font-size: 15px;
+      line-height: 1.6;
+    }
+
+    /* Outlook / MSO fix for rounded corners — fallback gracefully */
+    .outer-wrapper {
+      background-color: #000000;
+      padding: 40px 20px;
+    }
+
+    .parent-table {
+      background-color: #1a4b8c;
+      border-radius: 16px;
+      border-collapse: separate !important;
+      border-spacing: 0;
+      overflow: hidden;
+    }
+
+    /* Row 1 — Two-column header */
+    .row1-left {
+      padding: 28px 28px 14px 28px;
+      vertical-align: top;
+      width: 60%;
+    }
+    .row1-right {
+      padding: 28px 28px 14px 14px;
+      vertical-align: top;
+      width: 40%;
+      text-align: right;
+    }
+
+    /* Row 2 — Single column body */
+    .row2-cell {
+      padding: 14px 28px;
+      vertical-align: top;
+    }
+
+    /* Row 3 — Five-column footer */
+    .row3-cell {
+      padding: 14px 10px 28px 10px;
+      vertical-align: top;
+      text-align: center;
+      width: 20%;
+    }
+
+    /* Typography */
+    h1 {
+      margin: 0 0 8px 0;
+      font-size: 26px;
+      font-weight: bold;
+      color: #e8f0ff;
+      letter-spacing: 0.5px;
+      font-family: Georgia, 'Times New Roman', Times, serif;
+    }
+    h2 {
+      margin: 0 0 8px 0;
+      font-size: 18px;
+      color: #adc8ff;
+      font-family: Georgia, 'Times New Roman', Times, serif;
+    }
+    h3 {
+      margin: 0 0 6px 0;
+      font-size: 13px;
+      color: #adc8ff;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      font-family: Georgia, 'Times New Roman', Times, serif;
+    }
+    p {
+      margin: 0 0 10px 0;
+      color: #d0deff;
+      font-size: 14px;
+      line-height: 1.65;
+      font-family: Georgia, 'Times New Roman', Times, serif;
+    }
+    p.small {
+      font-size: 12px;
+      color: #8aaee0;
+    }
+    .divider {
+      border: none;
+      border-top: 1px solid #2e5fa3;
+      margin: 0;
+    }
+    .badge {
+      display: inline-block;
+      background-color: #2e5fa3;
+      color: #adc8ff;
+      font-size: 11px;
+      padding: 3px 10px;
+      border-radius: 20px;
+      letter-spacing: 0.5px;
+      font-family: Georgia, 'Times New Roman', Times, serif;
+    }
+    .icon-circle {
+      width: 40px;
+      height: 40px;
+      background-color: #2e5fa3;
+      border-radius: 50%;
+      display: inline-block;
+      line-height: 40px;
+      text-align: center;
+      font-size: 18px;
+      margin-bottom: 8px;
+    }
+
+    /* Responsive */
+    @media only screen and (max-width: 600px) {
+      .parent-table { width: 100% !important; }
+      .row1-left, .row1-right { display: block !important; width: 100% !important; padding: 20px 20px 10px 20px !important; text-align: left !important; }
+      .row3-cell { display: inline-block !important; width: 33% !important; padding: 10px 6px !important; }
+      .row2-cell { padding: 14px 20px !important; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- Outer wrapper -->
+<div class="outer-wrapper">
+
+  <!-- Centering table (email-client safe) -->
+  <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%">
+    <tr>
+      <td align="center">
+
+        <!-- ═══════════════════════════════════════════
+             PARENT TABLE — Blue bg, rounded, centered
+             ═══════════════════════════════════════════ -->
+        <table class="parent-table" role="presentation" border="0" cellpadding="0" cellspacing="0" width="620" style="background-color:#1a4b8c; border-radius:16px; border-collapse:separate; border-spacing:0; overflow:hidden; max-width:620px;">
+
+          <!-- ═══════════════════
+               ROW 1 — Two columns
+               ═══════════════════ -->
+          <tr>
+            <td style="padding:0;">
+              <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%" style="border-collapse:collapse;">
+                <tr>
+                  <!-- Column 1: Logo / Brand -->
+                  <td class="row1-left" style="padding:32px 24px 16px 32px; vertical-align:top; width:60%;">
+                    <span class="badge">Monthly Dispatch</span>
+                    <h1 style="margin:12px 0 6px 0; font-size:26px; font-weight:bold; color:#e8f0ff; font-family:Georgia,'Times New Roman',Times,serif;">Lorem Ipsum Gazette</h1>
+                    <p style="margin:0; font-size:13px; color:#8aaee0; font-family:Georgia,'Times New Roman',Times,serif;">Vol. XII &nbsp;·&nbsp; Issue 04 &nbsp;·&nbsp; 2026</p>
+                  </td>
+                  <!-- Column 2: Tagline / Date -->
+                  <td class="row1-right" style="padding:32px 32px 16px 12px; vertical-align:top; width:40%; text-align:right;">
+                    <h2 style="margin:0 0 8px 0; font-size:17px; color:#adc8ff; font-family:Georgia,'Times New Roman',Times,serif;">Dolor Sit Amet</h2>
+                    <p style="margin:0 0 10px 0; font-size:13px; color:#8aaee0; font-family:Georgia,'Times New Roman',Times,serif;">Consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+                    <p class="small" style="margin:0; font-size:12px; color:#6080b0; font-family:Georgia,'Times New Roman',Times,serif;">March 16, 2026</p>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+
+          <!-- Divider -->
+          <tr>
+            <td style="padding:0 28px;"><hr class="divider" style="border:none; border-top:1px solid #2e5fa3; margin:0;" /></td>
+          </tr>
+
+          <!-- ═══════════════════════
+               ROW 2 — Single column
+               ═══════════════════════ -->
+          <tr>
+            <td class="row2-cell" style="padding:24px 32px; vertical-align:top;">
+              <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%" style="border-collapse:collapse;">
+                <tr>
+                  <td>
+                    <h2 style="margin:0 0 12px 0; font-size:20px; color:#e8f0ff; font-family:Georgia,'Times New Roman',Times,serif;">Ut Enim Ad Minim Veniam</h2>
+                    <p style="margin:0 0 12px 0; font-size:14px; color:#d0deff; line-height:1.7; font-family:Georgia,'Times New Roman',Times,serif;">
+                      Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
+                    </p>
+                    <p style="margin:0 0 12px 0; font-size:14px; color:#d0deff; line-height:1.7; font-family:Georgia,'Times New Roman',Times,serif;">
+                      Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.
+                    </p>
+                    <p style="margin:0; font-size:14px; color:#d0deff; line-height:1.7; font-family:Georgia,'Times New Roman',Times,serif;">
+                      Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet adipisci velit.
+                    </p>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+
+          <!-- Divider -->
+          <tr>
+            <td style="padding:0 28px;"><hr class="divider" style="border:none; border-top:1px solid #2e5fa3; margin:0;" /></td>
+          </tr>
+
+          <!-- ═══════════════════════
+               ROW 3 — Five columns
+               ═══════════════════════ -->
+          <tr>
+            <td style="padding:0;">
+              <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%" style="border-collapse:collapse;">
+                <tr>
+                  <!-- Column 1 -->
+                  <td class="row3-cell" style="padding:20px 8px 28px 28px; vertical-align:top; width:20%; text-align:center;">
+                    <div class="icon-circle" style="width:40px; height:40px; background-color:#2e5fa3; border-radius:50%; display:block; margin:0 auto 8px auto; line-height:40px; text-align:center; font-size:18px;">&#9733;</div>
+                    <h3 style="margin:0 0 6px 0; font-size:11px; color:#adc8ff; text-transform:uppercase; letter-spacing:1px; font-family:Georgia,'Times New Roman',Times,serif;">Lorem</h3>
+                    <p class="small" style="margin:0; font-size:12px; color:#8aaee0; line-height:1.5; font-family:Georgia,'Times New Roman',Times,serif;">Ipsum dolor sit amet consectetur.</p>
+                  </td>
+                  <!-- Column 2 -->
+                  <td class="row3-cell" style="padding:20px 8px 28px 8px; vertical-align:top; width:20%; text-align:center;">
+                    <div class="icon-circle" style="width:40px; height:40px; background-color:#2e5fa3; border-radius:50%; display:block; margin:0 auto 8px auto; line-height:40px; text-align:center; font-size:18px;">&#9679;</div>
+                    <h3 style="margin:0 0 6px 0; font-size:11px; color:#adc8ff; text-transform:uppercase; letter-spacing:1px; font-family:Georgia,'Times New Roman',Times,serif;">Adipiscing</h3>
+                    <p class="small" style="margin:0; font-size:12px; color:#8aaee0; line-height:1.5; font-family:Georgia,'Times New Roman',Times,serif;">Elit sed do eiusmod tempor.</p>
+                  </td>
+                  <!-- Column 3 -->
+                  <td class="row3-cell" style="padding:20px 8px 28px 8px; vertical-align:top; width:20%; text-align:center;">
+                    <div class="icon-circle" style="width:40px; height:40px; background-color:#2e5fa3; border-radius:50%; display:block; margin:0 auto 8px auto; line-height:40px; text-align:center; font-size:18px;">&#9670;</div>
+                    <h3 style="margin:0 0 6px 0; font-size:11px; color:#adc8ff; text-transform:uppercase; letter-spacing:1px; font-family:Georgia,'Times New Roman',Times,serif;">Incididunt</h3>
+                    <p class="small" style="margin:0; font-size:12px; color:#8aaee0; line-height:1.5; font-family:Georgia,'Times New Roman',Times,serif;">Ut labore et dolore magna.</p>
+                  </td>
+                  <!-- Column 4 -->
+                  <td class="row3-cell" style="padding:20px 8px 28px 8px; vertical-align:top; width:20%; text-align:center;">
+                    <div class="icon-circle" style="width:40px; height:40px; background-color:#2e5fa3; border-radius:50%; display:block; margin:0 auto 8px auto; line-height:40px; text-align:center; font-size:18px;">&#9650;</div>
+                    <h3 style="margin:0 0 6px 0; font-size:11px; color:#adc8ff; text-transform:uppercase; letter-spacing:1px; font-family:Georgia,'Times New Roman',Times,serif;">Veniam</h3>
+                    <p class="small" style="margin:0; font-size:12px; color:#8aaee0; line-height:1.5; font-family:Georgia,'Times New Roman',Times,serif;">Quis nostrud exercitation aliquip.</p>
+                  </td>
+                  <!-- Column 5 -->
+                  <td class="row3-cell" style="padding:20px 28px 28px 8px; vertical-align:top; width:20%; text-align:center;">
+                    <div class="icon-circle" style="width:40px; height:40px; background-color:#2e5fa3; border-radius:50%; display:block; margin:0 auto 8px auto; line-height:40px; text-align:center; font-size:18px;">&#9632;</div>
+                    <h3 style="margin:0 0 6px 0; font-size:11px; color:#adc8ff; text-transform:uppercase; letter-spacing:1px; font-family:Georgia,'Times New Roman',Times,serif;">Consequat</h3>
+                    <p class="small" style="margin:0; font-size:12px; color:#8aaee0; line-height:1.5; font-family:Georgia,'Times New Roman',Times,serif;">Duis aute irure dolor reprehenderit.</p>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+
+        </table>
+        <!-- /PARENT TABLE -->
+
+        <!-- Footer note outside parent table -->
+        <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="620" style="max-width:620px;">
+          <tr>
+            <td style="padding:18px 0 0 0; text-align:center;">
+              <p style="margin:0; font-size:11px; color:#444444; font-family:Georgia,'Times New Roman',Times,serif;">
+                You are receiving this email because you subscribed to Lorem Ipsum Gazette.<br />
+                <a href="#" style="color:#4477aa; text-decoration:underline;">Unsubscribe</a> &nbsp;·&nbsp; <a href="#" style="color:#4477aa; text-decoration:underline;">View in browser</a> &nbsp;·&nbsp; <a href="#" style="color:#4477aa; text-decoration:underline;">Privacy Policy</a>
+              </p>
+            </td>
+          </tr>
+        </table>
+
+      </td>
+    </tr>
+  </table>
+
+</div>
+<!-- /Outer wrapper -->
+
+</body>
+</html>

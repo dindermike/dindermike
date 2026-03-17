@@ -87,5 +87,9 @@
       5.  A section that provides a link to various sub-pages of my website with a "lorum ipsum" text placeholder for the description of each of those pages that I will add to later.
       Make it a dark blue color scheme and a space theme. Include animations to make it look modern and keeps the visitor engaged and interactive. Include a basic loading animation that will disappear when the page is fully loaded. Include fun features like parallax scrolling, parallax layered background with a space theme and include stars and galaxy's in the background, responsive design with CSS break-point placeholders at (320px, 480px, 640px, 768px, 1024px and 1200px), Floating particles that animate across the hero section, Cursor trail effect with smooth following circles, Fade-in animations triggered as you scroll down the page and Ripple click effect. Smooth transitions throughout and any other features that I haven't thought of that might help the content pop out and engage with the visitor of the page. Make it fully ADA and WCAG Compliant.</td>
     </tr>
+    <tr>
+      <td align="left">Template 17</td>
+      <td align="left">Generate a table structured html email template with nested tables. The parent table will be a centered table with a blue background color and no borders and rounded edges. The first row will consist of a nested table with 2 columns, no borders and no rounding edges. The 2nd row will be a single column, no borders and no rounding edges. The third row will be a nested table with 5 columns, no borders and no rounding edges. The body of the html will have a black background color and white font color throughout. Please use lorum ipsum for placement text. Please make it compatible with most email clients.</td>
+    </tr>
   </tbody>
 </table>
