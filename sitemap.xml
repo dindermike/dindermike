@@ -32,4 +32,220 @@
         <changefreq>weekly</changefreq>
         <priority>0.8</priority>
     </url>
+
+    <!-- Python Page -->
+    <url>
+        <loc>https://python.mikedinder.com/</loc>
+        <lastmod>2026-03-18</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.8</priority>
+    </url>
+
+    <!-- Python Code Snippets Page -->
+    <url>
+        <loc>https://python.mikedinder.com/Example_HTML/Code_Snippets.html</loc>
+        <lastmod>2026-03-18</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.8</priority>
+    </url>
+
+    <!-- Python Collections Page -->
+    <url>
+        <loc>https://python.mikedinder.com/Generated_HTML/Collections.html</loc>
+        <lastmod>2026-03-18</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.8</priority>
+    </url>
+
+    <!-- Python Dictionaries Page -->
+    <url>
+        <loc>https://python.mikedinder.com/Generated_HTML/Dicts.html</loc>
+        <lastmod>2026-03-18</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.8</priority>
+    </url>
+
+    <!-- Python Exceptions Page -->
+    <url>
+        <loc>https://python.mikedinder.com/Generated_HTML/Exceptions.html</loc>
+        <lastmod>2026-03-18</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.8</priority>
+    </url>
+
+    <!-- Python Execution Time Page -->
+    <url>
+        <loc>https://python.mikedinder.com/Generated_HTML/Execution_Time.html</loc>
+        <lastmod>2026-03-18</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.8</priority>
+    </url>
+
+    <!-- Python Files Page -->
+    <url>
+        <loc>https://python.mikedinder.com/Generated_HTML/Files.html</loc>
+        <lastmod>2026-03-18</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.8</priority>
+    </url>
+
+    <!-- Python Generate HTML Page -->
+    <url>
+        <loc>https://python.mikedinder.com/Generated_HTML/Generate_HTML.html</loc>
+        <lastmod>2026-03-18</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.8</priority>
+    </url>
+
+    <!-- Python Helpers Page -->
+    <url>
+        <loc>https://python.mikedinder.com/Generated_HTML/Helpers.html</loc>
+        <lastmod>2026-03-18</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.8</priority>
+    </url>
+
+    <!-- Python Lists Page -->
+    <url>
+        <loc>https://python.mikedinder.com/Generated_HTML/Lists.html</loc>
+        <lastmod>2026-03-18</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.8</priority>
+    </url>
+
+    <!-- Python Math Page -->
+    <url>
+        <loc>https://python.mikedinder.com/Generated_HTML/Math.html</loc>
+        <lastmod>2026-03-18</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.8</priority>
+    </url>
+
+    <!-- Python Strings Page -->
+    <url>
+        <loc>https://python.mikedinder.com/Generated_HTML/Strings.html</loc>
+        <lastmod>2026-03-18</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.8</priority>
+    </url>
+
+    <!-- Python Time Page -->
+    <url>
+        <loc>https://python.mikedinder.com/Generated_HTML/Time.html</loc>
+        <lastmod>2026-03-18</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.8</priority>
+    </url>
+
+    <!-- Python Variables Page -->
+    <url>
+        <loc>https://python.mikedinder.com/Generated_HTML/Variables.html</loc>
+        <lastmod>2026-03-18</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.8</priority>
+    </url>
+
+    <!-- Python Request DELETE Page -->
+    <url>
+        <loc>https://python.mikedinder.com/Generated_HTML/DELETE.html</loc>
+        <lastmod>2026-03-18</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.8</priority>
+    </url>
+
+    <!-- Python Request End Session Page -->
+    <url>
+        <loc>https://python.mikedinder.com/Generated_HTML/End_Session.html</loc>
+        <lastmod>2026-03-18</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.8</priority>
+    </url>
+
+    <!-- Python Request GET Page -->
+    <url>
+        <loc>https://python.mikedinder.com/Generated_HTML/GET.html</loc>
+        <lastmod>2026-03-18</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.8</priority>
+    </url>
+
+    <!-- Python Request PATCH Page -->
+    <url>
+        <loc>https://python.mikedinder.com/Generated_HTML/PATCH.html</loc>
+        <lastmod>2026-03-18</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.8</priority>
+    </url>
+
+    <!-- Python Request POST Page -->
+    <url>
+        <loc>https://python.mikedinder.com/Generated_HTML/POST.html</loc>
+        <lastmod>2026-03-18</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.8</priority>
+    </url>
+
+    <!-- Python Request PUT Page -->
+    <url>
+        <loc>https://python.mikedinder.com/Generated_HTML/PUT.html</loc>
+        <lastmod>2026-03-18</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.8</priority>
+    </url>
+
+    <!-- Python Request Session Page -->
+    <url>
+        <loc>https://python.mikedinder.com/Generated_HTML/Session.html</loc>
+        <lastmod>2026-03-18</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.8</priority>
+    </url>
+
+    <!-- Python Request Requests Page -->
+    <url>
+        <loc>https://python.mikedinder.com/Generated_HTML/Requests.html</loc>
+        <lastmod>2026-03-18</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.8</priority>
+    </url>
+
+    <!-- Python PostgreSQL Connect Page -->
+    <url>
+        <loc>https://python.mikedinder.com/Generated_HTML/Connect.html</loc>
+        <lastmod>2026-03-18</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.8</priority>
+    </url>
+
+    <!-- Python SQL Create Database Page -->
+    <url>
+        <loc>https://python.mikedinder.com/Generated_HTML/Create_Database.html</loc>
+        <lastmod>2026-03-18</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.8</priority>
+    </url>
+
+    <!-- Python SQL Create Table Page -->
+    <url>
+        <loc>https://python.mikedinder.com/Generated_HTML/Create_Table.html</loc>
+        <lastmod>2026-03-18</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.8</priority>
+    </url>
+
+    <!-- Python SQL Insert Rows Page -->
+    <url>
+        <loc>https://python.mikedinder.com/Generated_HTML/Insert_Rows.html</loc>
+        <lastmod>2026-03-18</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.8</priority>
+    </url>
+
+    <!-- Python SQL Populate Database Page -->
+    <url>
+        <loc>https://python.mikedinder.com/Generated_HTML/Populate.html</loc>
+        <lastmod>2026-03-18</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.8</priority>
+    </url>
 </urlset>
