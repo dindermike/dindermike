@@ -1,0 +1,1214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PRISMA — Image Gallery</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
+<style>
+  /* ─── CSS VARIABLES ─────────────────────────────────────────────── */
+  :root {
+    --bg:        #080c10;
+    --surface:   #0d1318;
+    --panel:     #111820;
+    --border:    rgba(80,160,255,0.12);
+    --accent:    #3b9eff;
+    --accent2:   #7b5ea7;
+    --glow:      rgba(59,158,255,0.35);
+    --glow2:     rgba(123,94,167,0.25);
+    --text:      #e8f0f8;
+    --muted:     #5a7a9a;
+    --dot-size:  10px;
+    --dot-gap:   8px;
+    --radius:    14px;
+    --trans:     cubic-bezier(.4,0,.2,1);
+    --spring:    cubic-bezier(.34,1.56,.64,1);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Syne', sans-serif;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    overflow-x: hidden;
+  }
+
+  /* Animated noise grain overlay */
+  body::before {
+    content: '';
+    position: fixed; inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none; z-index: 9999; opacity: .45;
+    animation: grainShift 0.8s steps(2) infinite;
+  }
+
+  @keyframes grainShift {
+    0%   { transform: translate(0,0); }
+    25%  { transform: translate(-2px,2px); }
+    50%  { transform: translate(2px,-1px); }
+    75%  { transform: translate(-1px,-2px); }
+    100% { transform: translate(1px,1px); }
+  }
+
+  /* Ambient background blobs */
+  .ambient {
+    position: fixed; border-radius: 50%; filter: blur(80px);
+    pointer-events: none; z-index: 0;
+  }
+  .ambient-1 {
+    width: 500px; height: 500px;
+    background: radial-gradient(circle, var(--glow) 0%, transparent 70%);
+    top: -100px; left: -100px;
+    animation: floatBlob 12s ease-in-out infinite;
+  }
+  .ambient-2 {
+    width: 400px; height: 400px;
+    background: radial-gradient(circle, var(--glow2) 0%, transparent 70%);
+    bottom: -80px; right: -80px;
+    animation: floatBlob 15s ease-in-out infinite reverse;
+  }
+  @keyframes floatBlob {
+    0%, 100% { transform: translate(0,0) scale(1); }
+    33%  { transform: translate(40px,-30px) scale(1.05); }
+    66%  { transform: translate(-20px,20px) scale(.95); }
+  }
+
+  /* ─── WRAPPER ───────────────────────────────────────────────────── */
+  .gallery-wrapper {
+    position: relative; z-index: 1;
+    width: 100%; max-width: 1400px;
+    padding: 40px 24px;
+    display: flex; flex-direction: column;
+    align-items: center; gap: 32px;
+  }
+
+  /* ─── HEADER ────────────────────────────────────────────────────── */
+  .gallery-header {
+    display: flex; flex-direction: column;
+    align-items: center; gap: 6px;
+    animation: fadeDown .6s var(--trans) both;
+  }
+  .gallery-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px; letter-spacing: .25em;
+    color: var(--accent); text-transform: uppercase;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .gallery-label::before, .gallery-label::after {
+    content: ''; display: block;
+    width: 24px; height: 1px;
+    background: linear-gradient(90deg, transparent, var(--accent));
+  }
+  .gallery-label::after { transform: scaleX(-1); }
+  .gallery-title {
+    font-size: clamp(28px, 5vw, 52px);
+    font-weight: 800; letter-spacing: -.02em;
+    background: linear-gradient(135deg, var(--text) 0%, var(--accent) 60%, var(--accent2) 100%);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .gallery-count {
+    font-family: 'DM Mono', monospace;
+    font-size: 12px; color: var(--muted);
+    letter-spacing: .1em;
+  }
+
+  @keyframes fadeDown {
+    from { opacity: 0; transform: translateY(-16px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ─── STAGE ─────────────────────────────────────────────────────── */
+  .gallery-stage {
+    position: relative;
+    width: 100%;
+    display: flex; align-items: center; justify-content: center;
+    gap: 20px;
+    animation: fadeIn .8s var(--trans) .2s both;
+  }
+  @keyframes fadeIn {
+    from { opacity: 0; transform: scale(.97); }
+    to   { opacity: 1; transform: scale(1); }
+  }
+
+  /* ─── PEEK IMAGES ───────────────────────────────────────────────── */
+  .peek-card {
+    flex: 0 0 auto;
+    width: clamp(100px, 14vw, 200px);
+    aspect-ratio: 3/4;
+    border-radius: var(--radius);
+    overflow: hidden;
+    cursor: pointer;
+    position: relative;
+    transition: transform .4s var(--spring), opacity .4s var(--trans), box-shadow .4s var(--trans);
+    box-shadow: 0 8px 32px rgba(0,0,0,.5), 0 0 0 1px var(--border);
+  }
+  .peek-card:hover {
+    transform: scale(1.04) translateY(-4px);
+    box-shadow: 0 20px 48px rgba(0,0,0,.7), 0 0 0 1px rgba(59,158,255,.3);
+  }
+  .peek-card img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    transition: transform .5s var(--trans), filter .4s var(--trans);
+    filter: brightness(.55) saturate(.7);
+  }
+  .peek-card:hover img {
+    transform: scale(1.06);
+    filter: brightness(.75) saturate(.9);
+  }
+  .peek-card::after {
+    content: '';
+    position: absolute; inset: 0;
+    background: linear-gradient(to center, transparent 40%, rgba(8,12,16,.7) 100%);
+    pointer-events: none;
+  }
+  .peek-left  { transform-origin: right center; }
+  .peek-right { transform-origin: left center; }
+  .peek-left  { clip-path: inset(0 0 0 30px round var(--radius)); }
+  .peek-right { clip-path: inset(0 30px 0 0 round var(--radius)); }
+
+  /* Peek enter/exit animations */
+  .peek-card.entering-left  { animation: peekFromLeft  .45s var(--spring) both; }
+  .peek-card.entering-right { animation: peekFromRight .45s var(--spring) both; }
+  .peek-card.exiting-left   { animation: peekToLeft    .35s var(--trans) both; }
+  .peek-card.exiting-right  { animation: peekToRight   .35s var(--trans) both; }
+
+  @keyframes peekFromLeft  { from { opacity:0; transform: translateX(-40px) scale(.9); } }
+  @keyframes peekFromRight { from { opacity:0; transform: translateX(40px) scale(.9);  } }
+  @keyframes peekToLeft    { to   { opacity:0; transform: translateX(-40px) scale(.9); } }
+  @keyframes peekToRight   { to   { opacity:0; transform: translateX(40px) scale(.9);  } }
+
+  /* Skeleton shimmer for peeks */
+  .peek-card.loading img { visibility: hidden; }
+  .peek-card.loading::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: linear-gradient(90deg, var(--panel) 25%, #1a2535 50%, var(--panel) 75%);
+    background-size: 200% 100%;
+    animation: shimmer 1.4s infinite;
+    z-index: 1;
+    border-radius: var(--radius);
+  }
+  @keyframes shimmer {
+    0%   { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
+  }
+
+  /* ─── MAIN IMAGE ────────────────────────────────────────────────── */
+  .main-frame {
+    flex: 0 0 auto;
+    width: clamp(280px, 52vw, 760px);
+    aspect-ratio: 16/10;
+    border-radius: calc(var(--radius) * 1.5);
+    overflow: hidden;
+    position: relative;
+    box-shadow:
+      0 0 0 1px var(--border),
+      0 24px 80px rgba(0,0,0,.7),
+      0 0 60px var(--glow);
+    background: var(--surface);
+    cursor: grab;
+    user-select: none;
+  }
+  .main-frame:active { cursor: grabbing; }
+
+  /* Scanline effect on hover */
+  .main-frame::before {
+    content: '';
+    position: absolute; inset: 0; z-index: 3;
+    background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,.03) 2px, rgba(0,0,0,.03) 4px);
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity .3s;
+  }
+  .main-frame:hover::before { opacity: 1; }
+
+  /* Corner bracket accents */
+  .main-frame::after {
+    content: '';
+    position: absolute; inset: 0; z-index: 4;
+    background:
+      linear-gradient(var(--accent),var(--accent)) top left / 20px 2px no-repeat,
+      linear-gradient(var(--accent),var(--accent)) top left / 2px 20px no-repeat,
+      linear-gradient(var(--accent),var(--accent)) top right / 20px 2px no-repeat,
+      linear-gradient(var(--accent),var(--accent)) top right / 2px 20px no-repeat,
+      linear-gradient(var(--accent),var(--accent)) bottom left / 20px 2px no-repeat,
+      linear-gradient(var(--accent),var(--accent)) bottom left / 2px 20px no-repeat,
+      linear-gradient(var(--accent),var(--accent)) bottom right / 20px 2px no-repeat,
+      linear-gradient(var(--accent),var(--accent)) bottom right / 2px 20px no-repeat;
+    pointer-events: none;
+    opacity: .6;
+    border-radius: calc(var(--radius) * 1.5);
+  }
+
+  /* Image slot system */
+  .main-slot {
+    position: absolute; inset: 0;
+    width: 100%; height: 100%;
+  }
+  .main-slot img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    display: block;
+    border-radius: calc(var(--radius) * 1.5);
+  }
+  .main-slot.loading img { visibility: hidden; }
+  .main-slot.loading::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: linear-gradient(90deg, var(--panel) 25%, #1a2535 50%, var(--panel) 75%);
+    background-size: 200% 100%;
+    animation: shimmer 1.4s infinite;
+    border-radius: calc(var(--radius) * 1.5);
+  }
+
+  /* Slide transitions */
+  .main-slot.slide-in-right  { animation: slideInRight  .5s var(--spring) both; }
+  .main-slot.slide-in-left   { animation: slideInLeft   .5s var(--spring) both; }
+  .main-slot.slide-out-right { animation: slideOutRight .4s var(--trans) both; }
+  .main-slot.slide-out-left  { animation: slideOutLeft  .4s var(--trans) both; }
+
+  @keyframes slideInRight  { from { opacity:0; transform: translateX(60px)  scale(.96); } }
+  @keyframes slideInLeft   { from { opacity:0; transform: translateX(-60px) scale(.96); } }
+  @keyframes slideOutRight { to   { opacity:0; transform: translateX(-60px) scale(.96); } }
+  @keyframes slideOutLeft  { to   { opacity:0; transform: translateX(60px)  scale(.96); } }
+
+  /* Image counter badge */
+  .image-badge {
+    position: absolute; top: 14px; right: 14px; z-index: 5;
+    background: rgba(8,12,16,.75);
+    backdrop-filter: blur(12px);
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    padding: 4px 12px;
+    font-family: 'DM Mono', monospace;
+    font-size: 11px; letter-spacing: .08em;
+    color: var(--text);
+    transition: opacity .3s;
+  }
+
+  /* Loading spinner overlay */
+  .page-loading {
+    position: absolute; inset: 0; z-index: 6;
+    display: flex; align-items: center; justify-content: center;
+    background: rgba(8,12,16,.6);
+    backdrop-filter: blur(4px);
+    border-radius: calc(var(--radius) * 1.5);
+    opacity: 0; pointer-events: none;
+    transition: opacity .3s;
+  }
+  .page-loading.active { opacity: 1; pointer-events: all; }
+  .spinner {
+    width: 36px; height: 36px;
+    border: 2px solid rgba(59,158,255,.2);
+    border-top-color: var(--accent);
+    border-radius: 50%;
+    animation: spin .8s linear infinite;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  /* ─── NAV BUTTONS ───────────────────────────────────────────────── */
+  .nav-btn {
+    position: absolute; z-index: 10;
+    top: 50%; transform: translateY(-50%);
+    width: 48px; height: 48px;
+    border-radius: 50%;
+    background: rgba(13,19,24,.85);
+    backdrop-filter: blur(16px);
+    border: 1px solid var(--border);
+    color: var(--text);
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    transition: background .3s, border-color .3s, transform .3s var(--spring), box-shadow .3s;
+    box-shadow: 0 4px 20px rgba(0,0,0,.5);
+  }
+  .nav-btn:hover {
+    background: rgba(59,158,255,.15);
+    border-color: rgba(59,158,255,.4);
+    transform: translateY(-50%) scale(1.1);
+    box-shadow: 0 8px 32px rgba(59,158,255,.3);
+  }
+  .nav-btn:active { transform: translateY(-50%) scale(.96); }
+  .nav-btn svg { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+  .nav-prev { left: -24px; }
+  .nav-next { right: -24px; }
+  .nav-btn:disabled { opacity: .3; cursor: not-allowed; }
+  .nav-btn:disabled:hover { transform: translateY(-50%) scale(1); background: rgba(13,19,24,.85); border-color: var(--border); box-shadow: 0 4px 20px rgba(0,0,0,.5); }
+
+  /* ─── CONTROLS ROW ──────────────────────────────────────────────── */
+  .controls-row {
+    display: flex; align-items: center; justify-content: center; gap: 12px;
+    animation: fadeIn .6s var(--trans) .4s both;
+  }
+  .ctrl-btn {
+    width: 36px; height: 36px;
+    border-radius: 50%;
+    background: var(--panel);
+    border: 1px solid var(--border);
+    color: var(--muted);
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    transition: all .25s var(--trans);
+  }
+  .ctrl-btn:hover { background: rgba(59,158,255,.1); border-color: rgba(59,158,255,.3); color: var(--accent); }
+  .ctrl-btn svg { width: 14px; height: 14px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+  .ctrl-btn.active { background: rgba(59,158,255,.15); border-color: rgba(59,158,255,.5); color: var(--accent); }
+
+  /* ─── DOT STRIP ─────────────────────────────────────────────────── */
+  .dots-section {
+    width: 100%; max-width: 700px;
+    display: flex; flex-direction: column;
+    align-items: center; gap: 10px;
+    animation: fadeIn .6s var(--trans) .5s both;
+  }
+
+  .dots-meta {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px; letter-spacing: .15em;
+    color: var(--muted); text-transform: uppercase;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .dots-meta .sep { opacity: .3; }
+
+  .dots-outer {
+    position: relative;
+    width: 100%;
+    height: 28px;
+    display: flex; align-items: center;
+    overflow: hidden;
+  }
+
+  /* Fade edges */
+  .dots-outer::before, .dots-outer::after {
+    content: '';
+    position: absolute; top: 0; bottom: 0; width: 40px; z-index: 2;
+    pointer-events: none;
+  }
+  .dots-outer::before { left: 0; background: linear-gradient(to right, var(--bg), transparent); }
+  .dots-outer::after  { right: 0; background: linear-gradient(to left, var(--bg), transparent); }
+
+  .dots-track {
+    display: flex;
+    align-items: center;
+    gap: var(--dot-gap);
+    transition: transform .45s var(--spring);
+    padding: 0 4px;
+  }
+
+  .dot {
+    flex: 0 0 auto;
+    width: var(--dot-size); height: var(--dot-size);
+    border-radius: 50%;
+    background: var(--muted);
+    cursor: pointer;
+    transition: background .3s, transform .35s var(--spring), width .3s var(--spring), border-radius .3s var(--spring), box-shadow .3s;
+    position: relative;
+    opacity: .45;
+  }
+  .dot:hover { opacity: .8; transform: scale(1.3); }
+  .dot.active {
+    background: var(--accent);
+    width: 28px;
+    border-radius: 6px;
+    opacity: 1;
+    box-shadow: 0 0 12px var(--glow), 0 0 24px rgba(59,158,255,.3);
+    transform: none;
+  }
+  .dot.near { opacity: .65; transform: scale(1.1); }
+
+  /* Progress ring arc on active dot */
+  .dot.active::after {
+    content: '';
+    position: absolute; inset: -3px;
+    border-radius: 8px;
+    border: 1px solid rgba(59,158,255,.4);
+    animation: pulseDot 2s ease-in-out infinite;
+  }
+  @keyframes pulseDot {
+    0%, 100% { opacity: .6; transform: scale(1); }
+    50%       { opacity: 0; transform: scale(1.5); }
+  }
+
+  /* ─── AUTOPLAY PROGRESS BAR ─────────────────────────────────────── */
+  .progress-bar-wrap {
+    width: 100%; max-width: 700px;
+    height: 2px;
+    background: rgba(255,255,255,.05);
+    border-radius: 999px;
+    overflow: hidden;
+    animation: fadeIn .6s var(--trans) .6s both;
+  }
+  .progress-bar-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--accent), var(--accent2));
+    border-radius: 999px;
+    transform-origin: left;
+    transform: scaleX(0);
+    transition: none;
+  }
+  .progress-bar-fill.running {
+    animation: progressFill linear both;
+  }
+  @keyframes progressFill {
+    from { transform: scaleX(0); }
+    to   { transform: scaleX(1); }
+  }
+
+  /* ─── THUMBNAIL STRIP ───────────────────────────────────────────── */
+  .thumb-strip {
+    width: 100%; max-width: 700px;
+    display: flex; gap: 8px;
+    overflow-x: auto; overflow-y: hidden;
+    scrollbar-width: none; scroll-behavior: smooth;
+    padding-bottom: 4px;
+    animation: fadeIn .6s var(--trans) .65s both;
+  }
+  .thumb-strip::-webkit-scrollbar { display: none; }
+  .thumb {
+    flex: 0 0 auto;
+    width: 56px; height: 40px;
+    border-radius: 6px; overflow: hidden;
+    cursor: pointer;
+    border: 2px solid transparent;
+    transition: border-color .25s, transform .25s var(--spring), opacity .25s, box-shadow .25s;
+    opacity: .45;
+    position: relative;
+    background: var(--panel);
+  }
+  .thumb:hover { opacity: .8; transform: scale(1.08) translateY(-2px); }
+  .thumb.active {
+    border-color: var(--accent);
+    opacity: 1;
+    box-shadow: 0 0 0 1px var(--accent), 0 0 12px var(--glow);
+  }
+  .thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .thumb.loading img { visibility: hidden; }
+  .thumb.loading::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: linear-gradient(90deg, var(--panel) 25%, #1a2535 50%, var(--panel) 75%);
+    background-size: 200% 100%;
+    animation: shimmer 1.4s infinite;
+  }
+
+  /* ─── KEYBOARD HINT ─────────────────────────────────────────────── */
+  .kb-hint {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px; color: var(--muted);
+    letter-spacing: .08em;
+    display: flex; align-items: center; gap: 6px;
+    opacity: .6;
+    animation: fadeIn 1s var(--trans) 1s both;
+  }
+  .kb-key {
+    display: inline-flex; align-items: center; justify-content: center;
+    border: 1px solid rgba(255,255,255,.15);
+    border-radius: 4px;
+    padding: 1px 6px;
+    font-size: 10px;
+    background: rgba(255,255,255,.04);
+  }
+
+  /* ─── ACCESSIBILITY SKIP ────────────────────────────────────────── */
+  .sr-only {
+    position: absolute; width: 1px; height: 1px;
+    padding: 0; margin: -1px; overflow: hidden;
+    clip: rect(0,0,0,0); border: 0;
+  }
+  .skip-link {
+    position: absolute; top: -40px; left: 0;
+    background: var(--accent); color: #000;
+    padding: 8px 16px; border-radius: 4px;
+    transition: top .2s; z-index: 100;
+    font-weight: 700;
+  }
+  .skip-link:focus { top: 8px; }
+
+  /* ─── TOUCH SWIPE INDICATOR ─────────────────────────────────────── */
+  .swipe-hint {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px; color: var(--muted);
+    letter-spacing: .08em;
+    display: none;
+    align-items: center; gap: 6px;
+  }
+
+  /* ─── RESPONSIVE BREAKPOINTS ────────────────────────────────────── */
+
+  /* 1200px+ — full layout, all elements */
+  @media (min-width: 1200px) {
+    .main-frame { width: 760px; }
+    .peek-card  { width: 200px; }
+  }
+
+  /* 1024px */
+  @media (max-width: 1024px) {
+    .peek-card  { width: clamp(80px, 12vw, 160px); }
+    .gallery-wrapper { padding: 32px 20px; }
+  }
+
+  /* 768px */
+  @media (max-width: 768px) {
+    .peek-card  { width: clamp(60px, 10vw, 120px); }
+    .gallery-stage { gap: 12px; }
+    .nav-prev   { left: -12px; }
+    .nav-next   { right: -12px; }
+    .thumb-strip { max-width: 100%; }
+  }
+
+  /* 640px */
+  @media (max-width: 640px) {
+    .gallery-stage { gap: 8px; }
+    .peek-card  { width: clamp(48px, 9vw, 90px); }
+    .peek-left  { clip-path: inset(0 0 0 15px round var(--radius)); }
+    .peek-right { clip-path: inset(0 15px 0 0 round var(--radius)); }
+    .nav-prev   { left: -8px; }
+    .nav-next   { right: -8px; }
+    .nav-btn    { width: 40px; height: 40px; }
+  }
+
+  /* 480px — hide peeks, show swipe hint */
+  @media (max-width: 480px) {
+    .peek-card  { display: none; }
+    .gallery-stage { justify-content: center; }
+    .nav-prev   { left: 8px; }
+    .nav-next   { right: 8px; }
+    .swipe-hint { display: flex; }
+    .kb-hint    { display: none; }
+    .main-frame { width: 100%; border-radius: 10px; }
+    .gallery-wrapper { padding: 24px 16px; gap: 20px; }
+  }
+
+  /* 320px */
+  @media (max-width: 320px) {
+    .thumb-strip { display: none; }
+    .gallery-title { font-size: 22px; }
+    .nav-btn    { width: 34px; height: 34px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Accessibility skip -->
+<a href="#main-gallery" class="skip-link">Skip to gallery</a>
+<span id="live-region" aria-live="polite" aria-atomic="true" class="sr-only"></span>
+
+<!-- Ambient blobs -->
+<div class="ambient ambient-1" aria-hidden="true"></div>
+<div class="ambient ambient-2" aria-hidden="true"></div>
+
+<main id="main-gallery" class="gallery-wrapper" role="main">
+
+  <!-- Header -->
+  <header class="gallery-header" aria-label="Gallery header">
+    <div class="gallery-label" aria-hidden="true">Visual Portfolio</div>
+    <h1 class="gallery-title">PRISMA</h1>
+    <div class="gallery-count" id="gallery-count" aria-live="polite">Loading…</div>
+  </header>
+
+  <!-- Stage -->
+  <section class="gallery-stage" aria-label="Image gallery" role="region">
+
+    <!-- Prev peek -->
+    <div class="peek-card peek-left" id="peek-left" role="button" tabindex="0" aria-label="Previous image preview"
+         onclick="gallery.navigate(-1)" onkeydown="if(event.key==='Enter')gallery.navigate(-1)"></div>
+
+    <!-- Main frame -->
+    <div class="main-frame" id="main-frame"
+         aria-label="Current image display"
+         role="img" aria-describedby="main-img-desc">
+
+      <!-- Image slots (A/B double-buffer) -->
+      <div class="main-slot" id="slot-a" role="presentation"></div>
+      <div class="main-slot" id="slot-b" role="presentation" style="z-index:1"></div>
+
+      <!-- Badge -->
+      <div class="image-badge" id="image-badge" aria-hidden="true">1 / 1</div>
+
+      <!-- Page loading overlay -->
+      <div class="page-loading" id="page-loading" role="status" aria-label="Loading images">
+        <div class="spinner"></div>
+      </div>
+
+      <!-- Nav buttons -->
+      <button class="nav-btn nav-prev" id="nav-prev" aria-label="Previous image" onclick="gallery.navigate(-1)">
+        <svg viewBox="0 0 24 24"><polyline points="15,18 9,12 15,6"/></svg>
+      </button>
+      <button class="nav-btn nav-next" id="nav-next" aria-label="Next image" onclick="gallery.navigate(1)">
+        <svg viewBox="0 0 24 24"><polyline points="9,6 15,12 9,18"/></svg>
+      </button>
+    </div>
+
+    <!-- Next peek -->
+    <div class="peek-card peek-right" id="peek-right" role="button" tabindex="0" aria-label="Next image preview"
+         onclick="gallery.navigate(1)" onkeydown="if(event.key==='Enter')gallery.navigate(1)"></div>
+
+    <p id="main-img-desc" class="sr-only"></p>
+  </section>
+
+  <!-- Controls -->
+  <div class="controls-row" role="toolbar" aria-label="Gallery controls">
+    <button class="ctrl-btn" id="btn-first" aria-label="Go to first image" title="First" onclick="gallery.goTo(0)">
+      <svg viewBox="0 0 24 24"><polyline points="11,17 6,12 11,7"/><line x1="18" y1="17" x2="18" y2="7"/></svg>
+    </button>
+    <button class="ctrl-btn" id="btn-prev" aria-label="Previous image" onclick="gallery.navigate(-1)">
+      <svg viewBox="0 0 24 24"><polyline points="15,18 9,12 15,6"/></svg>
+    </button>
+    <button class="ctrl-btn active" id="btn-play" aria-label="Pause slideshow" aria-pressed="true" onclick="gallery.togglePlay()">
+      <!-- Pause icon (shown when playing) -->
+      <svg id="play-icon" viewBox="0 0 24 24" style="display:none"><polygon points="5,3 19,12 5,21"/></svg>
+      <svg id="pause-icon" viewBox="0 0 24 24"><line x1="10" y1="4" x2="10" y2="20"/><line x1="14" y1="4" x2="14" y2="20"/></svg>
+    </button>
+    <button class="ctrl-btn" aria-label="Next image" onclick="gallery.navigate(1)">
+      <svg viewBox="0 0 24 24"><polyline points="9,6 15,12 9,18"/></svg>
+    </button>
+    <button class="ctrl-btn" id="btn-last" aria-label="Go to last image" title="Last" onclick="gallery.goTo(gallery.total-1)">
+      <svg viewBox="0 0 24 24"><polyline points="13,17 18,12 13,7"/><line x1="6" y1="17" x2="6" y2="7"/></svg>
+    </button>
+  </div>
+
+  <!-- Autoplay progress bar -->
+  <div class="progress-bar-wrap" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" id="progress-wrap" aria-label="Autoplay progress">
+    <div class="progress-bar-fill" id="progress-fill"></div>
+  </div>
+
+  <!-- Dot indicators -->
+  <div class="dots-section">
+    <div class="dots-meta">
+      <span id="dots-meta-text">Image 1</span>
+      <span class="sep">·</span>
+      <span id="dots-page-text">Page 1</span>
+    </div>
+    <div class="dots-outer" id="dots-outer" role="navigation" aria-label="Image navigation dots">
+      <div class="dots-track" id="dots-track"></div>
+    </div>
+  </div>
+
+  <!-- Thumbnail strip -->
+  <div class="thumb-strip" id="thumb-strip" role="navigation" aria-label="Image thumbnails"></div>
+
+  <!-- Keyboard/swipe hints -->
+  <div class="kb-hint" aria-hidden="true">
+    <span class="kb-key">←</span>
+    <span class="kb-key">→</span>
+    <span>arrow keys to navigate</span>
+    <span class="sep" style="opacity:.3">·</span>
+    <span class="kb-key">Space</span>
+    <span>pause / play</span>
+  </div>
+  <div class="swipe-hint" aria-hidden="true">
+    <span>← swipe to navigate →</span>
+  </div>
+
+</main>
+
+<script>
+/* ═══════════════════════════════════════════════════════════════
+   PRISMA GALLERY — Full-featured image gallery controller
+   ═══════════════════════════════════════════════════════════════ */
+
+const gallery = (() => {
+  /* ── CONFIG ─────────────────────────────────────────────────── */
+  const PAGE_SIZE      = 10;
+  const AUTOPLAY_MS    = 4000;
+  const PRELOAD_AHEAD  = 3;   // images to preload ahead/behind
+  const PRELOAD_PAGE_THRESH = 3; // load next page when this many from edge
+
+  /* ── PLACEHOLDER IMAGE FACTORY ──────────────────────────────── */
+  // Replace fetchPage() with your real API call.
+  // Expected response: { total: Number, images: [{id, url, alt, title},...] }
+  const PALETTE = [
+    ['0d1f2d','1b4f72'], ['1a0533','6c3483'], ['0b3d2e','1a7a4a'],
+    ['2c1810','8b4513'], ['1c2833','2980b9'], ['1a1a2e','e94560'],
+    ['0f2027','2c5364'], ['16213e','0f3460'], ['1b262c','4a90d9'],
+    ['1e3a5f','e67e22'],
+  ];
+  function makePlaceholder(idx, total) {
+    const p = PALETTE[idx % PALETTE.length];
+    // Use picsum photos as placeholder; each id is deterministic
+    return {
+      id: idx,
+      url: `https://picsum.photos/seed/prisma${idx}/1200/800`,
+      thumb: `https://picsum.photos/seed/prisma${idx}/120/80`,
+      alt: `Gallery image ${idx + 1}`,
+      title: `Image ${idx + 1} of ${total}`,
+    };
+  }
+
+  /* ── MOCK API (replace this with real fetch) ─────────────────── */
+  async function fetchPage(page) {
+    // Simulate latency 200-600ms
+    await new Promise(r => setTimeout(r, 200 + Math.random() * 400));
+    const TOTAL = 47; // change to any number
+    const start = page * PAGE_SIZE;
+    const end   = Math.min(start + PAGE_SIZE, TOTAL);
+    const images = [];
+    for (let i = start; i < end; i++) images.push(makePlaceholder(i, TOTAL));
+    return { total: TOTAL, images };
+  }
+
+  /* ── STATE ───────────────────────────────────────────────────── */
+  let total      = 0;
+  let current    = 0;
+  let pages      = {};        // { pageNum: [imageObj,...] }
+  let pageStatus = {};        // { pageNum: 'loading'|'loaded' }
+  let isPlaying  = true;
+  let playTimer  = null;
+  let progressTimer = null;
+  let activeSlot = 'b';       // 'a' or 'b'
+  let transitioning = false;
+  let touchStartX = 0;
+  let maxVisibleDots = 11;    // computed dynamically
+
+  /* ── DOM REFS ────────────────────────────────────────────────── */
+  const $slotA       = document.getElementById('slot-a');
+  const $slotB       = document.getElementById('slot-b');
+  const $badge       = document.getElementById('image-badge');
+  const $pageLoading = document.getElementById('page-loading');
+  const $peekLeft    = document.getElementById('peek-left');
+  const $peekRight   = document.getElementById('peek-right');
+  const $dotsTrack   = document.getElementById('dots-track');
+  const $dotsOuter   = document.getElementById('dots-outer');
+  const $thumbStrip  = document.getElementById('thumb-strip');
+  const $progressFill = document.getElementById('progress-fill');
+  const $progressWrap = document.getElementById('progress-wrap');
+  const $playIcon    = document.getElementById('play-icon');
+  const $pauseIcon   = document.getElementById('pause-icon');
+  const $btnPlay     = document.getElementById('btn-play');
+  const $navPrev     = document.getElementById('nav-prev');
+  const $navNext     = document.getElementById('nav-next');
+  const $liveRegion  = document.getElementById('live-region');
+  const $count       = document.getElementById('gallery-count');
+  const $mainFrame   = document.getElementById('main-frame');
+  const $dotsMetaText= document.getElementById('dots-meta-text');
+  const $dotsPageText= document.getElementById('dots-page-text');
+
+  /* ── IMAGE CACHE (url → Image element, preloaded) ─────────────── */
+  const imgCache = {};
+  function preloadImg(url) {
+    if (imgCache[url]) return imgCache[url];
+    const img = new Image();
+    img.src = url;
+    imgCache[url] = img;
+    return img;
+  }
+
+  /* ── SLOT HELPERS ───────────────────────────────────────────── */
+  function getSlot(name) { return name === 'a' ? $slotA : $slotB; }
+  function getInactiveSlot() { return activeSlot === 'a' ? 'b' : 'a'; }
+
+  function setSlotImage(slotName, imgObj, loading = false) {
+    const el = getSlot(slotName);
+    el.innerHTML = '';
+    if (loading || !imgObj) {
+      el.className = 'main-slot loading';
+      return;
+    }
+    const img = document.createElement('img');
+    img.src = imgObj.url;
+    img.alt = imgObj.alt || '';
+    img.loading = 'eager';
+    el.className = 'main-slot';
+    el.appendChild(img);
+
+    // Update accessible description
+    document.getElementById('main-img-desc').textContent = imgObj.alt || '';
+  }
+
+  /* ── PAGE LOADING ────────────────────────────────────────────── */
+  async function ensurePage(pageNum) {
+    if (pageNum < 0) return;
+    if (pageStatus[pageNum] === 'loaded' || pageStatus[pageNum] === 'loading') return;
+    pageStatus[pageNum] = 'loading';
+    try {
+      const data = await fetchPage(pageNum);
+      pages[pageNum] = data.images;
+      pageStatus[pageNum] = 'loaded';
+      if (total === 0) {
+        total = data.total;
+        initStructure();
+      }
+      renderThumbs(pageNum);
+      renderDots();
+      updateNav();
+      // Preload actual images
+      data.images.forEach(img => {
+        preloadImg(img.url);
+        preloadImg(img.thumb);
+      });
+    } catch(e) {
+      pageStatus[pageNum] = null; // allow retry
+      console.error('Failed to load page', pageNum, e);
+    }
+  }
+
+  function getImage(idx) {
+    if (idx < 0 || idx >= total) return null;
+    const page = Math.floor(idx / PAGE_SIZE);
+    const offset = idx % PAGE_SIZE;
+    return pages[page]?.[offset] || null;
+  }
+
+  /* Preload surrounding pages as user approaches edge */
+  function schedulePreloads(idx) {
+    const page     = Math.floor(idx / PAGE_SIZE);
+    const offset   = idx % PAGE_SIZE;
+    const maxPage  = Math.ceil(total / PAGE_SIZE) - 1;
+
+    // Always load current page first
+    ensurePage(page);
+
+    // Preload adjacent pages
+    if (page > 0)        ensurePage(page - 1);
+    if (page < maxPage)  ensurePage(page + 1);
+
+    // If near end of page, also preload page + 2
+    if (offset >= PAGE_SIZE - PRELOAD_PAGE_THRESH && page + 2 <= maxPage)
+      ensurePage(page + 2);
+    if (offset <= PRELOAD_PAGE_THRESH - 1 && page - 2 >= 0)
+      ensurePage(page - 2);
+
+    // Preload N images around current
+    for (let d = 1; d <= PRELOAD_AHEAD; d++) {
+      const img = getImage(idx + d);
+      if (img) preloadImg(img.url);
+      const img2 = getImage(idx - d);
+      if (img2) preloadImg(img2.url);
+    }
+  }
+
+  /* ── INITIALIZATION ─────────────────────────────────────────── */
+  async function init() {
+    $count.textContent = 'Loading…';
+    await ensurePage(0);
+    // Also start loading page 1 in background
+    ensurePage(1);
+    renderUI(0, null, false);
+    startAutoplay();
+  }
+
+  function initStructure() {
+    $count.textContent = `${total} images`;
+    buildDots();
+    buildThumbSlots();
+    updateNav();
+  }
+
+  /* ── DOTS ────────────────────────────────────────────────────── */
+  function computeMaxDots() {
+    const outerW = $dotsOuter.clientWidth || 700;
+    const dotSize   = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--dot-size')) || 10;
+    const dotGap    = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--dot-gap')) || 8;
+    const activePad = 28; // active dot width
+    // Conservative: subtract fades (80px total) and some padding
+    const usable = outerW - 80;
+    // Minimum 1 dot; at least 1 active (28px) + rest normal (10+8 each)
+    maxVisibleDots = Math.max(3, Math.floor((usable - activePad - dotGap) / (dotSize + dotGap)) + 1);
+    maxVisibleDots = Math.min(maxVisibleDots, 25); // cap
+  }
+
+  function buildDots() {
+    computeMaxDots();
+    $dotsTrack.innerHTML = '';
+    for (let i = 0; i < total; i++) {
+      const d = document.createElement('div');
+      d.className = 'dot';
+      d.dataset.idx = i;
+      d.setAttribute('role', 'button');
+      d.setAttribute('tabindex', '0');
+      d.setAttribute('aria-label', `Go to image ${i + 1}`);
+      d.addEventListener('click', () => goTo(i));
+      d.addEventListener('keydown', e => { if (e.key === 'Enter') goTo(i); });
+      $dotsTrack.appendChild(d);
+    }
+    renderDots();
+  }
+
+  function renderDots() {
+    if (!total) return;
+    computeMaxDots();
+    const dots = $dotsTrack.querySelectorAll('.dot');
+    const half = Math.floor(maxVisibleDots / 2);
+
+    // Determine visible window
+    let winStart = current - half;
+    let winEnd   = winStart + maxVisibleDots - 1;
+    if (winStart < 0) { winStart = 0; winEnd = maxVisibleDots - 1; }
+    if (winEnd >= total) { winEnd = total - 1; winStart = Math.max(0, total - maxVisibleDots); }
+
+    dots.forEach((d, i) => {
+      const inWindow = i >= winStart && i <= winEnd;
+      d.style.display = inWindow ? '' : 'none';
+      d.classList.toggle('active', i === current);
+      d.classList.toggle('near',   !d.classList.contains('active') && Math.abs(i - current) <= 1);
+    });
+
+    // Scroll dots track so active dot is centered
+    const dotSize = 10, dotGap = 8;
+    const activeDotW = 28;
+    // Position: winStart dots before current
+    let offset = 0;
+    for (let i = winStart; i < current; i++) offset += (i === current ? activeDotW : dotSize) + dotGap;
+    const outerW = $dotsOuter.clientWidth || 700;
+    const centerTarget = (outerW / 2) - (activeDotW / 2);
+    const translateX = Math.max(0, offset - centerTarget);
+    $dotsTrack.style.transform = `translateX(-${translateX}px)`;
+
+    // Meta text
+    $dotsMetaText.textContent = `Image ${current + 1}`;
+    $dotsPageText.textContent = `Page ${Math.floor(current / PAGE_SIZE) + 1} of ${Math.ceil(total / PAGE_SIZE)}`;
+    $progressWrap.setAttribute('aria-valuenow', Math.round((current / Math.max(total - 1, 1)) * 100));
+  }
+
+  /* ── THUMBNAILS ─────────────────────────────────────────────── */
+  function buildThumbSlots() {
+    $thumbStrip.innerHTML = '';
+    for (let i = 0; i < total; i++) {
+      const t = document.createElement('div');
+      t.className = 'thumb loading';
+      t.dataset.idx = i;
+      t.setAttribute('role', 'button');
+      t.setAttribute('tabindex', '0');
+      t.setAttribute('aria-label', `Thumbnail ${i + 1}`);
+      t.addEventListener('click', () => goTo(i));
+      t.addEventListener('keydown', e => { if (e.key === 'Enter') goTo(i); });
+      $thumbStrip.appendChild(t);
+    }
+  }
+
+  function renderThumbs(pageNum) {
+    const imgs = pages[pageNum];
+    if (!imgs) return;
+    const thumbs = $thumbStrip.querySelectorAll('.thumb');
+    imgs.forEach((img, offset) => {
+      const idx = pageNum * PAGE_SIZE + offset;
+      const t = thumbs[idx];
+      if (!t) return;
+      t.classList.remove('loading');
+      if (!t.querySelector('img')) {
+        const i = document.createElement('img');
+        i.src   = img.thumb || img.url;
+        i.alt   = img.alt || '';
+        i.loading = 'lazy';
+        t.appendChild(i);
+      }
+    });
+    scrollThumbIntoView(current);
+  }
+
+  function scrollThumbIntoView(idx) {
+    const thumbs = $thumbStrip.querySelectorAll('.thumb');
+    thumbs.forEach((t, i) => t.classList.toggle('active', i === idx));
+    const active = thumbs[idx];
+    if (active) {
+      active.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+    }
+  }
+
+  /* ── PEEK IMAGES ────────────────────────────────────────────── */
+  function setPeek(el, imgObj) {
+    el.innerHTML = '';
+    if (!imgObj) {
+      el.classList.add('loading');
+      return;
+    }
+    el.classList.remove('loading');
+    const img = document.createElement('img');
+    img.src = imgObj.url;
+    img.alt = imgObj.alt || '';
+    img.loading = 'eager';
+    el.appendChild(img);
+  }
+
+  /* ── MAIN RENDER / NAVIGATION ───────────────────────────────── */
+  function renderUI(idx, fromIdx, animate) {
+    current = idx;
+    const img = getImage(idx);
+    const pageOfIdx = Math.floor(idx / PAGE_SIZE);
+
+    // Show page loading if current page not loaded
+    if (pageStatus[pageOfIdx] !== 'loaded') {
+      $pageLoading.classList.add('active');
+    }
+
+    // Double-buffer slot swap
+    const nextSlot = getInactiveSlot();
+    const prevSlotEl = getSlot(activeSlot);
+    const nextSlotEl = getSlot(nextSlot);
+
+    if (img) {
+      setSlotImage(nextSlot, img);
+      $pageLoading.classList.remove('active');
+    } else {
+      setSlotImage(nextSlot, null, true);
+    }
+
+    if (animate && fromIdx !== null) {
+      const dir = idx > fromIdx ? 1 : -1;
+      // Handle wrap-around: if jumped >half the gallery, reverse dir
+      if (Math.abs(idx - fromIdx) > total / 2) dir === 1 ? -1 : 1;
+
+      // Outgoing
+      prevSlotEl.style.zIndex = 2;
+      nextSlotEl.style.zIndex = 3;
+      prevSlotEl.classList.add(dir > 0 ? 'slide-out-left' : 'slide-out-right');
+      nextSlotEl.classList.add(dir > 0 ? 'slide-in-right' : 'slide-in-left');
+
+      transitioning = true;
+      setTimeout(() => {
+        prevSlotEl.style.zIndex = '';
+        nextSlotEl.style.zIndex = '';
+        prevSlotEl.className = 'main-slot';
+        nextSlotEl.className = 'main-slot';
+        transitioning = false;
+      }, 500);
+    } else {
+      nextSlotEl.style.zIndex = 3;
+      prevSlotEl.style.zIndex = 1;
+    }
+
+    activeSlot = nextSlot;
+
+    // Badge
+    $badge.textContent = `${idx + 1} / ${total}`;
+
+    // Peek images
+    const leftIdx  = (idx - 1 + total) % total;
+    const rightIdx = (idx + 1) % total;
+    setPeek($peekLeft,  getImage(leftIdx));
+    setPeek($peekRight, getImage(rightIdx));
+
+    // Dots & thumbs
+    renderDots();
+    scrollThumbIntoView(idx);
+    updateNav();
+    schedulePreloads(idx);
+
+    // Live region for screen readers
+    if (img) {
+      $liveRegion.textContent = `Showing ${img.title || img.alt || 'image ' + (idx + 1)}`;
+    }
+  }
+
+  function updateNav() {
+    // In infinite loop mode, always enabled. Disable only if total=0
+    $navPrev.disabled = total === 0;
+    $navNext.disabled = total === 0;
+  }
+
+  /* ── NAVIGATE ───────────────────────────────────────────────── */
+  function navigate(delta) {
+    if (!total) return;
+    if (transitioning) return;
+    const from = current;
+    const next = (current + delta + total) % total;
+    renderUI(next, from, true);
+    resetAutoplay();
+  }
+
+  function goTo(idx) {
+    if (!total) return;
+    if (idx === current) return;
+    const from = current;
+    renderUI(idx, from, true);
+    resetAutoplay();
+  }
+
+  /* ── AUTOPLAY ────────────────────────────────────────────────── */
+  function startAutoplay() {
+    if (!isPlaying) return;
+    stopAutoplay();
+    // Progress bar animation
+    $progressFill.style.animation = 'none';
+    $progressFill.offsetHeight; // reflow
+    $progressFill.style.animation = `progressFill ${AUTOPLAY_MS}ms linear both`;
+    $progressFill.classList.add('running');
+    playTimer = setTimeout(() => {
+      navigate(1);
+      if (isPlaying) startAutoplay();
+    }, AUTOPLAY_MS);
+  }
+
+  function stopAutoplay() {
+    clearTimeout(playTimer);
+    $progressFill.style.animation = 'none';
+    $progressFill.classList.remove('running');
+  }
+
+  function resetAutoplay() {
+    if (isPlaying) startAutoplay();
+  }
+
+  function togglePlay() {
+    isPlaying = !isPlaying;
+    $btnPlay.setAttribute('aria-pressed', isPlaying);
+    $btnPlay.classList.toggle('active', isPlaying);
+    $playIcon.style.display  = isPlaying ? 'none' : '';
+    $pauseIcon.style.display = isPlaying ? '' : 'none';
+    if (isPlaying) startAutoplay();
+    else           stopAutoplay();
+    $liveRegion.textContent = isPlaying ? 'Slideshow playing' : 'Slideshow paused';
+  }
+
+  /* ── KEYBOARD ────────────────────────────────────────────────── */
+  document.addEventListener('keydown', e => {
+    switch(e.key) {
+      case 'ArrowLeft':  e.preventDefault(); navigate(-1); break;
+      case 'ArrowRight': e.preventDefault(); navigate(1);  break;
+      case ' ':          e.preventDefault(); togglePlay();  break;
+      case 'Home':       e.preventDefault(); goTo(0);       break;
+      case 'End':        e.preventDefault(); goTo(total-1); break;
+    }
+  });
+
+  /* ── TOUCH / SWIPE ──────────────────────────────────────────── */
+  $mainFrame.addEventListener('touchstart', e => {
+    touchStartX = e.touches[0].clientX;
+  }, { passive: true });
+
+  $mainFrame.addEventListener('touchend', e => {
+    const dx = e.changedTouches[0].clientX - touchStartX;
+    if (Math.abs(dx) > 40) navigate(dx < 0 ? 1 : -1);
+  }, { passive: true });
+
+  // Mouse drag
+  let dragStartX = 0, isDragging = false;
+  $mainFrame.addEventListener('mousedown', e => {
+    dragStartX = e.clientX;
+    isDragging = true;
+  });
+  document.addEventListener('mouseup', e => {
+    if (!isDragging) return;
+    isDragging = false;
+    const dx = e.clientX - dragStartX;
+    if (Math.abs(dx) > 60) navigate(dx < 0 ? 1 : -1);
+  });
+
+  /* ── RESIZE ─────────────────────────────────────────────────── */
+  const ro = new ResizeObserver(() => { computeMaxDots(); renderDots(); });
+  ro.observe($dotsOuter);
+
+  /* ── VISIBILITY API (pause when tab hidden) ─────────────────── */
+  document.addEventListener('visibilitychange', () => {
+    if (document.hidden) stopAutoplay();
+    else if (isPlaying) startAutoplay();
+  });
+
+  /* ── PUBLIC API ─────────────────────────────────────────────── */
+  init();
+
+  return { navigate, goTo, togglePlay, get total() { return total; } };
+})();
+</script>
+</body>
+</html>
