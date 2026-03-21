@@ -532,6 +532,20 @@
                 <tr>
                     <td class="column1">
                         <p>
+                            Wire up a django app that allows for image uploads on an Ubuntu server via the media folder. Images will be uploaded to Ubuntu and not a third-party storage such as AWS S3 Buckets. Instruct what the necessary settings.py adjustments should be. Assume I already have a Django project and I just need to add this image app to my project. Generate an example page with URL pattern, and view class wired up. Assume that I will be using an image slider/carousel JavaScript gallery such as https://iosscripts.com/iosslider/ which I will configure myself. On the backend, make sure there is a Django Admin panel for managing the images, such as upload them, delete them and edit field data related to an image model. On the image mode include field data such as title, sub-title, description, date and location, these fields do not need to be required fields. Allow for single and bulk image uploads. On bulk image upload, the user does not need to include the image field data. When uploaded, make sure the images are automatically optimized for the web. Such as, if a large dimension image is uploaded, resize them to a maximum dimension of 1200px wide and compress the image to reduce the file size to allow for better page loads. Ensure that filenames when uploaded do not include spaces or disruptive special characters, adopt a naming convention that will rename the files when uploaded that is unique from previously uploaded images. Use any standard Django packages necessary to perform these tasks and provide any necessary installation steps and settings.
+                        </p>
+                    </td>
+                    <td class="column2">
+                        <p>
+                            Getting a barebone structure for an image upload app.
+                        </p>
+                    </td>
+                </tr>
+                </tr>
+
+                <tr>
+                    <td class="column1">
+                        <p>
                             Please guide me through the steps to configure NGINX and GUNICORN for an Ubuntu 24 server that has multiple Django projects with PostgreSQL databases. The PostgreSQL databases are already configured and installed and the Django projects already exist. Each Django project lives in a separate folder in the /var/www/ directory. Each Django project is a sub domain of www.example-site.com where the main site www. is a non Django project with an index.html file. Also, each main site and sub domain will be https but I will get the certs for those on my own.
                         </p>
                     </td>
